@@ -1,20 +1,18 @@
 package com.company;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 public class Main {
-
+    static ExecutorService executeIt = Executors.newFixedThreadPool(2);
     public static void main(String[] args) {
-        try {
-            ServerSocket s;
-            Socket socket;
-            BufferedReader in;
-            s = new ServerSocket(8090);
-            socket = s.accept();
-            System.out.println(socket.getInetAddress());
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            System.out.print(in.readLine());
+        try (ServerSocket server= new ServerSocket(8090)){
+            while(!server.isClosed()) {
+                Socket client = server.accept();
+
+                executeIt.execute(new MonoThreadClient(client));
+            }
+            executeIt.shutdown();
         }catch (IOException e){System.out.println(e.getMessage());}
     }
 }
