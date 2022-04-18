@@ -1,8 +1,8 @@
 package business;
 
 public class User {
-    public String Name;
-    public String Password;
+    private String Name;
+    private String Password;
     public User(){}
     public User(String Name,String Password)
     {

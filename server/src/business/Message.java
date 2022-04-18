@@ -2,8 +2,8 @@ package business;
 import java.util.Date;
 
 public class Message {
-    public String userName;
-    public String textMessage;
+    private String userName;
+    private String textMessage;
     private long messageTime;
     public Message(){}
     public Message(String userName,String textMessage)

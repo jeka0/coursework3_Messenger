@@ -25,13 +25,6 @@ public class JsonWork {
         try {
             FileReader reader = new FileReader(path);
             return mapper.readValue(reader,type);
-        }catch(IOException e){System.out.println(e.getMessage()); return null;}
-    }
-    public <T> T[] ReadArray(Class<T[]> type)
-    {
-        try {
-            FileReader reader = new FileReader(path);
-            return mapper.readValue(reader,type);
-        }catch(IOException e){System.out.println(e.getMessage()); return null;}
+        }catch(IOException e){ return null;}
     }
 }

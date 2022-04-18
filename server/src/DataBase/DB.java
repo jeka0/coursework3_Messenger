@@ -1,25 +1,70 @@
 package DataBase;
 
+import business.Message;
 import business.User;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Arrays;
 import java.util.HashMap;
 
 public class DB {
-    private DB db;
-    private DB(){}
-    public DB getInstance(){
+    private String usersPath ="database\\users.json";
+    private File userChatsDir = new File("database\\userChats"), ChatsDir = new File("database\\Chats"), usersFile = new File(usersPath);
+    private static DB db;
+    private DB(){
+        try {
+        userChatsDir.mkdirs();
+        ChatsDir.mkdirs();
+        usersFile.createNewFile();
+        }catch (IOException e){System.out.println(e.getMessage());}
+    }
+    public static DB getInstance(){
         if(db==null)return new DB();
         else return db;
     }
     public int CheckUserPassword(User user)
     {
-        JsonWork json = new JsonWork("database\\users.json");
-        User[] users = json.ReadArray(User[].class);
-        for(User nowUser:users)
-            if(nowUser.getName().equals(user.getName()))
-                if(nowUser.getPassword().equals(user.getPassword()))return 1;else return 0;
+        if(usersFile.exists()) {
+            User[] users = getUsers();
+            for (User nowUser : users)
+                if (nowUser.getName().equals(user.getName()))
+                    if (nowUser.getPassword().equals(user.getPassword())) return 1;
+                    else return 0;
+        }
         return -1;
+    }
+    public void CreateUser(User newUser)
+    {
+        try {
+        JsonWork json = new JsonWork(usersPath);
+        File file = new File("database\\userChats\\" + newUser.getName() + ".json");
+        ArrayList<User> users = new ArrayList<>(Arrays.asList(getUsers()));
+
+        users.add(newUser);
+        file.createNewFile();
+        json.Write(users);
+        }catch (IOException e){System.out.println(e.getMessage());}
+    }
+    private User[] getUsers()
+    {
+        JsonWork json = new JsonWork(usersPath);
+        User[] users =json.Read(User[].class);
+        if(users!=null)return users;else return new User[0];
+    }
+    public void addMessage(String path, Message message)
+    {
+        JsonWork json = new JsonWork(path);
+        ArrayList<Message> messages = new ArrayList<>(Arrays.asList(getMessages(path)));
+        messages.add(message);
+        json.Write(messages);
+    }
+    public Message[] getMessages(String path)
+    {
+        JsonWork json = new JsonWork(path);
+        Message[] messages = json.Read(Message[].class);
+        if(messages!=null)return messages;else return new Message[0];
     }
 }
