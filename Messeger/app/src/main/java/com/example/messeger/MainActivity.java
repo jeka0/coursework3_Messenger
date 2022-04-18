@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         FloatingActionButton button = findViewById(R.id.sendBut);
         initRecyclerView();
-        client = new Client("192.168.1.101");
+        client = new Client("192.168.43.254");
         new Thread(new Runnable() {
             @Override
             public void run() {

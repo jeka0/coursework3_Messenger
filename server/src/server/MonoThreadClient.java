@@ -1,4 +1,4 @@
-package com.company;
+package server;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -20,7 +20,9 @@ public class MonoThreadClient implements Runnable{
 
             System.out.println(client.getInetAddress());
             while (!client.isClosed()) {
-                System.out.print(in.readUTF());
+                String mess = in.readUTF();
+                if(mess==null)break;
+                System.out.print(mess);
             }
             out.close();
             in.close();
