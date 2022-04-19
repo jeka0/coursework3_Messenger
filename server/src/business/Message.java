@@ -12,16 +12,11 @@ public class Message {
         this.textMessage=textMessage;
         this.messageTime = new Date().getTime();
     }
-
+    public void setUserName(String userName) { this.userName = userName; }
+    public void setMessageTime(long messageTime) { this.messageTime = messageTime; }
     public void setTextMessage(String textMessage) { this.textMessage = textMessage; }
 
-    public void setUserName(String userName) { this.userName = userName; }
-
-    public void setMessageTime(long messageTime) { this.messageTime = messageTime; }
-
-    public long getMessageTime() { return messageTime; }
-
     public String getUserName() { return userName; }
-
     public String getTextMessage() { return textMessage; }
+    public long getMessageTime() { return messageTime; }
 }

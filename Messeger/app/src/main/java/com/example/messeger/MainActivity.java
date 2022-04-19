@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerMessages;
     private MessagesAdapter messagesAdapter;
-    private ArrayList<Message> messages = new ArrayList<>();
     private Client client;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         FloatingActionButton button = findViewById(R.id.sendBut);
         initRecyclerView();
-        client = new Client("192.168.1.101");
+        //client.activity=this;
+        client = new Client("192.168.43.254");
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -42,28 +42,30 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 EditText editText = findViewById(R.id.messageField);
                 String text = editText.getText().toString();
-                if(text.equals(""))return;
-                messages.add(new Message("Я",text));
+                if (text.equals("")) return;
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
 
-                        client.pushText(text);
+                        client.pushMessage(text);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public final void run(){ loadMessages();}});
                     }
                 }).start();
-                loadMessages();
                 editText.setText("");
             }
         });
     }
     private Collection<Message> getMessages()
     {
-        return Arrays.asList(new Message("R","Привет"),new Message("T","AAAAAAAA"));
+        ArrayList arrayList = new ArrayList<>(Arrays.asList(client.getMessages()));
+        if(arrayList==null)return new ArrayList<>();else return arrayList;
     }
-    private void loadMessages()
+    public void loadMessages()
     {
         messagesAdapter.clearItems();
-        //Collection<Message> messages = getMessages();
+        Collection<Message> messages = getMessages();
         messagesAdapter.setItems(messages);
     }
     private void initRecyclerView()
