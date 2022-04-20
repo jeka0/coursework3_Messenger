@@ -5,10 +5,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 public class Server {
     private ExecutorService executeIt;
+    private ArrayList<MonoThreadClient> clients = new ArrayList<>();
     private int port;
     public Server(int port,int countThreads){
         this.port=port;
@@ -19,10 +21,15 @@ public class Server {
         try (ServerSocket server= new ServerSocket(port)){
             while(!server.isClosed()) {
                 Socket client = server.accept();
-
-                executeIt.execute(new MonoThreadClient(client));
+                MonoThreadClient threadClient = new MonoThreadClient(client,this);
+                clients.add(threadClient);
+                executeIt.execute(threadClient);
             }
             executeIt.shutdown();
         }catch (IOException e){System.out.println(e.getMessage());}
+    }
+    public void UpdateFlags()
+    {
+        for(MonoThreadClient client:clients)client.setUpdateMessagesFlag(true);
     }
 }

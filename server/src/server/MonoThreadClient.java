@@ -4,53 +4,57 @@ import DataBase.DB;
 import business.Message;
 import business.Serializer;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
 public class MonoThreadClient implements Runnable{
-    //private DB db = DB.getInstance();
+    private DB db = DB.getInstance();
     private Socket client;
-    private DataOutputStream out;
-    private DataInputStream in;
-    //private Serializer serializer = new Serializer();
-    //private static boolean flag;
+    private Server server;
+    private ReceivingAndSendingData recAndSendData;
+    private Serializer serializer = new Serializer();
+    private boolean flag = true;
 
-    public MonoThreadClient(Socket client) {
+    public MonoThreadClient(Socket client, Server server) {
         this.client = client;
-        /*flag = true;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (flag) {
-                        out.writeUTF(serializer.serialize(db.getMessages("database\\Chats\\chat.json")));
-                        out.flush();
-                        flag=false;
-                    }
-                }catch(IOException e){System.out.println(e.getMessage());}
-            }
-        });*/
+        this.server = server;
+        recAndSendData = new ReceivingAndSendingData(client);
+        new Thread(()-> SendingData()).start();
     }
     public void run() {
         try {
-            DB db = DB.getInstance();
-            out = new DataOutputStream(client.getOutputStream());
-            in = new DataInputStream(client.getInputStream());
-            Serializer serializer = new Serializer();
             System.out.println(client.getInetAddress());
             while (!client.isClosed()) {
-                String str =in.readUTF();
-                if(str==null)break;
-                db.addMessage("database\\Chats\\chat.json", serializer.deserialize(str,Message.class));
-                //flag=true;
-                out.writeUTF(serializer.serialize(db.getMessages("database\\Chats\\chat.json")));
-                out.flush();
+                if(!GettingData())break;
+                server.UpdateFlags();
             }
-            out.close();
-            in.close();
+            recAndSendData.ClosingStreams();
             client.close();
         }catch (IOException e){System.out.println(e.getMessage());}
     }
+    private void SendingData()
+    {
+        try {
+            while (!client.isClosed())
+                if (flag) {
+                    SubmitReply();
+                    flag=false;
+                }
+        }catch(IOException e){System.out.println(e.getMessage());}
+    }
+    private boolean GettingData() throws IOException
+    {
+        String str = recAndSendData.receiveMessage();
+        Message message = serializer.deserialize(str,Message.class);
+        if(str==null)return false;
+        db.addMessage("database\\Chats\\chat.json", message);
+        return true;
+    }
+    private void SubmitReply() throws IOException
+    {
+        String message = serializer.serialize(db.getMessages("database\\Chats\\chat.json"));
+        recAndSendData.pushMessage(message);
+    }
+
+    public void setUpdateMessagesFlag(boolean flag) { this.flag = flag; }
 }

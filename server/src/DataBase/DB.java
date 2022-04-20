@@ -6,9 +6,7 @@ import business.User;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Arrays;
-import java.util.HashMap;
 
 public class DB {
     private String usersPath ="database\\users.json";

@@ -1,13 +1,10 @@
 package DataBase;
 
-import business.Message;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class JsonWork {
     private String path;
