@@ -5,12 +5,10 @@ import com.example.messeger.MainActivity;
 import java.io.IOException;
 
 import business.Message;
-import business.Serializer;
 
 public class ClientAccess{
     private MainActivity activity;
     private Message[] messages = new Message[0];
-    private Serializer serializer = new Serializer();
     private Client client;
     public ClientAccess(String ip, MainActivity activity)
     {
@@ -26,17 +24,18 @@ public class ClientAccess{
 
     public void pushMessage(String message) {
         try {
-            client.pushMessage(serializer.serialize(new Message("z",message)));
+            client.pushObject(new Message("z",message));
         }catch(IOException e){System.out.println(e.getMessage());}
     }
     public void updateMessages()
     {
         try {
             while(!client.isOutputShutdown()) {
-                messages = serializer.deserialize(client.receiveMessage(), Message[].class);
+                messages = (Message[])client.receiveObject();
                 activity.runOnUiThread(() -> activity.loadMessages());
             }
         }catch(IOException e){System.out.println(e.getMessage());}
+        catch (ClassNotFoundException e){System.out.println(e.getMessage());}
     }
 
     public Message[] getMessages() {

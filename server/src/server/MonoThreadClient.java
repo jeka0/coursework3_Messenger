@@ -2,7 +2,6 @@ package server;
 
 import DataBase.DB;
 import business.Message;
-import business.Serializer;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -12,7 +11,6 @@ public class MonoThreadClient implements Runnable{
     private Socket client;
     private Server server;
     private ReceivingAndSendingData recAndSendData;
-    private Serializer serializer = new Serializer();
     private boolean flag = true;
 
     public MonoThreadClient(Socket client, Server server) {
@@ -31,6 +29,7 @@ public class MonoThreadClient implements Runnable{
             recAndSendData.ClosingStreams();
             client.close();
         }catch (IOException e){System.out.println(e.getMessage());}
+        catch (ClassNotFoundException e){System.out.println(e.getMessage());}
     }
     private void SendingData()
     {
@@ -42,18 +41,17 @@ public class MonoThreadClient implements Runnable{
                 }
         }catch(IOException e){System.out.println(e.getMessage());}
     }
-    private boolean GettingData() throws IOException
+    private boolean GettingData() throws IOException, ClassNotFoundException
     {
-        String str = recAndSendData.receiveMessage();
-        Message message = serializer.deserialize(str,Message.class);
-        if(str==null)return false;
+        Message message = (Message) recAndSendData.receiveObject();
+        if(message==null)return false;
         db.addMessage("database\\Chats\\chat.json", message);
         return true;
     }
     private void SubmitReply() throws IOException
     {
-        String message = serializer.serialize(db.getMessages("database\\Chats\\chat.json"));
-        recAndSendData.pushMessage(message);
+        Message[] messages = db.getMessages("database\\Chats\\chat.json");
+        recAndSendData.pushObject(messages);
     }
 
     public void setUpdateMessagesFlag(boolean flag) { this.flag = flag; }

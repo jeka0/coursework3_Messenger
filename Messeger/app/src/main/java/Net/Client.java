@@ -1,14 +1,14 @@
 package Net;
 
-import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.DataOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Client {
     private Socket socket;
-    private DataOutputStream out;
-    private DataInputStream in;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
     private String ip;
     public Client(String ip)
     {
@@ -18,18 +18,18 @@ public class Client {
     {
         try {
             socket = new Socket(ip, 8090);
-            out = new  DataOutputStream(socket.getOutputStream());
-            in = new DataInputStream(socket.getInputStream());
+            out = new  ObjectOutputStream(socket.getOutputStream());
+            in = new ObjectInputStream(socket.getInputStream());
         }catch(IOException e){System.out.println(e.getMessage());}
     }
-    public void pushMessage(String str) throws IOException
+    public void pushObject(Object obj) throws IOException
     {
-        out.writeUTF(str);
+        out.writeObject(obj);
         out.flush();
     }
-    public String receiveMessage() throws IOException
+    public Object receiveObject() throws IOException, ClassNotFoundException
     {
-        return in.readUTF();
+        return in.readObject();
     }
     public boolean isOutputShutdown()
     {

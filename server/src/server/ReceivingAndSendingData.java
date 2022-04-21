@@ -1,30 +1,28 @@
 package server;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 public class ReceivingAndSendingData {
     private Socket client;
-    private DataOutputStream out;
-    private DataInputStream in;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
     public ReceivingAndSendingData(Socket client)
     {
         try {
             this.client = client;
-            out = new DataOutputStream(client.getOutputStream());
-            in = new DataInputStream(client.getInputStream());
+            out = new ObjectOutputStream(client.getOutputStream());
+            in = new ObjectInputStream(client.getInputStream());
         }catch (IOException e){System.out.println(e.getMessage());}
     }
-    public void pushMessage(String str) throws IOException
+    public void pushObject(Object obj) throws IOException
     {
-        out.writeUTF(str);
+        out.writeObject(obj);
         out.flush();
     }
-    public String receiveMessage() throws IOException
+    public Object receiveObject() throws IOException, ClassNotFoundException
     {
-        return in.readUTF();
+        return in.readObject();
     }
     public void ClosingStreams() throws IOException
     {
