@@ -14,18 +14,21 @@ import Adapter.MessagesAdapter;
 import Handlers.SubmitClickListener;
 import Net.ClientAccess;
 import business.Message;
+import business.User;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerMessages;
+    public User user;
     private MessagesAdapter messagesAdapter;
     private ClientAccess clientAccess;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        user = new User(getIntent().getStringExtra("Name"),getIntent().getStringExtra("Password"));
         initRecyclerView();
-        clientAccess = new ClientAccess("192.168.1.101",this);
+        clientAccess = new ClientAccess("192.168.43.254",this);
         findViewById(R.id.sendBut).setOnClickListener(new SubmitClickListener(this,clientAccess));
     }
     private Collection<Message> getMessages()

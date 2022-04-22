@@ -24,7 +24,7 @@ public class ClientAccess{
 
     public void pushMessage(String message) {
         try {
-            client.pushObject(new Message("z",message));
+            client.pushObject(new Message(activity.user.getName(),message));
         }catch(IOException e){System.out.println(e.getMessage());}
     }
     public void updateMessages()
