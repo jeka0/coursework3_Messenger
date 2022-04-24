@@ -11,19 +11,23 @@ import com.example.messeger.MainActivity;
 import com.example.messeger.R;
 import com.example.messeger.Registration;
 
+import Net.ClientAccess;
+import business.User;
+
 public class SwitchActivity implements View.OnClickListener{
     private AppCompatActivity activity;
-    public SwitchActivity(AppCompatActivity activity)
+    private ClientAccess clientAccess;
+    public SwitchActivity(AppCompatActivity activity, ClientAccess clientAccess)
     {
         this.activity = activity;
+        this.clientAccess = clientAccess;
     }
-
     @Override
     public void onClick(View view) {
         Intent intent;
         Class<? extends AppCompatActivity> activityClass;
         EditText editTextName,editTextPassword;
-        String textName, textPassword;
+        User user;
         boolean flag = true;
         switch (view.getId()) {
             case R.id.buttonLogin:
@@ -33,10 +37,9 @@ public class SwitchActivity implements View.OnClickListener{
                 if(flag) {
                     editTextName = activity.findViewById(R.id.editTextName);
                     editTextPassword = activity.findViewById(R.id.editTextPassword);
-                    textName = editTextName.getText().toString();
-                    textPassword = editTextPassword.getText().toString();
-                    intent.putExtra("Name", textName);
-                    intent.putExtra("Password", textPassword);
+                    user = new User(editTextName.getText().toString(),editTextPassword.getText().toString());
+                    new Thread(()->clientAccess.checkUser(user)).start();
+                    intent.putExtra("User",user);
                 }
                 activity.startActivity(intent);
                 break;
@@ -47,10 +50,9 @@ public class SwitchActivity implements View.OnClickListener{
                 if(flag) {
                     editTextName = activity.findViewById(R.id.editTextName);
                     editTextPassword = activity.findViewById(R.id.editTextPassword);
-                    textName = editTextName.getText().toString();
-                    textPassword = editTextPassword.getText().toString();
-                    intent.putExtra("Name", textName);
-                    intent.putExtra("Password", textPassword);
+                    user = new User(editTextName.getText().toString(),editTextPassword.getText().toString());
+                    new Thread(()->clientAccess.UserRegistration(user)).start();
+                    intent.putExtra("User",user);
                 }
                 activity.startActivity(intent);
                 break;

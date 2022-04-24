@@ -23,16 +23,26 @@ public class DB {
         if(db==null)return new DB();
         else return db;
     }
-    public int CheckUserPassword(User user)
+    public boolean CheckUserPassword(User user)
     {
         if(usersFile.exists()) {
             User[] users = getUsers();
             for (User nowUser : users)
                 if (nowUser.getName().equals(user.getName()))
-                    if (nowUser.getPassword().equals(user.getPassword())) return 1;
-                    else return 0;
+                    if (nowUser.getPassword().equals(user.getPassword())) return true;
+                    else return false;
         }
-        return -1;
+        return false;
+    }
+    public boolean UserRegistration(User user)
+    {
+        if(usersFile.exists()) {
+            User[] users = getUsers();
+            for (User nowUser : users)
+                if (nowUser.getName().equals(user.getName()))
+                    return false;
+        }
+        return true;
     }
     public void CreateUser(User newUser)
     {

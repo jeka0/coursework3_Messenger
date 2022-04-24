@@ -1,6 +1,7 @@
 package com.example.messeger;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,27 +14,31 @@ import java.util.Collection;
 import Adapter.MessagesAdapter;
 import Handlers.SubmitClickListener;
 import Net.ClientAccess;
+import ViewModels.MainViewModel;
 import business.Message;
 import business.User;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerMessages;
+    public static MainActivity activity;
     public User user;
     private MessagesAdapter messagesAdapter;
-    private ClientAccess clientAccess;
+    private MainViewModel mainViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        user = new User(getIntent().getStringExtra("Name"),getIntent().getStringExtra("Password"));
+        activity = this;
+        user = (User)getIntent().getSerializableExtra("User");
         initRecyclerView();
-        clientAccess = new ClientAccess("192.168.43.254",this);
-        findViewById(R.id.sendBut).setOnClickListener(new SubmitClickListener(this,clientAccess));
+        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        mainViewModel.getClientAccess().setMainActivity(this);
+        findViewById(R.id.sendBut).setOnClickListener(new SubmitClickListener(this,mainViewModel.getClientAccess()));
     }
     private Collection<Message> getMessages()
     {
-        ArrayList arrayList = new ArrayList<>(Arrays.asList(clientAccess.getMessages()));
+        ArrayList arrayList = new ArrayList<>(Arrays.asList(mainViewModel.getClientAccess().getMessages()));
         if(arrayList==null)return new ArrayList<>();else return arrayList;
     }
     public void loadMessages()

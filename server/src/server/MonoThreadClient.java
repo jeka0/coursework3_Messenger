@@ -1,7 +1,9 @@
 package server;
 
 import DataBase.DB;
+import RequestHandler.RequestHandler;
 import business.Message;
+import business.Request;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -11,12 +13,14 @@ public class MonoThreadClient implements Runnable{
     private Socket client;
     private Server server;
     private ReceivingAndSendingData recAndSendData;
-    private boolean flag = true;
+    private RequestHandler requestHandler;
+    private boolean flag = false;
 
     public MonoThreadClient(Socket client, Server server) {
         this.client = client;
         this.server = server;
         recAndSendData = new ReceivingAndSendingData(client);
+        requestHandler = new RequestHandler(recAndSendData, server);
         new Thread(()-> SendingData()).start();
     }
     public void run() {
@@ -24,7 +28,6 @@ public class MonoThreadClient implements Runnable{
             System.out.println(client.getInetAddress());
             while (!client.isClosed()) {
                 if(!GettingData())break;
-                server.UpdateFlags();
             }
             recAndSendData.ClosingStreams();
             client.close();
@@ -43,15 +46,15 @@ public class MonoThreadClient implements Runnable{
     }
     private boolean GettingData() throws IOException, ClassNotFoundException
     {
-        Message message = (Message) recAndSendData.receiveObject();
-        if(message==null)return false;
-        db.addMessage("database\\Chats\\chat.json", message);
+        Request request = (Request) recAndSendData.receiveObject();
+        Object object = recAndSendData.receiveObject();
+        if(request==null||object==null)return false;
+        requestHandler.handle(request,object);
         return true;
     }
     private void SubmitReply() throws IOException
     {
-        Message[] messages = db.getMessages("database\\Chats\\chat.json");
-        recAndSendData.pushObject(messages);
+        requestHandler.answer(new Request("UpdatePosts"));
     }
 
     public void setUpdateMessagesFlag(boolean flag) { this.flag = flag; }

@@ -4,42 +4,81 @@ import com.example.messeger.MainActivity;
 
 import java.io.IOException;
 
+import Handlers.RequestHandler;
 import business.Message;
+import business.Request;
+import business.User;
 
 public class ClientAccess{
-    private MainActivity activity;
+    private MainActivity activity ;
+    public RequestHandler requestHandler;
     private Message[] messages = new Message[0];
     private Client client;
-    public ClientAccess(String ip, MainActivity activity)
+    public ClientAccess(String ip)
     {
         super();
-        this.activity = activity;
         client = new Client(ip);
         new Thread(()->
         {
             client.Connect();
-            updateMessages();
+            Listen();
         }).start();
     }
 
     public void pushMessage(String message) {
         try {
-            client.pushObject(new Message(activity.user.getName(),message));
+           if(activity!=null&&client.isConnected())
+           {
+               client.pushObject(new Request("Add"));
+               client.pushObject(new Message(activity.user.getName(),message));
+           }
         }catch(IOException e){System.out.println(e.getMessage());}
     }
-    public void updateMessages()
+
+    public void checkUser(User user)
     {
         try {
-            while(!client.isOutputShutdown()) {
-                messages = (Message[])client.receiveObject();
-                activity.runOnUiThread(() -> activity.loadMessages());
+            if(client.isConnected())
+            {
+                client.pushObject(new Request("CheckUser"));
+                client.pushObject(user);
+            }
+        }catch(IOException e){System.out.println(e.getMessage());}
+    }
+    public void UserRegistration(User user)
+    {
+        try {
+            if(client.isConnected())
+            {
+                client.pushObject(new Request("Registration"));
+                client.pushObject(user);
+            }
+        }catch(IOException e){System.out.println(e.getMessage());}
+    }
+    public void Listen()
+    {
+        try {
+            while (!client.isOutputShutdown()) {
+                if(activity!=null) {
+                    Request request = (Request) client.receiveObject();
+                    Object object = client.receiveObject();
+                    requestHandler.handle(request,object);
+                }
             }
         }catch(IOException e){System.out.println(e.getMessage());}
         catch (ClassNotFoundException e){System.out.println(e.getMessage());}
+    }
+
+    public void setMainActivity(MainActivity activity) {
+        this.activity = activity;
+        requestHandler = new RequestHandler(this,activity);
     }
 
     public Message[] getMessages() {
         return messages;
     }
 
+    public void setMessages(Message[] messages) {
+        this.messages = messages;
+    }
 }

@@ -5,7 +5,7 @@ import server.Server;
 public class Main {
     public static void main(String[] args) {
         DB db = DB.getInstance();
-        Server server = new Server(8090,2);
+        Server server = new Server(8090,3);
         server.Start();
     }
 }

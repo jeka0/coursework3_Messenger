@@ -10,6 +10,7 @@ public class Client {
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private String ip;
+    private boolean connected = false;
     public Client(String ip)
     {
         this.ip = ip;
@@ -20,6 +21,7 @@ public class Client {
             socket = new Socket(ip, 8090);
             out = new  ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
+            connected = true;
         }catch(IOException e){System.out.println(e.getMessage());}
     }
     public void pushObject(Object obj) throws IOException
@@ -34,5 +36,10 @@ public class Client {
     public boolean isOutputShutdown()
     {
         return socket.isOutputShutdown();
+    }
+    public boolean isConnected() throws IOException
+    {
+
+        return connected;
     }
 }
