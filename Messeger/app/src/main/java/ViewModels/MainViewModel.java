@@ -1,10 +1,5 @@
 package ViewModels;
 
-import androidx.lifecycle.ViewModel;
-
-import com.example.messeger.MainActivity;
-
-import Net.ClientAccess;
 import business.User;
 
 public class MainViewModel extends MyViewModel {
@@ -14,7 +9,4 @@ public class MainViewModel extends MyViewModel {
         super();
     }
 
-    public ClientAccess getClientAccess() {
-        return super.getClientAccess();
-    }
 }

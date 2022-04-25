@@ -13,7 +13,6 @@ import java.util.Collection;
 
 import Adapter.MessagesAdapter;
 import Handlers.SubmitClickListener;
-import Net.ClientAccess;
 import ViewModels.MainViewModel;
 import business.Message;
 import business.User;

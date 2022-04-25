@@ -1,38 +1,53 @@
 package Handlers;
 
+import android.content.Intent;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.messeger.MainActivity;
 
 import java.io.IOException;
 
-import Net.ClientAccess;
+import Net.Internet;
 import business.Message;
 import business.Request;
-import business.User;
 
 public class RequestHandler {
     private MainActivity activity;
-    private ClientAccess clientAccess;
+    private Internet internet;
     private AppCompatActivity appActivity;
-    public RequestHandler(ClientAccess clientAccess, MainActivity activity)
+    private Intent intent;
+    public RequestHandler(Internet internet)
     {
-        this.activity=activity;
-        this.clientAccess = clientAccess;
+        this.internet = internet;
     }
     public void handle(Request request, Object object)throws IOException
     {
         switch (request.getRequest())
         {
             case "UpdateMessages":
-                clientAccess.setMessages((Message[]) object);
+                internet.setMessages((Message[]) object);
                 activity.runOnUiThread(() -> activity.loadMessages());
                 break;
             case "Answer":
-                if((boolean)object)System.out.println("+");else System.out.println("-");
-                break;
-
+                if(appActivity!=null&&intent!=null) {
+                    if ((boolean) object) {
+                        appActivity.runOnUiThread(() -> appActivity.startActivity(intent));
+                    }
+                    break;
+                }
         }
     }
 
+    public void setActivity(MainActivity activity) {
+        this.activity = activity;
+    }
+
+    public void setIntent(Intent intent) {
+        this.intent = intent;
+    }
+
+    public void setAppActivity(AppCompatActivity appActivity) {
+        this.appActivity = appActivity;
+    }
 }

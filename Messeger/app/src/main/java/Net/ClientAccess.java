@@ -1,5 +1,9 @@
 package Net;
 
+import android.content.Intent;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.messeger.MainActivity;
 
 import java.io.IOException;
@@ -9,9 +13,9 @@ import business.Message;
 import business.Request;
 import business.User;
 
-public class ClientAccess{
+public class ClientAccess implements Internet{
     private MainActivity activity ;
-    public RequestHandler requestHandler;
+    private RequestHandler requestHandler = new RequestHandler(this);
     private Message[] messages = new Message[0];
     private Client client;
     public ClientAccess(String ip)
@@ -59,19 +63,19 @@ public class ClientAccess{
     {
         try {
             while (!client.isOutputShutdown()) {
-                if(activity!=null) {
-                    Request request = (Request) client.receiveObject();
-                    Object object = client.receiveObject();
-                    requestHandler.handle(request,object);
-                }
+                Request request = (Request) client.receiveObject();
+                Object object = client.receiveObject();
+                requestHandler.handle(request,object);
             }
         }catch(IOException e){System.out.println(e.getMessage());}
         catch (ClassNotFoundException e){System.out.println(e.getMessage());}
     }
+    public void setIntent(Intent intent){requestHandler.setIntent(intent);}
+    public void setAppActivity(AppCompatActivity activity){requestHandler.setAppActivity(activity);}
 
     public void setMainActivity(MainActivity activity) {
         this.activity = activity;
-        requestHandler = new RequestHandler(this,activity);
+        requestHandler.setActivity(activity);
     }
 
     public Message[] getMessages() {
