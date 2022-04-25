@@ -32,4 +32,8 @@ public class Server {
     {
         for(MonoThreadClient client:clients)client.setUpdateMessagesFlag(true);
     }
+    public void removeThread(MonoThreadClient threadClient)
+    {
+        clients.remove(threadClient);
+    }
 }

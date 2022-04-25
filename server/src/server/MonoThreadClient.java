@@ -20,28 +20,27 @@ public class MonoThreadClient implements Runnable{
         this.server = server;
         recAndSendData = new ReceivingAndSendingData(client);
         requestHandler = new RequestHandler(recAndSendData, server);
-        new Thread(()-> SendingData()).start();
+        new Thread(()-> Listener()).start();
     }
     public void run() {
         try {
             System.out.println(client.getInetAddress());
             while (!client.isClosed()) {
-                if(!GettingData())break;
-            }
-            recAndSendData.ClosingStreams();
-            client.close();
-        }catch (IOException e){System.out.println(e.getMessage());}
-        catch (ClassNotFoundException e){System.out.println(e.getMessage());}
-    }
-    private void SendingData()
-    {
-        try {
-            while (!client.isClosed())
                 if (flag) {
                     SubmitReply();
                     flag=false;
                 }
-        }catch(IOException e){System.out.println(e.getMessage());}
+            }
+        }catch (IOException e){System.out.println(e.getMessage());}
+    }
+    private void Listener()
+    {
+        try {
+            while (!client.isClosed()) {
+                if (!GettingData()) break;
+            }
+        }catch(IOException e){System.out.println("Client disabled");closeClient();}
+        catch (ClassNotFoundException e){System.out.println(e.getMessage());}
     }
     private boolean GettingData() throws IOException, ClassNotFoundException
     {
@@ -56,4 +55,13 @@ public class MonoThreadClient implements Runnable{
     }
 
     public void setUpdateMessagesFlag(boolean flag) { this.flag = flag; }
+
+    public void closeClient()
+    {
+        try {
+            server.removeThread(this);
+            recAndSendData.ClosingStreams();
+            client.close();
+        }catch (IOException e){System.out.println(e.getMessage());}
+    }
 }
