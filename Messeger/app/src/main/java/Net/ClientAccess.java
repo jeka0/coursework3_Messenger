@@ -10,7 +10,6 @@ import java.io.IOException;
 
 import Handlers.IRequestHandler;
 import Handlers.RequestHandler;
-import ViewModels.MainViewModel;
 import business.Message;
 import business.Request;
 import business.User;
@@ -34,8 +33,7 @@ public class ClientAccess implements IInternet {
         try {
            if(activity!=null&&client.isConnected())
            {
-               client.pushObject(new Request("Add"));
-               client.pushObject(new Message(activity.user.getName(),message));
+               client.pushObject(new Request("Add",new Message(activity.user.getName(),message)));
            }
         }catch(IOException e){System.out.println(e.getMessage());}
     }
@@ -45,8 +43,7 @@ public class ClientAccess implements IInternet {
         try {
             if(client.isConnected())
             {
-                client.pushObject(new Request("CheckUser"));
-                client.pushObject(user);
+                client.pushObject(new Request("CheckUser",user));
             }
         }catch(IOException e){System.out.println(e.getMessage());}
     }
@@ -55,8 +52,7 @@ public class ClientAccess implements IInternet {
         try {
             if(client.isConnected())
             {
-                client.pushObject(new Request("Registration"));
-                client.pushObject(user);
+                client.pushObject(new Request("Registration",user));
             }
         }catch(IOException e){System.out.println(e.getMessage());}
     }
@@ -66,7 +62,6 @@ public class ClientAccess implements IInternet {
             if(client.isConnected())
             {
                 client.pushObject(new Request("UpdatePosts"));
-                client.pushObject(true);
             }
         }catch(IOException e){System.out.println(e.getMessage());}
     }
@@ -75,8 +70,7 @@ public class ClientAccess implements IInternet {
         try {
             while (!client.isOutputShutdown()) {
                 Request request = (Request) client.receiveObject();
-                Object object = client.receiveObject();
-                requestHandler.handle(request,object);
+                requestHandler.handle(request);
             }
         }catch(IOException e){System.out.println(e.getMessage());}
         catch (ClassNotFoundException e){System.out.println(e.getMessage());}

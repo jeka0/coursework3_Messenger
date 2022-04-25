@@ -11,7 +11,7 @@ import java.io.IOException;
 import business.Request;
 
 public interface IRequestHandler {
-    void handle(Request request, Object object)throws IOException;
+    void handle(Request request)throws IOException;
     void setActivity(MainActivity activity);
     void setIntent(Intent intent);
     void setAppActivity(AppCompatActivity appActivity);

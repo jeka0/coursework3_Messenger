@@ -21,17 +21,17 @@ public class RequestHandler implements IRequestHandler {
     {
         this.IInternet = IInternet;
     }
-    public void handle(Request request, Object object)throws IOException
+    public void handle(Request request)throws IOException
     {
         switch (request.getRequest())
         {
             case "UpdateMessages":
-                IInternet.setMessages((Message[]) object);
+                IInternet.setMessages((Message[]) request.getData());
                 activity.runOnUiThread(() -> activity.loadMessages());
                 break;
             case "Answer":
                 if(appActivity!=null&&intent!=null) {
-                    if ((boolean) object) {
+                    if ((boolean) request.getData()) {
                         appActivity.runOnUiThread(() -> appActivity.startActivity(intent));
                     }
                     break;
