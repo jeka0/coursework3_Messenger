@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 
 import Handlers.SwitchActivity;
+import Handlers.ISwitchHandler;
 import ViewModels.AuthorizationAndRegistrationModel;
 
 public class Registration extends AppCompatActivity {
@@ -15,9 +16,9 @@ public class Registration extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         model = new ViewModelProvider(this).get(AuthorizationAndRegistrationModel.class);
-        SwitchActivity switchActivity = new SwitchActivity(this,model.getClientAccess());
-        model.setSwitchActivity(switchActivity);
-        findViewById(R.id.buttonLogin).setOnClickListener(switchActivity);
-        findViewById(R.id.buttonRegister).setOnClickListener(switchActivity);
+        ISwitchHandler ISwitchHandler = new SwitchActivity(this,model.getClientAccess());
+        model.setSwitchActivity(ISwitchHandler);
+        findViewById(R.id.buttonLogin).setOnClickListener(ISwitchHandler);
+        findViewById(R.id.buttonRegister).setOnClickListener(ISwitchHandler);
     }
 }

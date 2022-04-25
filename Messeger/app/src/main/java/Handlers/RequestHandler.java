@@ -8,25 +8,25 @@ import com.example.messeger.MainActivity;
 
 import java.io.IOException;
 
-import Net.Internet;
+import Net.IInternet;
 import business.Message;
 import business.Request;
 
-public class RequestHandler {
+public class RequestHandler implements IRequestHandler {
     private MainActivity activity;
-    private Internet internet;
+    private IInternet IInternet;
     private AppCompatActivity appActivity;
     private Intent intent;
-    public RequestHandler(Internet internet)
+    public RequestHandler(IInternet IInternet)
     {
-        this.internet = internet;
+        this.IInternet = IInternet;
     }
     public void handle(Request request, Object object)throws IOException
     {
         switch (request.getRequest())
         {
             case "UpdateMessages":
-                internet.setMessages((Message[]) object);
+                IInternet.setMessages((Message[]) object);
                 activity.runOnUiThread(() -> activity.loadMessages());
                 break;
             case "Answer":

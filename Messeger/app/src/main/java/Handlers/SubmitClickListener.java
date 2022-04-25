@@ -6,22 +6,22 @@ import android.widget.EditText;
 import com.example.messeger.MainActivity;
 import com.example.messeger.R;
 
-import Net.Internet;
+import Net.IInternet;
 
-public class SubmitClickListener implements View.OnClickListener{
+public class SubmitClickListener implements ISubmitClickListener{
     private MainActivity activity;
-    private Internet internet;
-    public SubmitClickListener(MainActivity activity, Internet internet)
+    private IInternet IInternet;
+    public SubmitClickListener(MainActivity activity, IInternet IInternet)
     {
         this.activity = activity;
-        this.internet = internet;
+        this.IInternet = IInternet;
     }
     @Override
     public void onClick(View view) {
         EditText editText = activity.findViewById(R.id.messageField);
         String text = editText.getText().toString();
         if (text.equals("")) return;
-        new Thread(()-> internet.pushMessage(text)).start();
+        new Thread(()-> IInternet.pushMessage(text)).start();
         editText.setText("");
     }
 }

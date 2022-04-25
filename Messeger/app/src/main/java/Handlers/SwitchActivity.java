@@ -11,17 +11,17 @@ import com.example.messeger.MainActivity;
 import com.example.messeger.R;
 import com.example.messeger.Registration;
 
-import Net.Internet;
+import Net.IInternet;
 import business.User;
 
-public class SwitchActivity implements View.OnClickListener{
+public class SwitchActivity implements ISwitchHandler {
     private AppCompatActivity activity;
-    private Internet internet;
+    private IInternet IInternet;
     private interface Run { void run(User user);}
-    public SwitchActivity(AppCompatActivity activity, Internet internet)
+    public SwitchActivity(AppCompatActivity activity, IInternet IInternet)
     {
         this.activity = activity;
-        this.internet = internet;
+        this.IInternet = IInternet;
     }
     @Override
     public void onClick(View view) {
@@ -31,12 +31,12 @@ public class SwitchActivity implements View.OnClickListener{
             case R.id.buttonLogin:
                 if(activity instanceof Authorization)activityClass = MainActivity.class;
                 else {activityClass = Authorization.class;flag = false;}
-                entrance(activityClass,flag,(User user)-> internet.checkUser(user));
+                entrance(activityClass,flag,(User user)-> IInternet.checkUser(user));
                 break;
             case R.id.buttonRegister:
                 if(activity instanceof Authorization){activityClass = Registration.class;flag = false;}
                 else activityClass = MainActivity.class;
-                entrance(activityClass,flag,(User user)-> internet.UserRegistration(user));
+                entrance(activityClass,flag,(User user)-> IInternet.UserRegistration(user));
                 break;
             default:
                 break;
@@ -50,7 +50,7 @@ public class SwitchActivity implements View.OnClickListener{
             EditText editTextName = activity.findViewById(R.id.editTextName), editTextPassword = activity.findViewById(R.id.editTextPassword);
             User user = new User(editTextName.getText().toString(),editTextPassword.getText().toString());
             intent.putExtra("User",user);
-            internet.setIntent(intent);
+            IInternet.setIntent(intent);
             new Thread(()->run.run(user)).start();
         }
         else activity.startActivity(intent);

@@ -34,12 +34,18 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         mainViewModel.getClientAccess().setMainActivity(this);
         findViewById(R.id.sendBut).setOnClickListener(new SubmitClickListener(this,mainViewModel.getClientAccess()));
+        loadMessages();
     }
     private Collection<Message> getMessages()
     {
-        ArrayList arrayList = new ArrayList<>(Arrays.asList(mainViewModel.getClientAccess().getMessages()));
+        ArrayList arrayList = new ArrayList<>(Arrays.asList(mainViewModel.getMessages()));
         if(arrayList==null)return new ArrayList<>();else return arrayList;
     }
+
+    public MainViewModel getMainViewModel() {
+        return mainViewModel;
+    }
+
     public void loadMessages()
     {
         messagesAdapter.clearItems();

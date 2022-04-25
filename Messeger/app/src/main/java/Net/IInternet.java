@@ -9,7 +9,7 @@ import com.example.messeger.MainActivity;
 import business.Message;
 import business.User;
 
-public interface Internet {
+public interface IInternet {
 
     void pushMessage(String message);
     void checkUser(User user);
@@ -18,6 +18,6 @@ public interface Internet {
     void setIntent(Intent intent);
     void setAppActivity(AppCompatActivity activity);
     void setMainActivity(MainActivity activity);
-    Message[] getMessages();
+    void UpdatePosts();
     void setMessages(Message[] messages);
 }

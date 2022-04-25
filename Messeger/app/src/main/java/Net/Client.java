@@ -39,7 +39,6 @@ public class Client {
     }
     public boolean isConnected() throws IOException
     {
-
         return connected;
     }
 }

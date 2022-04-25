@@ -1,15 +1,15 @@
 package ViewModels;
 
-import Handlers.SwitchActivity;
+import Handlers.ISwitchHandler;
 
 public class AuthorizationAndRegistrationModel extends MyViewModel {
-    private static SwitchActivity switchActivity;
+    private static ISwitchHandler switchActivity;
     public AuthorizationAndRegistrationModel()
     {
         super();
     }
 
-    public void setSwitchActivity(SwitchActivity switchActivity) {
+    public void setSwitchActivity(ISwitchHandler switchActivity) {
         AuthorizationAndRegistrationModel.switchActivity = switchActivity;
         super.getClientAccess().setAppActivity(switchActivity.getActivity());
     }

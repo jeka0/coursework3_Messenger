@@ -1,16 +1,16 @@
 package ViewModels;
 
 import Net.ClientAccess;
-import Net.Internet;
+import Net.IInternet;
 
 public class MyViewModel extends androidx.lifecycle.ViewModel {
-    private static Internet internet;
+    private static IInternet IInternet;
     public MyViewModel()
     {
-       if(internet ==null) internet = new ClientAccess("192.168.43.254");
+       if(IInternet ==null) IInternet = new ClientAccess("192.168.43.254");
     }
 
-    public Internet getClientAccess() {
-        return internet;
+    public IInternet getClientAccess() {
+        return IInternet;
     }
 }

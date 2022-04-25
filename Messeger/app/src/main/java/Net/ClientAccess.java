@@ -8,15 +8,16 @@ import com.example.messeger.MainActivity;
 
 import java.io.IOException;
 
+import Handlers.IRequestHandler;
 import Handlers.RequestHandler;
+import ViewModels.MainViewModel;
 import business.Message;
 import business.Request;
 import business.User;
 
-public class ClientAccess implements Internet{
+public class ClientAccess implements IInternet {
     private MainActivity activity ;
-    private RequestHandler requestHandler = new RequestHandler(this);
-    private Message[] messages = new Message[0];
+    private IRequestHandler requestHandler = new RequestHandler(this);
     private Client client;
     public ClientAccess(String ip)
     {
@@ -59,6 +60,16 @@ public class ClientAccess implements Internet{
             }
         }catch(IOException e){System.out.println(e.getMessage());}
     }
+    public void UpdatePosts()
+    {
+        try {
+            if(client.isConnected())
+            {
+                client.pushObject(new Request("UpdatePosts"));
+                client.pushObject(true);
+            }
+        }catch(IOException e){System.out.println(e.getMessage());}
+    }
     public void Listen()
     {
         try {
@@ -78,11 +89,7 @@ public class ClientAccess implements Internet{
         requestHandler.setActivity(activity);
     }
 
-    public Message[] getMessages() {
-        return messages;
-    }
-
     public void setMessages(Message[] messages) {
-        this.messages = messages;
+        activity.getMainViewModel().setMessages(messages);
     }
 }
