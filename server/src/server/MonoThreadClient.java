@@ -2,7 +2,6 @@ package server;
 
 import DataBase.DB;
 import RequestHandler.RequestHandler;
-import business.Message;
 import business.Request;
 
 import java.io.IOException;
@@ -47,9 +46,8 @@ public class MonoThreadClient implements Runnable{
     private boolean GettingData() throws IOException, ClassNotFoundException
     {
         Request request = (Request) recAndSendData.receiveObject();
-        Object object = recAndSendData.receiveObject();
-        if(request==null||object==null)return false;
-        requestHandler.handle(request,object);
+        if(request==null)return false;
+        requestHandler.handle(request);
         return true;
     }
     private void SubmitReply() throws IOException
