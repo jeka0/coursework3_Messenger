@@ -35,6 +35,9 @@ public class RequestHandler {
                 if(db.UserRegistration((User)object))answer(new Request("AnswerYes"));
                 else answer(new Request("AnswerNo"));
                 break;
+            case "UpdatePosts":
+                answer(request);
+                break;
         }
     }
     public void answer(Request request) throws IOException
