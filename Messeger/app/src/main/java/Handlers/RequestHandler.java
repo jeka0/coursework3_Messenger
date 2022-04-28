@@ -5,16 +5,19 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.messeger.MainActivity;
+import com.example.messeger.uimenu.messenger.MessengerFragment;
 
 import java.io.IOException;
 
 import Net.IInternet;
+import business.Chat;
 import business.Message;
 import business.Request;
 
 public class RequestHandler implements IRequestHandler {
     private MainActivity activity;
     private IInternet IInternet;
+    private MessengerFragment messengerFragment;
     private AppCompatActivity appActivity;
     private Intent intent;
     public RequestHandler(IInternet IInternet)
@@ -34,8 +37,12 @@ public class RequestHandler implements IRequestHandler {
                     if ((boolean) request.getData()) {
                         appActivity.runOnUiThread(() -> appActivity.startActivity(intent));
                     }
-                    break;
                 }
+                break;
+            case "UpdateChats":
+                messengerFragment.setChats((Chat[]) request.getData());
+                messengerFragment.messengerViewModel.getMenuActivity().runOnUiThread(() -> messengerFragment.loadChats());
+                break;
         }
     }
 
@@ -50,4 +57,5 @@ public class RequestHandler implements IRequestHandler {
     public void setAppActivity(AppCompatActivity appActivity) {
         this.appActivity = appActivity;
     }
+    public void setMessengerFragment(MessengerFragment fragment){this.messengerFragment = fragment;}
 }

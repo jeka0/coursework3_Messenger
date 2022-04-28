@@ -1,5 +1,6 @@
 package DataBase;
 
+import business.Chat;
 import business.Message;
 import business.User;
 
@@ -42,6 +43,10 @@ public class DB {
                 if (nowUser.getName().equals(user.getName()))
                     return false;
         }
+        CreateUser(user);
+        /*Chat chat = new Chat("AAAA");
+        chat.addUser(user);
+        addChat(chat);*/
         return true;
     }
     public void CreateUser(User newUser)
@@ -68,6 +73,48 @@ public class DB {
         ArrayList<Message> messages = new ArrayList<>(Arrays.asList(getMessages(path)));
         messages.add(message);
         json.Write(messages);
+    }
+    public void addChat(Chat chat)
+    {
+        try {
+            String chatPath = "database\\Chats\\" + chat.getName() + ".json";
+            JsonWork json = new JsonWork(chatPath);
+            File file = new File(chatPath);
+            file.createNewFile();
+            json.Write(chat);
+            for (User user : chat.getUsers()) {
+                String userChats = "database\\userChats\\" + user.getName() + ".json";
+                File userFile = new File(userChats);
+                if(!userFile.exists())userFile.createNewFile();
+                JsonWork userChatsJson = new JsonWork(userChats);
+                ArrayList<String> chats = new ArrayList<>(Arrays.asList(getChatsNames(user)));
+                chats.add(chat.getName());
+                userChatsJson.Write(chats);
+            }
+        }catch (IOException e){System.out.println(e.getMessage());}
+    }
+    public Chat[] getChats(User user)
+    {
+        ArrayList<String> chatsNames = new ArrayList<>(Arrays.asList(getChatsNames(user)));
+        ArrayList<Chat> chats = new ArrayList<>();
+        for(String name : chatsNames)
+        {
+            try {
+                String chatPath = "database\\Chats\\" + name + ".json";
+                File userFile = new File(chatPath);
+                if (!userFile.exists()) userFile.createNewFile();
+                JsonWork json = new JsonWork(chatPath);
+                chats.add(json.Read(Chat.class));
+            }catch (IOException e){System.out.println(e.getMessage());}
+        }
+        return chats.toArray(Chat[]::new);
+    }
+    public String[] getChatsNames(User user)
+    {
+        String userChats = "database\\userChats\\" + user.getName() + ".json";
+        JsonWork json = new JsonWork(userChats);
+        String[] strs = json.Read(String[].class);
+        if(strs!=null)return strs;else return new String[0];
     }
     public Message[] getMessages(String path)
     {

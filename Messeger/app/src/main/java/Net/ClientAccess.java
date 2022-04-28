@@ -5,6 +5,7 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.messeger.MainActivity;
+import com.example.messeger.uimenu.messenger.MessengerFragment;
 
 import java.io.IOException;
 
@@ -65,6 +66,15 @@ public class ClientAccess implements IInternet {
             }
         }catch(IOException e){System.out.println(e.getMessage());}
     }
+    public void UpdateChats(User user)
+    {
+        try {
+            if(client.isConnected())
+            {
+                client.pushObject(new Request("GetChats",user));
+            }
+        }catch(IOException e){System.out.println(e.getMessage());}
+    }
     public void Listen()
     {
         try {
@@ -82,8 +92,13 @@ public class ClientAccess implements IInternet {
         this.activity = activity;
         requestHandler.setActivity(activity);
     }
+    public void setMessengerFragment(MessengerFragment fragment){requestHandler.setMessengerFragment(fragment);}
 
     public void setMessages(Message[] messages) {
         activity.getMainViewModel().setMessages(messages);
+    }
+    public boolean isConnected()
+    {
+        return client.isConnected();
     }
 }

@@ -7,16 +7,19 @@
 
     <application
         android:allowBackup="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Messeger">
         <activity
+            android:name=".ChatMenuActivity"
+            android:exported="false"
+            android:label="@string/title_activity_chat_menu"
+            android:theme="@style/Theme.Messeger.NoActionBar" />
+        <activity
             android:name=".Registration"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".Authorization"
             android:exported="true">
@@ -26,12 +29,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
     </application>
 
 </manifest>

@@ -12,15 +12,13 @@ public class JsonWork {
     public JsonWork(String path){this.path = path;}
     public <T> void Write(T item)
     {
-        try {
-            FileWriter writer = new FileWriter(path);
+        try(FileWriter writer = new FileWriter(path);) {
             mapper.writeValue(writer,item);
         }catch(IOException e){System.out.println(e.getMessage());}
     }
     public <T> T Read(Class<T> type)
     {
-        try {
-            FileReader reader = new FileReader(path);
+        try(FileReader reader = new FileReader(path);){
             return mapper.readValue(reader,type);
         }catch(IOException e){ return null;}
     }

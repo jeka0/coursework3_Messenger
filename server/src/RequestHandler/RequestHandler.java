@@ -1,6 +1,7 @@
 package RequestHandler;
 
 import DataBase.DB;
+import business.Chat;
 import business.Message;
 import business.Request;
 import business.User;
@@ -38,6 +39,12 @@ public class RequestHandler {
             case "UpdatePosts":
                 answer(request);
                 break;
+            case "AddChat":
+                db.addChat((Chat)request.getData());
+                break;
+            case "GetChats":
+                answer(new Request("UpdateChats", db.getChats((User)request.getData())));
+                break;
         }
     }
     public void answer(Request request) throws IOException
@@ -53,6 +60,9 @@ public class RequestHandler {
                 break;
             case "AnswerNo":
                 recAndSendData.pushObject(new Request("Answer",false));
+                break;
+            case "UpdateChats":
+                recAndSendData.pushObject(new Request("UpdateChats",request.getData()));
                 break;
         }
     }

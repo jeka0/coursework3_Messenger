@@ -37,7 +37,7 @@ public class Client {
     {
         return socket.isOutputShutdown();
     }
-    public boolean isConnected() throws IOException
+    public boolean isConnected()
     {
         return connected;
     }

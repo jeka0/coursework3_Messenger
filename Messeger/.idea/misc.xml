@@ -12,9 +12,33 @@
         <entry key="..\:/Android/Coursework3/Messeger/app/src/main/res/layout/layout_message.xml" value="0.24547101449275363" />
         <entry key="..\:/Android/Messeger/app/src/main/res/layout/activity_main.xml" value="0.35688405797101447" />
         <entry key="..\:/Android/Messeger/app/src/main/res/layout/layout_message.xml" value="0.35688405797101447" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/drawable-anydpi/ic_but_send.xml" value="0.2505" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/drawable/ic_account_foreground.xml" value="0.2505" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.2505" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.196" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/drawable/side_nav_bar.xml" value="0.196" />
         <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout-land/activity_authorization.xml" value="0.2" />
         <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout-land/activity_registration.xml" value="0.11979166666666667" />
         <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/activity_authorization.xml" value="0.10416666666666667" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/activity_chat_menu.xml" value="0.35688405797101447" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/activity_main.xml" value="0.32447916666666665" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/app_bar_chat_menu.xml" value="0.35688405797101447" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/content_chat_menu.xml" value="0.35688405797101447" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/fragment_account.xml" value="0.18802083333333333" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/fragment_gallery.xml" value="0.3182291666666667" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/fragment_messenger.xml" value="0.3182291666666667" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/fragment_settings.xml" value="0.3182291666666667" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/fragment_slideshow.xml" value="0.3182291666666667" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/layout_chat.xml" value="0.35688405797101447" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/layout_message.xml" value="0.284375" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/nav_header_chat_menu.xml" value="0.35688405797101447" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/menu/activity_chat_menu_drawer.xml" value="0.3182291666666667" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/menu/activity_main_drawer.xml" value="0.32447916666666665" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/menu/chat_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/mipmap-anydpi-v26/ic_account.xml" value="0.241" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/mipmap-anydpi-v26/ic_account_round.xml" value="0.241" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2505" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2505" />
       </map>
     </option>
   </component>
