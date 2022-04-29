@@ -12,7 +12,7 @@ public class MyViewModel extends androidx.lifecycle.ViewModel {
     private static ChatMenuActivity menuActivity;
     public MyViewModel()
     {
-       if(IInternet ==null) IInternet = new ClientAccess("192.168.1.101");
+       if(IInternet ==null) IInternet = new ClientAccess("192.168.43.254");
     }
 
     public IInternet getClientAccess() {

@@ -26,7 +26,7 @@ public class ClientAccess implements IInternet {
         new Thread(()->
         {
             client.Connect();
-            Listen();
+            if(client.isConnected())Listen();
         }).start();
     }
 
