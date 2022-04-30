@@ -8,11 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.messeger.Authorization;
 import com.example.messeger.ChatMenuActivity;
-import com.example.messeger.MainActivity;
 import com.example.messeger.R;
 import com.example.messeger.Registration;
 import com.google.android.material.snackbar.Snackbar;
 
+import Handlers.IHandlers.ISwitchHandler;
 import Net.IInternet;
 import business.User;
 
@@ -31,13 +31,13 @@ public class SwitchActivity implements ISwitchHandler {
         boolean flag = true;
         switch (view.getId()) {
             case R.id.buttonLogin:
-                if(activity instanceof Authorization)activityClass = /*MainActivity*/ChatMenuActivity.class;
+                if(activity instanceof Authorization)activityClass = ChatMenuActivity.class;
                 else {activityClass = Authorization.class;flag = false;}
                 entrance(activityClass,flag,(User user)-> IInternet.checkUser(user),view);
                 break;
             case R.id.buttonRegister:
                 if(activity instanceof Authorization){activityClass = Registration.class;flag = false;}
-                else activityClass = /*MainActivity*/ChatMenuActivity.class;
+                else activityClass = ChatMenuActivity.class;
                 entrance(activityClass,flag,(User user)-> IInternet.UserRegistration(user),view);
                 break;
             default:

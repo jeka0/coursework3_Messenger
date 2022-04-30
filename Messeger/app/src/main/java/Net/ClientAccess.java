@@ -5,23 +5,26 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.messeger.MainActivity;
-import com.example.messeger.uimenu.messenger.MessengerFragment;
 
 import java.io.IOException;
 
-import Handlers.IRequestHandler;
+import Handlers.IHandlers.IRequestHandler;
 import Handlers.RequestHandler;
+import ViewModels.IViewModels.IMessengerViewModel;
+import ViewModels.IViewModels.IMyViewModel;
 import business.Message;
 import business.Request;
 import business.User;
 
 public class ClientAccess implements IInternet {
     private MainActivity activity ;
+    private IMyViewModel model;
     private IRequestHandler requestHandler = new RequestHandler(this);
     private Client client;
-    public ClientAccess(String ip)
+    public ClientAccess(String ip, IMyViewModel model)
     {
         super();
+        this.model = model;
         client = new Client(ip);
         new Thread(()->
         {
@@ -34,7 +37,7 @@ public class ClientAccess implements IInternet {
         try {
            if(activity!=null&&client.isConnected())
            {
-               client.pushObject(new Request("Add",new Message(activity.user.getName(),message)));
+               client.pushObject(new Request("Add",new Message(model.getUser().getName(),message)));
            }
         }catch(IOException e){System.out.println(e.getMessage());}
     }
@@ -92,7 +95,9 @@ public class ClientAccess implements IInternet {
         this.activity = activity;
         requestHandler.setActivity(activity);
     }
-    public void setMessengerFragment(MessengerFragment fragment){requestHandler.setMessengerFragment(fragment);}
+    public void setMessengerModel(IMessengerViewModel messengerModel) {
+        requestHandler.setMessengerModel(messengerModel);
+    }
 
     public void setMessages(Message[] messages) {
         activity.getMainViewModel().setMessages(messages);
@@ -101,4 +106,5 @@ public class ClientAccess implements IInternet {
     {
         return client.isConnected();
     }
+
 }

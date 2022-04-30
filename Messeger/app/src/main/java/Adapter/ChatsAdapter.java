@@ -1,6 +1,5 @@
 package Adapter;
 
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -14,10 +13,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import Handlers.IHandlers.IChatClickHandler;
 import business.Chat;
 
 public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatViewHolder> {
     private List<Chat> chatList = new ArrayList<>();
+    private IChatClickHandler clickHandler;
     class ChatViewHolder extends RecyclerView.ViewHolder
     {
         private TextView chatName;
@@ -29,8 +30,14 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatViewHold
         public void bind(Chat chat)
         {
             chatName.setText(chat.getName());
+            itemView.setOnClickListener(clickHandler);
         }
 
+    }
+    public ChatsAdapter() {}
+    public ChatsAdapter(IChatClickHandler clickHandler)
+    {
+        this.clickHandler = clickHandler;
     }
     public void setItems(Collection<Chat> chats)
     {

@@ -2,11 +2,10 @@ package ViewModels;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import ViewModels.MyViewModel;
+import ViewModels.IViewModels.ISettingsViewModel;
 
-public class SettingsViewModel extends MyViewModel {
+public class SettingsViewModel extends ChatMenuModel implements ISettingsViewModel {
 
     private final MutableLiveData<String> mText;
 

@@ -5,8 +5,8 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.messeger.MainActivity;
-import com.example.messeger.uimenu.messenger.MessengerFragment;
 
+import ViewModels.IViewModels.IMessengerViewModel;
 import business.Message;
 import business.User;
 
@@ -22,6 +22,6 @@ public interface IInternet {
     void UpdatePosts();
     void setMessages(Message[] messages);
     boolean isConnected();
-    void setMessengerFragment(MessengerFragment fragment);
     void UpdateChats(User user);
+    void setMessengerModel(IMessengerViewModel messengerModel);
 }

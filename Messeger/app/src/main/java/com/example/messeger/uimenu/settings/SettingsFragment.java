@@ -12,16 +12,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.messeger.databinding.FragmentSettingsBinding;
 
+import ViewModels.IViewModels.ISettingsViewModel;
 import ViewModels.SettingsViewModel;
 
 public class SettingsFragment extends Fragment {
 
     private FragmentSettingsBinding binding;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        SettingsViewModel settingsViewModel =
-                new ViewModelProvider(this).get(SettingsViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ISettingsViewModel settingsViewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
 
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();

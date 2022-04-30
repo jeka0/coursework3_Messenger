@@ -6,9 +6,10 @@ import android.widget.EditText;
 import com.example.messeger.MainActivity;
 import com.example.messeger.R;
 
+import Handlers.IHandlers.ISubmitClickListener;
 import Net.IInternet;
 
-public class SubmitClickListener implements ISubmitClickListener{
+public class SubmitClickListener implements ISubmitClickListener {
     private MainActivity activity;
     private IInternet IInternet;
     public SubmitClickListener(MainActivity activity, IInternet IInternet)

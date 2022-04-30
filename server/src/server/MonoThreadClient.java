@@ -2,20 +2,21 @@ package server;
 
 import DataBase.DB;
 import RequestHandler.RequestHandler;
+import RequestHandler.IRequestHandler;
 import business.Request;
 
 import java.io.IOException;
 import java.net.Socket;
 
-public class MonoThreadClient implements Runnable{
+public class MonoThreadClient implements IMonoThreadClient{
     private DB db = DB.getInstance();
     private Socket client;
-    private Server server;
+    private IServer server;
     private ReceivingAndSendingData recAndSendData;
-    private RequestHandler requestHandler;
+    private IRequestHandler requestHandler;
     private boolean flag = false;
 
-    public MonoThreadClient(Socket client, Server server) {
+    public MonoThreadClient(Socket client, IServer server) {
         this.client = client;
         this.server = server;
         recAndSendData = new ReceivingAndSendingData(client);

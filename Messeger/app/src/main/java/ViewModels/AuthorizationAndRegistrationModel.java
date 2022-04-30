@@ -1,8 +1,9 @@
 package ViewModels;
 
-import Handlers.ISwitchHandler;
+import Handlers.IHandlers.ISwitchHandler;
+import ViewModels.IViewModels.IAuthorizationAndRegistrationModel;
 
-public class AuthorizationAndRegistrationModel extends MyViewModel {
+public class AuthorizationAndRegistrationModel extends MyViewModel implements IAuthorizationAndRegistrationModel {
     private static ISwitchHandler switchActivity;
     public AuthorizationAndRegistrationModel()
     {

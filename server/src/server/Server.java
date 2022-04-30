@@ -8,9 +8,9 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-public class Server {
+public class Server implements IServer{
     private ExecutorService executeIt;
-    private ArrayList<MonoThreadClient> clients = new ArrayList<>();
+    private ArrayList<IMonoThreadClient> clients = new ArrayList<>();
     private int port;
     public Server(int port,int countThreads){
         this.port=port;
@@ -21,7 +21,7 @@ public class Server {
         try (ServerSocket server= new ServerSocket(port)){
             while(!server.isClosed()) {
                 Socket client = server.accept();
-                MonoThreadClient threadClient = new MonoThreadClient(client,this);
+                IMonoThreadClient threadClient = new MonoThreadClient(client,this);
                 clients.add(threadClient);
                 executeIt.execute(threadClient);
             }
@@ -30,9 +30,9 @@ public class Server {
     }
     public void UpdateFlags()
     {
-        for(MonoThreadClient client:clients)client.setUpdateMessagesFlag(true);
+        for(IMonoThreadClient client:clients)client.setUpdateMessagesFlag(true);
     }
-    public void removeThread(MonoThreadClient threadClient)
+    public void removeThread(IMonoThreadClient threadClient)
     {
         clients.remove(threadClient);
     }

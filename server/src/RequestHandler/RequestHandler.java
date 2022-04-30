@@ -1,21 +1,22 @@
 package RequestHandler;
 
 import DataBase.DB;
+import DataBase.IDB;
 import business.Chat;
 import business.Message;
 import business.Request;
 import business.User;
+import server.IServer;
 import server.ReceivingAndSendingData;
-import server.Server;
 
 import java.io.IOException;
 
-public class RequestHandler {
-    private DB db = DB.getInstance();
+public class RequestHandler implements IRequestHandler{
+    private IDB db = DB.getInstance();
     private ReceivingAndSendingData recAndSendData;
-    private Server server;
+    private IServer server;
     public RequestHandler(){}
-    public RequestHandler(ReceivingAndSendingData recAndSendData, Server server)
+    public RequestHandler(ReceivingAndSendingData recAndSendData, IServer server)
     {
         this.recAndSendData=recAndSendData;
         this.server=server;

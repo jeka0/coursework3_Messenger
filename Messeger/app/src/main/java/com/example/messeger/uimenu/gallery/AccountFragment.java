@@ -13,15 +13,14 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.messeger.databinding.FragmentAccountBinding;
 
 import ViewModels.AccountViewModel;
+import ViewModels.IViewModels.IAccountViewModel;
 
 public class AccountFragment extends Fragment {
 
     private FragmentAccountBinding binding;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        AccountViewModel accountViewModel =
-                new ViewModelProvider(this).get(AccountViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        IAccountViewModel accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
 
         binding = FragmentAccountBinding.inflate(inflater, container, false);
         View root = binding.getRoot();

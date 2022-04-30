@@ -13,23 +13,19 @@ import java.util.Collection;
 
 import Adapter.MessagesAdapter;
 import Handlers.SubmitClickListener;
+import ViewModels.IViewModels.IMainViewModel;
 import ViewModels.MainViewModel;
 import business.Message;
-import business.User;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerMessages;
-    public static MainActivity activity;
-    public User user;
     private MessagesAdapter messagesAdapter;
-    private MainViewModel mainViewModel;
+    private IMainViewModel mainViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        activity = this;
-        user = (User)getIntent().getSerializableExtra("User");
         initRecyclerView();
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         mainViewModel.getClientAccess().setMainActivity(this);
@@ -42,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         if(arrayList==null)return new ArrayList<>();else return arrayList;
     }
 
-    public MainViewModel getMainViewModel() {
+    public IMainViewModel getMainViewModel() {
         return mainViewModel;
     }
 

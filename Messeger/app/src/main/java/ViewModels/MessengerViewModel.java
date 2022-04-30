@@ -2,16 +2,14 @@ package ViewModels;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import java.util.ArrayList;
+import com.example.messeger.uimenu.messenger.MessengerFragment;
 
-import ViewModels.MyViewModel;
+import ViewModels.IViewModels.IMessengerViewModel;
 import business.Chat;
-import business.User;
 
-public class MessengerViewModel extends MyViewModel {
-
+public class MessengerViewModel extends ChatMenuModel implements IMessengerViewModel {
+    private MessengerFragment messengerFragment;
     private final MutableLiveData<String> mText;
     private Chat[] chats = new Chat[0];
 
@@ -19,16 +17,19 @@ public class MessengerViewModel extends MyViewModel {
         super();
         mText = new MutableLiveData<>();
         mText.setValue("This is messenger fragment");
-        //new Thread(()->super.getClientAccess().UpdateChats(getUser())).start();
+        super.getClientAccess().setMessengerModel(this);
+    }
+
+    public void setMessengerFragment(MessengerFragment messengerFragment) {
+        this.messengerFragment = messengerFragment;
+    }
+
+    public MessengerFragment getMessengerFragment() {
+        return messengerFragment;
     }
 
     public LiveData<String> getText() {
         return mText;
-    }
-    public void setUser(User user)
-    {
-        super.setUser(user);
-        new Thread(()->super.getClientAccess().UpdateChats(getUser())).start();
     }
 
     public void setChats(Chat[] chats) {

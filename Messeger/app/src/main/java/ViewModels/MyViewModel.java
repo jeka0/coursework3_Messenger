@@ -1,18 +1,16 @@
 package ViewModels;
 
-import com.example.messeger.ChatMenuActivity;
-
 import Net.ClientAccess;
 import Net.IInternet;
+import ViewModels.IViewModels.IMyViewModel;
 import business.User;
 
-public class MyViewModel extends androidx.lifecycle.ViewModel {
+public class MyViewModel extends androidx.lifecycle.ViewModel implements IMyViewModel {
     private static IInternet IInternet;
     private static User user;
-    private static ChatMenuActivity menuActivity;
     public MyViewModel()
     {
-       if(IInternet ==null) IInternet = new ClientAccess("192.168.43.254");
+       if(IInternet ==null) IInternet = new ClientAccess("192.168.1.101",this);
     }
 
     public IInternet getClientAccess() {
@@ -27,11 +25,4 @@ public class MyViewModel extends androidx.lifecycle.ViewModel {
         return user;
     }
 
-    public void setMenuActivity(ChatMenuActivity menuActivity) {
-        MyViewModel.menuActivity = menuActivity;
-    }
-
-    public ChatMenuActivity getMenuActivity() {
-        return menuActivity;
-    }
 }

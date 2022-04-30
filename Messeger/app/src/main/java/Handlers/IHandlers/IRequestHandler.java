@@ -1,14 +1,14 @@
-package Handlers;
+package Handlers.IHandlers;
 
 import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.messeger.MainActivity;
-import com.example.messeger.uimenu.messenger.MessengerFragment;
 
 import java.io.IOException;
 
+import ViewModels.IViewModels.IMessengerViewModel;
 import business.Request;
 
 public interface IRequestHandler {
@@ -16,5 +16,5 @@ public interface IRequestHandler {
     void setActivity(MainActivity activity);
     void setIntent(Intent intent);
     void setAppActivity(AppCompatActivity appActivity);
-    void setMessengerFragment(MessengerFragment fragment);
+    void setMessengerModel(IMessengerViewModel messengerModel);
 }

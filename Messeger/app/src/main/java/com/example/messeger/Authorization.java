@@ -6,11 +6,12 @@ import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 
 import Handlers.SwitchActivity;
-import Handlers.ISwitchHandler;
+import Handlers.IHandlers.ISwitchHandler;
 import ViewModels.AuthorizationAndRegistrationModel;
+import ViewModels.IViewModels.IAuthorizationAndRegistrationModel;
 
 public class Authorization extends AppCompatActivity {
-    private AuthorizationAndRegistrationModel model;
+    private IAuthorizationAndRegistrationModel model;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

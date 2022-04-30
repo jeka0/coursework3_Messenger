@@ -9,10 +9,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class DB {
+public class DB implements IDB{
     private String usersPath ="database\\users.json";
     private File userChatsDir = new File("database\\userChats"), ChatsDir = new File("database\\Chats"), usersFile = new File(usersPath);
     private static DB db;
+
     private DB(){
         try {
         userChatsDir.mkdirs();
@@ -44,9 +45,6 @@ public class DB {
                     return false;
         }
         CreateUser(user);
-        /*Chat chat = new Chat("AAAA");
-        chat.addUser(user);
-        addChat(chat);*/
         return true;
     }
     public void CreateUser(User newUser)

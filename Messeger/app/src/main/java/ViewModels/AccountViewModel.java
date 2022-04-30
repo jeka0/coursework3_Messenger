@@ -2,11 +2,10 @@ package ViewModels;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import ViewModels.MyViewModel;
+import ViewModels.IViewModels.IAccountViewModel;
 
-public class AccountViewModel extends MyViewModel {
+public class AccountViewModel extends ChatMenuModel implements IAccountViewModel {
 
     private final MutableLiveData<String> mText;
 
