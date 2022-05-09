@@ -26,8 +26,9 @@ public class RequestHandler implements IRequestHandler{
         switch (request.getRequest())
         {
             case "Add":
-                db.addMessage("database\\Chats\\chat.json", (Message)request.getData());
-                server.UpdateFlags();
+                Message message = (Message)request.getData();
+                db.addMessage(message);
+                server.UpdateFlags(message.getChatName());
             break;
             case "CheckUser":
                 if(db.CheckUserPassword((User)request.getData()))answer(new Request("AnswerYes"));
@@ -44,7 +45,7 @@ public class RequestHandler implements IRequestHandler{
                 db.addChat((Chat)request.getData());
                 break;
             case "GetChats":
-                answer(new Request("UpdateChats", db.getChats((User)request.getData())));
+                answer(new Request("UpdateChats", db.getChats((String)request.getData())));
                 break;
         }
     }
@@ -53,7 +54,7 @@ public class RequestHandler implements IRequestHandler{
         switch (request.getRequest())
         {
             case "UpdatePosts":
-                Message[] messages = db.getMessages("database\\Chats\\chat.json");
+                Message[] messages = db.getMessages((String) request.getData());
                 recAndSendData.pushObject(new Request("UpdateMessages", messages));
                 break;
             case "AnswerYes":

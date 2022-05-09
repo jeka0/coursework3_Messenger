@@ -28,9 +28,12 @@ public class Server implements IServer{
             executeIt.shutdown();
         }catch (IOException e){System.out.println(e.getMessage());}
     }
-    public void UpdateFlags()
+    public void UpdateFlags(String chat)
     {
-        for(IMonoThreadClient client:clients)client.setUpdateMessagesFlag(true);
+        for(IMonoThreadClient client:clients) {
+            client.setNameChat(chat);
+            client.setUpdateMessagesFlag(true);
+        }
     }
     public void removeThread(IMonoThreadClient threadClient)
     {

@@ -8,9 +8,9 @@ public interface IDB {
     boolean CheckUserPassword(User user);
     boolean UserRegistration(User user);
     void CreateUser(User newUser);
-    void addMessage(String path, Message message);
+    void addMessage(Message message);
     void addChat(Chat chat);
-    Chat[] getChats(User user);
-    String[] getChatsNames(User user);
+    Chat[] getChats(String user);
+    String[] getChatsNames(String user);
     Message[] getMessages(String path);
 }

@@ -28,16 +28,18 @@ public class ClientAccess implements IInternet {
         client = new Client(ip);
         new Thread(()->
         {
-            client.Connect();
-            if(client.isConnected())Listen();
+            while(!client.isConnected()) {
+                client.Connect();
+                if (client.isConnected()) Listen();
+            }
         }).start();
     }
 
-    public void pushMessage(String message) {
+    public void pushMessage(String chat, String message) {
         try {
            if(activity!=null&&client.isConnected())
            {
-               client.pushObject(new Request("Add",new Message(model.getUser().getName(),message)));
+               client.pushObject(new Request("Add",new Message(model.getUser().getName(),chat,message)));
            }
         }catch(IOException e){System.out.println(e.getMessage());}
     }
@@ -60,12 +62,12 @@ public class ClientAccess implements IInternet {
             }
         }catch(IOException e){System.out.println(e.getMessage());}
     }
-    public void UpdatePosts()
+    public void UpdatePosts(String chat)
     {
         try {
             if(client.isConnected())
             {
-                client.pushObject(new Request("UpdatePosts"));
+                client.pushObject(new Request("UpdatePosts",chat));
             }
         }catch(IOException e){System.out.println(e.getMessage());}
     }
@@ -74,7 +76,7 @@ public class ClientAccess implements IInternet {
         try {
             if(client.isConnected())
             {
-                client.pushObject(new Request("GetChats",user));
+                client.pushObject(new Request("GetChats",user.getName()));
             }
         }catch(IOException e){System.out.println(e.getMessage());}
     }
@@ -85,7 +87,7 @@ public class ClientAccess implements IInternet {
                 Request request = (Request) client.receiveObject();
                 requestHandler.handle(request);
             }
-        }catch(IOException e){System.out.println(e.getMessage());}
+        }catch(IOException e){client.setConnection(false);}
         catch (ClassNotFoundException e){System.out.println(e.getMessage());}
     }
     public void setIntent(Intent intent){requestHandler.setIntent(intent);}

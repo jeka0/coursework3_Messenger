@@ -16,10 +16,10 @@ public class ChatClickHandler implements IChatClickHandler {
         this.viewModel = viewModel;
         this.activity = viewModel.getMenuActivity();
     }
-    @Override
-    public void onClick(View view) {
+    public void onClick(View view, int position) {
 
         Intent intent = new Intent(activity, MainActivity.class);
+        intent.putExtra("position",position);
         activity.startActivity(intent);
     }
 }

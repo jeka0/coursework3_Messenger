@@ -11,7 +11,7 @@ import business.Chat;
 public class MessengerViewModel extends ChatMenuModel implements IMessengerViewModel {
     private MessengerFragment messengerFragment;
     private final MutableLiveData<String> mText;
-    private Chat[] chats = new Chat[0];
+    private static Chat[] chats = new Chat[0];
 
     public MessengerViewModel() {
         super();

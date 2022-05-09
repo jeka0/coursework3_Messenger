@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Chat implements Serializable {
     private String Name;
     private ArrayList<Message> messages = new ArrayList<>();
-    private ArrayList<User> users = new ArrayList<>();
+    private ArrayList<String> users = new ArrayList<>();
     public Chat(){}
     public Chat(String Name)
     {
@@ -26,10 +26,10 @@ public class Chat implements Serializable {
     {
         return messages;
     }
-    public ArrayList<User> getUsers() {
+    public ArrayList<String> getUsers() {
         return users;
     }
-    public void addUser(User user)
+    public void addUser(String user)
     {
         users.add(user);
     }

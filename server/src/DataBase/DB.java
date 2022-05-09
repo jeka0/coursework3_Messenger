@@ -65,12 +65,15 @@ public class DB implements IDB{
         User[] users =json.Read(User[].class);
         if(users!=null)return users;else return new User[0];
     }
-    public void addMessage(String path, Message message)
+    public void addMessage(Message message)
     {
+        String path = "database\\Chats\\"+message.getChatName()+".json";
         JsonWork json = new JsonWork(path);
-        ArrayList<Message> messages = new ArrayList<>(Arrays.asList(getMessages(path)));
-        messages.add(message);
-        json.Write(messages);
+        Chat chat = getChat(message.getChatName());
+        /*ArrayList<Message> messages = chat.getMessages();
+        messages.add(message);*/
+        chat.addMessage(message);
+        json.Write(chat);
     }
     public void addChat(Chat chat)
     {
@@ -80,8 +83,8 @@ public class DB implements IDB{
             File file = new File(chatPath);
             file.createNewFile();
             json.Write(chat);
-            for (User user : chat.getUsers()) {
-                String userChats = "database\\userChats\\" + user.getName() + ".json";
+            for (String user : chat.getUsers()) {
+                String userChats = "database\\userChats\\" + user  + ".json";
                 File userFile = new File(userChats);
                 if(!userFile.exists())userFile.createNewFile();
                 JsonWork userChatsJson = new JsonWork(userChats);
@@ -91,7 +94,7 @@ public class DB implements IDB{
             }
         }catch (IOException e){System.out.println(e.getMessage());}
     }
-    public Chat[] getChats(User user)
+    public Chat[] getChats(String user)
     {
         ArrayList<String> chatsNames = new ArrayList<>(Arrays.asList(getChatsNames(user)));
         ArrayList<Chat> chats = new ArrayList<>();
@@ -107,17 +110,23 @@ public class DB implements IDB{
         }
         return chats.toArray(Chat[]::new);
     }
-    public String[] getChatsNames(User user)
+    public String[] getChatsNames(String user)
     {
-        String userChats = "database\\userChats\\" + user.getName() + ".json";
+        String userChats = "database\\userChats\\" + user + ".json";
         JsonWork json = new JsonWork(userChats);
         String[] strs = json.Read(String[].class);
         if(strs!=null)return strs;else return new String[0];
     }
-    public Message[] getMessages(String path)
+    private Chat getChat(String chatName)
     {
+        String path = "database\\Chats\\"+chatName+".json";
         JsonWork json = new JsonWork(path);
-        Message[] messages = json.Read(Message[].class);
+       Chat chat = json.Read(Chat.class);
+       if(chat!=null)return chat;else return new Chat();
+    }
+    public Message[] getMessages(String chat)
+    {
+        Message[] messages = getChat(chat).getMessages().toArray(new Message[0]);
         if(messages!=null)return messages;else return new Message[0];
     }
 }

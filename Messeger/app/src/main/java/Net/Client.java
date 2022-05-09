@@ -37,6 +37,7 @@ public class Client {
     {
         return socket.isOutputShutdown();
     }
+    public void setConnection(boolean flag){connected=flag;}
     public boolean isConnected()
     {
         return connected;

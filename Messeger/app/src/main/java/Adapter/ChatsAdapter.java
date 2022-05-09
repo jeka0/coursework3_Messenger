@@ -27,10 +27,10 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatViewHold
             super(view);
             this.chatName = view.findViewById(R.id.chat_name);
         }
-        public void bind(Chat chat)
+        public void bind(Chat chat,int position)
         {
             chatName.setText(chat.getName());
-            itemView.setOnClickListener(clickHandler);
+            itemView.setOnClickListener((View view)-> clickHandler.onClick(view,position));
         }
 
     }
@@ -59,7 +59,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ChatsAdapter.ChatViewHolder holder, int position) {
-        holder.bind(chatList.get(position));
+        holder.bind(chatList.get(position),position);
     }
 
     @Override

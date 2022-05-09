@@ -14,6 +14,8 @@ public class MonoThreadClient implements IMonoThreadClient{
     private IServer server;
     private ReceivingAndSendingData recAndSendData;
     private IRequestHandler requestHandler;
+    private String NameChat;
+    private Thread listener;
     private boolean flag = false;
 
     public MonoThreadClient(Socket client, IServer server) {
@@ -21,7 +23,8 @@ public class MonoThreadClient implements IMonoThreadClient{
         this.server = server;
         recAndSendData = new ReceivingAndSendingData(client);
         requestHandler = new RequestHandler(recAndSendData, server);
-        new Thread(()-> Listener()).start();
+        listener = new Thread(()-> Listener());
+        listener.start();
     }
     public void run() {
         try {
@@ -40,7 +43,7 @@ public class MonoThreadClient implements IMonoThreadClient{
             while (!client.isClosed()) {
                 if (!GettingData()) break;
             }
-        }catch(IOException e){System.out.println("Client disabled");closeClient();}
+        }catch(IOException e){closeClient();}
         catch (ClassNotFoundException e){System.out.println(e.getMessage());}
     }
     private boolean GettingData() throws IOException, ClassNotFoundException
@@ -52,7 +55,7 @@ public class MonoThreadClient implements IMonoThreadClient{
     }
     private void SubmitReply() throws IOException
     {
-        requestHandler.answer(new Request("UpdatePosts"));
+        requestHandler.answer(new Request("UpdatePosts",NameChat));
     }
 
     public void setUpdateMessagesFlag(boolean flag) { this.flag = flag; }
@@ -63,6 +66,11 @@ public class MonoThreadClient implements IMonoThreadClient{
             server.removeThread(this);
             recAndSendData.ClosingStreams();
             client.close();
+            System.out.println("Client disabled");
         }catch (IOException e){System.out.println(e.getMessage());}
+    }
+
+    public void setNameChat(String nameChat) {
+        NameChat = nameChat;
     }
 }

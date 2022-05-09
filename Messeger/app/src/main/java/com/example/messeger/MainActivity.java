@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
         initRecyclerView();
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         mainViewModel.getClientAccess().setMainActivity(this);
-        findViewById(R.id.sendBut).setOnClickListener(new SubmitClickListener(this,mainViewModel.getClientAccess()));
+        mainViewModel.setPosition(getIntent().getIntExtra("position",0));
+        findViewById(R.id.sendBut).setOnClickListener(new SubmitClickListener(this,mainViewModel));
         loadMessages();
     }
     private Collection<Message> getMessages()
