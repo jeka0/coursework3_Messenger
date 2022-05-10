@@ -2,6 +2,7 @@ package business;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Chat implements Serializable {
     private String Name;
@@ -26,6 +27,12 @@ public class Chat implements Serializable {
     {
         return messages;
     }
+
+    public void setMessages(Message[] messages) {
+        this.messages.clear();
+        this.messages.addAll(Arrays.asList(messages));
+    }
+
     public ArrayList<String> getUsers() {
         return users;
     }

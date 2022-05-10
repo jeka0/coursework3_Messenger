@@ -100,10 +100,6 @@ public class ClientAccess implements IInternet {
     public void setMessengerModel(IMessengerViewModel messengerModel) {
         requestHandler.setMessengerModel(messengerModel);
     }
-
-    public void setMessages(Message[] messages) {
-        activity.getMainViewModel().setMessages(messages);
-    }
     public boolean isConnected()
     {
         return client.isConnected();

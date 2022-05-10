@@ -20,7 +20,6 @@ public interface IInternet {
     void setAppActivity(AppCompatActivity activity);
     void setMainActivity(MainActivity activity);
     void UpdatePosts(String chat);
-    void setMessages(Message[] messages);
     boolean isConnected();
     void UpdateChats(User user);
     void setMessengerModel(IMessengerViewModel messengerModel);

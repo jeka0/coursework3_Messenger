@@ -7,6 +7,7 @@ import com.example.messeger.uimenu.messenger.MessengerFragment;
 
 import ViewModels.IViewModels.IMessengerViewModel;
 import business.Chat;
+import business.Message;
 
 public class MessengerViewModel extends ChatMenuModel implements IMessengerViewModel {
     private MessengerFragment messengerFragment;
@@ -22,6 +23,12 @@ public class MessengerViewModel extends ChatMenuModel implements IMessengerViewM
 
     public void setMessengerFragment(MessengerFragment messengerFragment) {
         this.messengerFragment = messengerFragment;
+    }
+    public void setMessages(Message[] messages)
+    {
+        Chat chat=null;
+        for(Chat nowChat : chats) if(nowChat.getName().equals(messages[0].getChatName())){chat=nowChat;break;}
+        if(chat!=null)chat.setMessages(messages);
     }
 
     public MessengerFragment getMessengerFragment() {

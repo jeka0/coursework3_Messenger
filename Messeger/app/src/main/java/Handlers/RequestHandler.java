@@ -28,7 +28,7 @@ public class RequestHandler implements IRequestHandler {
         switch (request.getRequest())
         {
             case "UpdateMessages":
-                IInternet.setMessages((Message[]) request.getData());
+                messengerModel.setMessages((Message[]) request.getData());
                 activity.runOnUiThread(() -> activity.loadMessages());
                 break;
             case "Answer":
