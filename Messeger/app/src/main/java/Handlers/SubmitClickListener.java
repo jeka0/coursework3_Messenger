@@ -10,6 +10,7 @@ import Handlers.IHandlers.ISubmitClickListener;
 import Net.IInternet;
 import ViewModels.IViewModels.IMainViewModel;
 import ViewModels.MainViewModel;
+import business.Message;
 
 public class SubmitClickListener implements ISubmitClickListener {
     private MainActivity activity;
@@ -27,8 +28,11 @@ public class SubmitClickListener implements ISubmitClickListener {
     public void onClick(View view) {
         EditText editText = activity.findViewById(R.id.messageField);
         String text = editText.getText().toString();
-        if (text.equals("")) return;
-        new Thread(()-> IInternet.pushMessage(chatName,text)).start();
+        byte[] image = model.getImage();
+        if (text.equals("") && image ==null) return;
+        Message message = new Message(model.getUser().getName(),chatName,text);
+        if(image!=null){message.setImage(image);model.setImage(null);}
+        new Thread(()-> IInternet.pushMessage(message)).start();
         editText.setText("");
     }
 }

@@ -8,6 +8,7 @@ public class Message implements Serializable {
     private String textMessage;
     private long messageTime;
     private byte[] image;
+    private String imagePath;
     public Message(){}
     public Message(String userName,String chatName,String textMessage)
     {
@@ -30,6 +31,14 @@ public class Message implements Serializable {
 
     public byte[] getImage() {
         return image;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public String getImagePath() {
+        return imagePath;
     }
 
     public String getChatName() {

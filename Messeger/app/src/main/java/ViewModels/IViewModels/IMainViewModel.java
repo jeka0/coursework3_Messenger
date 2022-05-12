@@ -7,4 +7,6 @@ public interface IMainViewModel extends IMessengerViewModel{
     Message[] getMessages();
     void setPosition(int position);
     String getChatName();
+    byte[] getImage();
+    void setImage(byte[] image);
 }

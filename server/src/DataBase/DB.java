@@ -72,8 +72,15 @@ public class DB implements IDB{
         String path = "database\\Chats\\"+message.getChatName()+".json";
         JsonWork json = new JsonWork(path);
         Chat chat = getChat(message.getChatName());
-        /*ArrayList<Message> messages = chat.getMessages();
-        messages.add(message);*/
+        byte[] image = message.getImage();
+        if(image!=null)
+        {
+            String imagePath = image.hashCode()+".jpg";
+            WorkWithFile work = new WorkWithFile(imagePath);
+            work.WriteFile(image);
+            message.setImagePath(imagePath);
+            message.setImage(null);
+        }
         chat.addMessage(message);
         json.Write(chat);
     }
@@ -129,10 +136,16 @@ public class DB implements IDB{
     public Message[] getMessages(String chat)
     {
         Message[] messages = getChat(chat).getMessages().toArray(new Message[0]);
-        try {
-            FileInputStream inF = new FileInputStream("database\\1.jpg");
-            messages[0].setImage(inF.readAllBytes());
-        }catch (FileNotFoundException e){}catch (IOException e){}
+        for(Message message:messages)
+        {
+            String path = message.getImagePath();
+            if(path!=null)
+            {
+                WorkWithFile work = new WorkWithFile(path);
+                message.setImage(work.ReadFile());
+                message.setImagePath(null);
+            }
+        }
         if(messages!=null)return messages;else return new Message[0];
     }
 }

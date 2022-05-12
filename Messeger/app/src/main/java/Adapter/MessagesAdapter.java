@@ -1,6 +1,5 @@
 package Adapter;
 
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -35,14 +34,15 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
             this.messageTime = view.findViewById(R.id.text_time);
             this.messageText = view.findViewById(R.id.text_message);
             this.image=view.findViewById(R.id.imageView2);
+
         }
         public void bind(Message message)
         {
             userName.setText(message.getUserName());
-            messageTime.setText(DateFormat.format("dd-MM-yyyy HH:mm:ss",message.getMessageTime()));
+            messageTime.setText(DateFormat.format("HH:mm",message.getMessageTime()));
             messageText.setText(message.getTextMessage());
             byte[] bytes = message.getImage();
-            if(bytes!=null)image.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+            if(bytes!=null)image.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));else image.setImageBitmap(null);
         }
 
     }

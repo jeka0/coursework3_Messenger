@@ -12,7 +12,7 @@ import business.User;
 
 public interface IInternet {
 
-    void pushMessage(String chat,String message);
+    void pushMessage(Message message);
     void checkUser(User user);
     void UserRegistration(User user);
     void Listen();

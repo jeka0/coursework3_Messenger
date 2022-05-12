@@ -35,11 +35,11 @@ public class ClientAccess implements IInternet {
         }).start();
     }
 
-    public void pushMessage(String chat, String message) {
+    public void pushMessage(Message message) {
         try {
            if(activity!=null&&client.isConnected())
            {
-               client.pushObject(new Request("Add",new Message(model.getUser().getName(),chat,message)));
+               client.pushObject(new Request("Add",message));
            }
         }catch(IOException e){System.out.println(e.getMessage());}
     }
