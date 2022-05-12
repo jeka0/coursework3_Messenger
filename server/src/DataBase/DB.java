@@ -5,6 +5,8 @@ import business.Message;
 import business.User;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -127,6 +129,10 @@ public class DB implements IDB{
     public Message[] getMessages(String chat)
     {
         Message[] messages = getChat(chat).getMessages().toArray(new Message[0]);
+        try {
+            FileInputStream inF = new FileInputStream("database\\1.jpg");
+            messages[0].setImage(inF.readAllBytes());
+        }catch (FileNotFoundException e){}catch (IOException e){}
         if(messages!=null)return messages;else return new Message[0];
     }
 }

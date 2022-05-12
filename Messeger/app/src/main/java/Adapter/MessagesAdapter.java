@@ -1,8 +1,11 @@
 package Adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,18 +27,22 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
         private TextView userName;
         private TextView messageTime;
         private TextView messageText;
+        private ImageView image;
         public MessageViewHolder(View view)
         {
             super(view);
             this.userName = view.findViewById(R.id.text_user_name);
             this.messageTime = view.findViewById(R.id.text_time);
             this.messageText = view.findViewById(R.id.text_message);
+            this.image=view.findViewById(R.id.imageView2);
         }
         public void bind(Message message)
         {
             userName.setText(message.getUserName());
             messageTime.setText(DateFormat.format("dd-MM-yyyy HH:mm:ss",message.getMessageTime()));
             messageText.setText(message.getTextMessage());
+            byte[] bytes = message.getImage();
+            if(bytes!=null)image.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
         }
 
     }

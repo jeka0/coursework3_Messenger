@@ -7,6 +7,7 @@ public class Message implements Serializable {
     private String chatName;
     private String textMessage;
     private long messageTime;
+    private byte[] image;
     public Message(){}
     public Message(String userName,String chatName,String textMessage)
     {
@@ -21,6 +22,14 @@ public class Message implements Serializable {
 
     public void setChatName(String chatName) {
         this.chatName = chatName;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public byte[] getImage() {
+        return image;
     }
 
     public String getChatName() {
