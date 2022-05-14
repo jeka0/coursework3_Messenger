@@ -1,6 +1,7 @@
 package ViewModels.IViewModels;
 
 import business.Message;
+import business.MyFIle;
 import business.User;
 
 public interface IMainViewModel extends IMessengerViewModel{
@@ -9,4 +10,6 @@ public interface IMainViewModel extends IMessengerViewModel{
     String getChatName();
     byte[] getImage();
     void setImage(byte[] image);
+    void setFile(MyFIle file);
+    MyFIle getFile();
 }

@@ -13,14 +13,20 @@ public class WorkingWithFile {
         this.imageStream=imageStream;
     }
 
-    public byte[] ReadBytes()
+    public byte[] ReadImageBytes()
     {
         try {
+
             Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             return baos.toByteArray();
-        }catch (RuntimeException e){}
+        }catch (RuntimeException e){System.out.println(e.getMessage());}
+        return null;
+    }
+    public byte[] ReadBytes()
+    {
+
         return null;
     }
 

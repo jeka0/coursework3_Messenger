@@ -32,7 +32,7 @@ public class Server implements IServer{
     {
         for(IMonoThreadClient client:clients) {
             client.setNameChat(chat);
-            client.setUpdateMessagesFlag(true);
+            client.Notify();
         }
     }
     public void removeThread(IMonoThreadClient threadClient)

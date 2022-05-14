@@ -18,8 +18,8 @@ public class ImageSelectionHandler implements IImageSelectionHandler {
     }
     @Override
     public void onClick(View view) {
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-        photoPickerIntent.setType("image/*");
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK/*Intent.ACTION_GET_CONTENT*/);
+        photoPickerIntent.setType("image/*"/*"file/*"*/);
         mainActivity.startActivityForResult(photoPickerIntent, 1);
     }
 

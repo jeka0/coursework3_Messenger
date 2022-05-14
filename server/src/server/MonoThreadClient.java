@@ -15,7 +15,6 @@ public class MonoThreadClient implements IMonoThreadClient{
     private ReceivingAndSendingData recAndSendData;
     private IRequestHandler requestHandler;
     private String NameChat;
-    private Thread listener;
     private boolean flag = false;
 
     public MonoThreadClient(Socket client, IServer server) {
@@ -23,28 +22,21 @@ public class MonoThreadClient implements IMonoThreadClient{
         this.server = server;
         recAndSendData = new ReceivingAndSendingData(client);
         requestHandler = new RequestHandler(recAndSendData, server);
-        listener = new Thread(()-> Listener());
-        listener.start();
     }
     public void run() {
         try {
             System.out.println(client.getInetAddress());
-            while (!client.isClosed()) {
-                if (flag) {
-                    SubmitReply();
-                    flag=false;
+                while (!client.isClosed()) {
+                    if (!GettingData()) break;
                 }
-            }
-        }catch (IOException e){System.out.println(e.getMessage());}
+            }catch(IOException e){closeClient();}
+            catch (ClassNotFoundException e){System.out.println(e.getMessage());}
     }
-    private void Listener()
+    public void Notify()
     {
         try {
-            while (!client.isClosed()) {
-                if (!GettingData()) break;
-            }
-        }catch(IOException e){closeClient();}
-        catch (ClassNotFoundException e){System.out.println(e.getMessage());}
+            SubmitReply();
+        }catch (IOException e){System.out.println(e.getMessage());}
     }
     private boolean GettingData() throws IOException, ClassNotFoundException
     {

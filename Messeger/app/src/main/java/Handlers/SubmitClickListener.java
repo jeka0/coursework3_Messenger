@@ -11,6 +11,7 @@ import Net.IInternet;
 import ViewModels.IViewModels.IMainViewModel;
 import ViewModels.MainViewModel;
 import business.Message;
+import business.MyFIle;
 
 public class SubmitClickListener implements ISubmitClickListener {
     private MainActivity activity;
@@ -29,9 +30,11 @@ public class SubmitClickListener implements ISubmitClickListener {
         EditText editText = activity.findViewById(R.id.messageField);
         String text = editText.getText().toString();
         byte[] image = model.getImage();
-        if (text.equals("") && image ==null) return;
+        MyFIle file = model.getFile();
+        if (text.equals("") && image ==null && file==null) return;
         Message message = new Message(model.getUser().getName(),chatName,text);
         if(image!=null){message.setImage(image);model.setImage(null);}
+        if(file!=null){message.setFile(file);model.setFile(null);}
         new Thread(()-> IInternet.pushMessage(message)).start();
         editText.setText("");
     }

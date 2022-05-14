@@ -3,10 +3,12 @@ package ViewModels;
 import ViewModels.IViewModels.IMainViewModel;
 import business.Chat;
 import business.Message;
+import business.MyFIle;
 
 public class MainViewModel extends MessengerViewModel implements IMainViewModel {
     private Chat chat;
     private byte[] image;
+    private MyFIle file;
     public MainViewModel()
     {
         super();
@@ -24,6 +26,14 @@ public class MainViewModel extends MessengerViewModel implements IMainViewModel 
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public void setFile(MyFIle file) {
+        this.file = file;
+    }
+
+    public MyFIle getFile() {
+        return file;
     }
 
     public String getChatName(){return chat.getName();}

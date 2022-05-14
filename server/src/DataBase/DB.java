@@ -2,6 +2,7 @@ package DataBase;
 
 import business.Chat;
 import business.Message;
+import business.MyFIle;
 import business.User;
 
 import java.io.File;
@@ -73,6 +74,15 @@ public class DB implements IDB{
         JsonWork json = new JsonWork(path);
         Chat chat = getChat(message.getChatName());
         byte[] image = message.getImage();
+        MyFIle myFIle = message.getFile();
+        if(myFIle!=null&&myFIle.getData()!=null)
+        {
+            String filePath = myFIle.getData().hashCode()+"." + myFIle.getExtension();
+            WorkWithFile work = new WorkWithFile(filePath);
+            work.WriteFile(myFIle.getData());
+            myFIle.setPath(filePath);
+            myFIle.setData(null);
+        }
         if(image!=null)
         {
             String imagePath = image.hashCode()+".jpg";
@@ -144,6 +154,13 @@ public class DB implements IDB{
                 WorkWithFile work = new WorkWithFile(path);
                 message.setImage(work.ReadFile());
                 message.setImagePath(null);
+            }
+            MyFIle myFIle = message.getFile();
+            if(myFIle!=null&&myFIle.getPath()!=null)
+            {
+                WorkWithFile work = new WorkWithFile(myFIle.getPath());
+                myFIle.setData(work.ReadFile());
+                myFIle.setPath(null);
             }
         }
         if(messages!=null)return messages;else return new Message[0];

@@ -7,6 +7,7 @@ public class Message implements Serializable {
     private String chatName;
     private String textMessage;
     private long messageTime;
+    private MyFIle file;
     private byte[] image;
     private String imagePath;
     public Message(){}
@@ -29,6 +30,10 @@ public class Message implements Serializable {
         this.image = image;
     }
 
+    public void setFile(MyFIle file) {
+        this.file = file;
+    }
+
     public byte[] getImage() {
         return image;
     }
@@ -39,6 +44,10 @@ public class Message implements Serializable {
 
     public String getImagePath() {
         return imagePath;
+    }
+
+    public MyFIle getFile() {
+        return file;
     }
 
     public String getChatName() {

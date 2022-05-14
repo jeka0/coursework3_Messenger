@@ -29,12 +29,12 @@
 
         <ImageView
             android:id="@+id/imageAdd"
-            android:layout_width="40dp"
-            android:layout_height="48dp"
+            android:layout_width="28dp"
+            android:layout_height="46dp"
             android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_menu_add" />
+            app:srcCompat="@drawable/ic_add_file" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/sendBut"

@@ -28,8 +28,10 @@ public class RequestHandler implements IRequestHandler {
         switch (request.getRequest())
         {
             case "UpdateMessages":
-                messengerModel.setMessages((Message[]) request.getData());
-                activity.runOnUiThread(() -> activity.loadMessages());
+                if(messengerModel!=null&&activity!=null) {
+                    messengerModel.setMessages((Message[]) request.getData());
+                    activity.runOnUiThread(() -> activity.loadMessages());
+                }
                 break;
             case "Answer":
                 if(appActivity!=null&&intent!=null) {
@@ -39,8 +41,10 @@ public class RequestHandler implements IRequestHandler {
                 }
                 break;
             case "UpdateChats":
-                messengerModel.setChats((Chat[]) request.getData());
-                messengerModel.getMenuActivity().runOnUiThread(() -> messengerModel.getMessengerFragment().loadChats());
+                if(messengerModel!=null) {
+                    messengerModel.setChats((Chat[]) request.getData());
+                    messengerModel.getMenuActivity().runOnUiThread(() -> messengerModel.getMessengerFragment().loadChats());
+                }
                 break;
         }
     }
