@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.Collection;
 
 import Adapter.MessagesAdapter;
 import Data.WorkingWithFile;
+import Handlers.FileSelectionHandler;
 import Handlers.ImageSelectionHandler;
 import Handlers.SubmitClickListener;
 import ViewModels.IViewModels.IMainViewModel;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel.setPosition(getIntent().getIntExtra("position",0));
         findViewById(R.id.sendBut).setOnClickListener(new SubmitClickListener(this,mainViewModel));
         findViewById(R.id.imageAdd).setOnClickListener(new ImageSelectionHandler(this,mainViewModel));
+        findViewById(R.id.fileAdd).setOnClickListener(new FileSelectionHandler(this,mainViewModel));
         loadMessages();
     }
 
@@ -75,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
             case 1:
                 if(resultCode == RESULT_OK){
                     try {
-                    WorkingWithFile working = new WorkingWithFile(getContentResolver().openInputStream(imageReturnedIntent.getData()));
+                        Uri uri = imageReturnedIntent.getData();
+                    WorkingWithFile working = new WorkingWithFile(getContentResolver().openInputStream(uri),uri);
                     mainViewModel.setImage(working.ReadImageBytes());
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -86,14 +90,15 @@ public class MainActivity extends AppCompatActivity {
                 if(resultCode == RESULT_OK) {
                     try {
                         Uri uri = imageReturnedIntent.getData();
-                        WorkingWithFile working = new WorkingWithFile(getContentResolver().openInputStream(uri));
-                        String[] strs = imageReturnedIntent.getData().toString().split("\\.");
-                        String ext = strs[strs.length-1];
+                        File nowfile  = new File(uri.getPath());
+                        WorkingWithFile working = new WorkingWithFile(getContentResolver().openInputStream(uri),uri);
+                        String[] strs = nowfile.getName().split("\\.");
+                        String ext = strs[1];
                         if(ext.equals("jpg"))mainViewModel.setImage(working.ReadImageBytes());
                         else
                         {
                             MyFIle file = new MyFIle();
-                            file.setName("AA");
+                            file.setName(strs[0]);
                             file.setData(working.ReadBytes());
                             file.setExtension(ext);
                             mainViewModel.setFile(file);

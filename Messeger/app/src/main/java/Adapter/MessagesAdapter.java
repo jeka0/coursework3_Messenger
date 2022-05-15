@@ -14,6 +14,7 @@ import android.view.View;
 import com.example.messeger.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -54,7 +55,15 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
             messageText.setText(message.getTextMessage());
             byte[] bytesImage = message.getImage();
             MyFIle myFile = message.getFile();
-            if(myFile!=null)file.setVisibility(View.VISIBLE);else file.setVisibility(View.GONE);
+            if(myFile!=null&& myFile.getData()!=null) {
+                file.setVisibility(View.VISIBLE);
+                fileName.setText(myFile.getName());
+                int size = myFile.getData().length;
+                DecimalFormat df = new DecimalFormat("###.##");
+                String strSize="";
+                if(size/(1024.0*1024.0)>=1) strSize = df.format(size/(1024.0*1024.0)) +" MB";else if(size/1024.0>=1)strSize = df.format(size/1024.0) +" KB";else strSize = size +" Bytes";
+                fileInfo.setText(myFile.getExtension()+"/"+strSize);
+            }else file.setVisibility(View.GONE);
             if(bytesImage!=null)image.setImageBitmap(BitmapFactory.decodeByteArray(bytesImage, 0, bytesImage.length));else image.setImageBitmap(null);
         }
 

@@ -27,8 +27,14 @@ public class MessengerViewModel extends ChatMenuModel implements IMessengerViewM
     public void setMessages(Message[] messages)
     {
         Chat chat=null;
-        for(Chat nowChat : chats) if(nowChat.getName().equals(messages[0].getChatName())){chat=nowChat;break;}
-        if(chat!=null)chat.setMessages(messages);
+        if(messages!=null && messages.length!=0) {
+            for (Chat nowChat : chats)
+                if (nowChat.getName().equals(messages[0].getChatName())) {
+                    chat = nowChat;
+                    break;
+                }
+            if (chat != null) chat.setMessages(messages);
+        }
     }
 
     public MessengerFragment getMessengerFragment() {

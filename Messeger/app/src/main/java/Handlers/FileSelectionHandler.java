@@ -18,8 +18,8 @@ public class FileSelectionHandler implements IFileSelectionHandler {
     }
     @Override
     public void onClick(View view) {
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-        photoPickerIntent.setType("image/*");
+        Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        photoPickerIntent.setType("file/docx");
         mainActivity.startActivityForResult(photoPickerIntent, 10);
     }
 }

@@ -28,13 +28,22 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
+            android:id="@+id/fileAdd"
+            android:layout_width="31dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toEndOf="@+id/imageAdd"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_add_file" />
+
+        <ImageView
             android:id="@+id/imageAdd"
             android:layout_width="28dp"
-            android:layout_height="46dp"
+            android:layout_height="53dp"
             android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_add_file" />
+            app:srcCompat="@drawable/ic_image" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/sendBut"
@@ -56,12 +65,12 @@
         <LinearLayout
             android:id="@+id/text_layout"
             android:layout_width="0dp"
-            android:layout_height="54dp"
+            android:layout_height="53dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:layout_toStartOf="@id/sendBut"
             app:layout_constraintEnd_toStartOf="@+id/sendBut"
-            app:layout_constraintStart_toEndOf="@+id/imageAdd"
+            app:layout_constraintStart_toEndOf="@+id/fileAdd"
             app:layout_constraintTop_toTopOf="parent">
 
 
