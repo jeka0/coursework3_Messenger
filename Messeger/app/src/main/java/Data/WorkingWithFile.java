@@ -18,7 +18,6 @@ public class WorkingWithFile {
         this.stream=imageStream;
         this.uri=uri;
     }
-
     public byte[] ReadImageBytes()
     {
         try {

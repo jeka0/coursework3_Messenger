@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     {
         recyclerMessages = findViewById(R.id.recyclerView);
         recyclerMessages.setLayoutManager(new LinearLayoutManager(this));
-        messagesAdapter = new MessagesAdapter();
+        messagesAdapter = new MessagesAdapter(this);
         recyclerMessages.setAdapter(messagesAdapter);
     }
     @Override

@@ -1,6 +1,9 @@
 package Adapter;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -11,20 +14,29 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
+
+import com.example.messeger.MainActivity;
 import com.example.messeger.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import Data.Files;
 import business.Message;
 import business.MyFIle;
 
 public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MessageViewHolder>
 {
+    private MainActivity activity;
     private List<Message> messageList = new ArrayList<>();
+    public MessagesAdapter(MainActivity activity)
+    {
+        this.activity=activity;
+    }
     class MessageViewHolder extends RecyclerView.ViewHolder
     {
         private TextView userName;
@@ -56,6 +68,10 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
             byte[] bytesImage = message.getImage();
             MyFIle myFile = message.getFile();
             if(myFile!=null&& myFile.getData()!=null) {
+                Files files = new Files(myFile.getName()+"."+myFile.getExtension(),activity);
+                //Uri uri= Uri.parse(Environment.getExternalStorageDirectory()+File.separator+"Messenger"+ File.separator+myFile.getName()+"."+myFile.getExtension());
+                //System.out.println(uri.getPath());
+                Uri uri= files.Create(myFile.getData());
                 file.setVisibility(View.VISIBLE);
                 fileName.setText(myFile.getName());
                 int size = myFile.getData().length;
@@ -63,6 +79,12 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
                 String strSize="";
                 if(size/(1024.0*1024.0)>=1) strSize = df.format(size/(1024.0*1024.0)) +" MB";else if(size/1024.0>=1)strSize = df.format(size/1024.0) +" KB";else strSize = size +" Bytes";
                 fileInfo.setText(myFile.getExtension()+"/"+strSize);
+                fileButt.setOnClickListener((View view)->{
+
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(uri,"application/*");
+                    activity.startActivity(intent);
+                });
             }else file.setVisibility(View.GONE);
             if(bytesImage!=null)image.setImageBitmap(BitmapFactory.decodeByteArray(bytesImage, 0, bytesImage.length));else image.setImageBitmap(null);
         }
