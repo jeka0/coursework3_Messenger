@@ -23,6 +23,8 @@
         <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout-land/activity_authorization.xml" value="0.2" />
         <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout-land/activity_main.xml" value="0.31040564373897706" />
         <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout-land/activity_registration.xml" value="0.11979166666666667" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout-land/app_bar_chat_menu.xml" value="0.21119929453262787" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout-land/fragment_messenger.xml" value="0.27821869488536155" />
         <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/activity_authorization.xml" value="0.10416666666666667" />
         <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/activity_chat_menu.xml" value="0.35688405797101447" />
         <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/activity_main.xml" value="0.32447916666666665" />
@@ -33,7 +35,7 @@
         <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/fragment_messenger.xml" value="0.3182291666666667" />
         <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/fragment_settings.xml" value="0.3182291666666667" />
         <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/fragment_slideshow.xml" value="0.3182291666666667" />
-        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/layout_chat.xml" value="0.35688405797101447" />
+        <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/layout_chat.xml" value="0.67" />
         <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/layout_message.xml" value="0.33" />
         <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/layout/nav_header_chat_menu.xml" value="0.35688405797101447" />
         <entry key="..\:/Android/coursework3_Messenger/Messeger/app/src/main/res/menu/activity_chat_menu_drawer.xml" value="0.3182291666666667" />

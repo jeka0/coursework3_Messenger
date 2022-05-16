@@ -1,9 +1,7 @@
 package Data;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 
@@ -24,7 +22,7 @@ public class Files {
         this.path=path;
         this.activity=activity;
     }
-    public Uri Create(byte[] data)
+    public File Create(byte[] data)
     {
         try {
             if (isStoragePermissionGranted()) {
@@ -35,7 +33,7 @@ public class Files {
                 FileOutputStream stream = new FileOutputStream(newFile);
                 stream.write(data);
                 stream.close();
-                return Uri.fromFile(newFile);
+                return  newFile;
             }
         }catch (IOException e){System.out.println(e.getMessage());}
         return null;

@@ -43,7 +43,7 @@ public class RequestHandler implements IRequestHandler {
             case "UpdateChats":
                 if(messengerModel!=null) {
                     messengerModel.setChats((Chat[]) request.getData());
-                    messengerModel.getMenuActivity().runOnUiThread(() -> messengerModel.getMessengerFragment().loadChats());
+                    messengerModel.UpdateChats();
                 }
                 break;
         }

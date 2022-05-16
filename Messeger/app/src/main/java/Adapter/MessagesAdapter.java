@@ -7,11 +7,13 @@ import android.os.Environment;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
@@ -69,21 +71,25 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
             MyFIle myFile = message.getFile();
             if(myFile!=null&& myFile.getData()!=null) {
                 Files files = new Files(myFile.getName()+"."+myFile.getExtension(),activity);
-                //Uri uri= Uri.parse(Environment.getExternalStorageDirectory()+File.separator+"Messenger"+ File.separator+myFile.getName()+"."+myFile.getExtension());
-                //System.out.println(uri.getPath());
-                Uri uri= files.Create(myFile.getData());
                 file.setVisibility(View.VISIBLE);
                 fileName.setText(myFile.getName());
                 int size = myFile.getData().length;
                 DecimalFormat df = new DecimalFormat("###.##");
-                String strSize="";
-                if(size/(1024.0*1024.0)>=1) strSize = df.format(size/(1024.0*1024.0)) +" MB";else if(size/1024.0>=1)strSize = df.format(size/1024.0) +" KB";else strSize = size +" Bytes";
-                fileInfo.setText(myFile.getExtension()+"/"+strSize);
-                fileButt.setOnClickListener((View view)->{
-
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setDataAndType(uri,"application/*");
-                    activity.startActivity(intent);
+                String strSize = "";
+                if (size / (1024.0 * 1024.0) >= 1)
+                    strSize = df.format(size / (1024.0 * 1024.0)) + " MB";
+                else if (size / 1024.0 >= 1) strSize = df.format(size / 1024.0) + " KB";
+                else strSize = size + " Bytes";
+                fileInfo.setText(myFile.getExtension() + "/" + strSize);
+                fileButt.setOnClickListener((View view) -> {
+                    File nowFile = files.Create(myFile.getData());
+                    if(nowFile!=null) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setDataAndType(FileProvider.getUriForFile(activity, activity.getApplicationContext().getPackageName() + ".provider", nowFile),
+                                MimeTypeMap.getSingleton().getMimeTypeFromExtension(myFile.getExtension()));
+                        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        activity.startActivity(intent);
+                    }
                 });
             }else file.setVisibility(View.GONE);
             if(bytesImage!=null)image.setImageBitmap(BitmapFactory.decodeByteArray(bytesImage, 0, bytesImage.length));else image.setImageBitmap(null);

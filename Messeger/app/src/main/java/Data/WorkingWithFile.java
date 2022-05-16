@@ -32,6 +32,7 @@ public class WorkingWithFile {
     public byte[] ReadBytes()
     {
         try {
+
             byte[] buffer = new byte[1024*1024*2];
             int size = stream.read(buffer);
             byte[] bytes = new byte[size];

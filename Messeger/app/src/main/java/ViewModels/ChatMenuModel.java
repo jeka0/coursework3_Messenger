@@ -14,7 +14,6 @@ public class ChatMenuModel extends MyViewModel implements IChatMenuModel {
     public void setUser(User user)
     {
         super.setUser(user);
-        new Thread(()->super.getClientAccess().UpdateChats(getUser())).start();
     }
     public void setMenuActivity(ChatMenuActivity activity) {
         ChatMenuModel.menuActivity = activity;

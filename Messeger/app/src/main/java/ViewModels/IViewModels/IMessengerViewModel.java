@@ -9,9 +9,9 @@ import business.Message;
 
 public interface IMessengerViewModel extends IChatMenuModel{
     void setMessengerFragment(MessengerFragment messengerFragment);
-    MessengerFragment getMessengerFragment();
     void setMessages(Message[] messages);
     LiveData<String> getText();
     void setChats(Chat[] chats);
+    void UpdateChats();
     Chat[] getChats();
 }

@@ -80,6 +80,7 @@
                 android:layout_height="56dp"
                 android:autofillHints=""
                 android:hint="Введите сообщение..."
+                android:textColor="#000000"
                 android:textColorHint="#37474F" />
         </LinearLayout>
 

@@ -23,6 +23,7 @@ public class MessengerViewModel extends ChatMenuModel implements IMessengerViewM
 
     public void setMessengerFragment(MessengerFragment messengerFragment) {
         this.messengerFragment = messengerFragment;
+        if(chats.length==0)new Thread(()->super.getClientAccess().UpdateChats(getUser())).start();
     }
     public void setMessages(Message[] messages)
     {
@@ -36,9 +37,9 @@ public class MessengerViewModel extends ChatMenuModel implements IMessengerViewM
             if (chat != null) chat.setMessages(messages);
         }
     }
-
-    public MessengerFragment getMessengerFragment() {
-        return messengerFragment;
+    public void UpdateChats()
+    {
+        getMenuActivity().runOnUiThread(() -> messengerFragment.loadChats());
     }
 
     public LiveData<String> getText() {
