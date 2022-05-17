@@ -2,7 +2,7 @@ package Handlers.IHandlers;
 
 import android.widget.SearchView;
 
-public interface ISuggestionListener extends SearchView.OnSuggestionListener{
+public interface ISuggestionListener extends androidx.appcompat.widget.SearchView.OnSuggestionListener{
     @Override
     boolean onSuggestionSelect(int i);
     @Override

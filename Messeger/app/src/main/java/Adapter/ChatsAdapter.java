@@ -30,7 +30,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatViewHold
         public void bind(Chat chat,int position)
         {
             chatName.setText(chat.getName());
-            itemView.setOnClickListener((View view)-> clickHandler.onClick(view,position));
+            if(clickHandler!=null)itemView.setOnClickListener((View view)-> clickHandler.onClick(view,position));
         }
 
     }

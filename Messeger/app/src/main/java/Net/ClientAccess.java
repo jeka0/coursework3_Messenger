@@ -80,6 +80,15 @@ public class ClientAccess implements IInternet {
             }
         }catch(IOException e){System.out.println(e.getMessage());}
     }
+    public void UpdateSelectedChats()
+    {
+        try {
+            if(client.isConnected())
+            {
+                client.pushObject(new Request("GetSelectedChats",null));
+            }
+        }catch(IOException e){System.out.println(e.getMessage());}
+    }
     public void Listen()
     {
         try {

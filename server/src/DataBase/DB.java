@@ -113,9 +113,9 @@ public class DB implements IDB{
             }
         }catch (IOException e){System.out.println(e.getMessage());}
     }
-    public Chat[] getChats(String user)
+    public Chat[] getChats(String[] chatsStrs)
     {
-        ArrayList<String> chatsNames = new ArrayList<>(Arrays.asList(getChatsNames(user)));
+        ArrayList<String> chatsNames = new ArrayList<>(Arrays.asList(chatsStrs));
         ArrayList<Chat> chats = new ArrayList<>();
         for(String name : chatsNames)
         {
@@ -130,6 +130,15 @@ public class DB implements IDB{
             }catch (IOException e){System.out.println(e.getMessage());}
         }
         return chats.toArray(Chat[]::new);
+    }
+    public ArrayList<Chat> getSelectedChats()
+    {
+        String chatPath = "database\\Chats";
+        File dir = new File(chatPath);
+        if (!dir.exists()) dir.mkdirs();
+        String[] chatsNames = dir.list();
+        for(int i=0;i<chatsNames.length;i++)chatsNames[i]=chatsNames[i].split("\\.")[0];
+        return new ArrayList<>(Arrays.asList(getChats(chatsNames)));
     }
     public String[] getChatsNames(String user)
     {

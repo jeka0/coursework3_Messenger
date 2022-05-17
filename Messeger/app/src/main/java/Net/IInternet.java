@@ -16,6 +16,7 @@ public interface IInternet {
     void checkUser(User user);
     void UserRegistration(User user);
     void Listen();
+    void UpdateSelectedChats();
     void setIntent(Intent intent);
     void setAppActivity(AppCompatActivity activity);
     void setMainActivity(MainActivity activity);

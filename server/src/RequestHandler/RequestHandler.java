@@ -45,7 +45,10 @@ public class RequestHandler implements IRequestHandler{
                 db.addChat((Chat)request.getData());
                 break;
             case "GetChats":
-                answer(new Request("UpdateChats", db.getChats((String)request.getData())));
+                answer(new Request("UpdateChats", db.getChats(db.getChatsNames((String)request.getData()))));
+                break;
+            case "GetSelectedChats":
+                answer(new Request("UpdateSelectedChats",db.getSelectedChats()));
                 break;
         }
     }
@@ -65,6 +68,9 @@ public class RequestHandler implements IRequestHandler{
                 break;
             case "UpdateChats":
                 recAndSendData.pushObject(new Request("UpdateChats",request.getData()));
+                break;
+            case "UpdateSelectedChats":
+                recAndSendData.pushObject(new Request("UpdateSelectedChats",request.getData()));
                 break;
         }
     }

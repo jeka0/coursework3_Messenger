@@ -7,6 +7,7 @@ import business.User;
 
 public class ChatMenuModel extends MyViewModel implements IChatMenuModel {
     private static ChatMenuActivity menuActivity;
+    private static MessengerViewModel messengerModel;
     public ChatMenuModel()
     {
         super();
@@ -17,6 +18,14 @@ public class ChatMenuModel extends MyViewModel implements IChatMenuModel {
     }
     public void setMenuActivity(ChatMenuActivity activity) {
         ChatMenuModel.menuActivity = activity;
+    }
+
+    public static void setMessengerModel(MessengerViewModel messengerModel) {
+        ChatMenuModel.messengerModel = messengerModel;
+    }
+
+    public MessengerViewModel getMessengerModel() {
+        return messengerModel;
     }
 
     public ChatMenuActivity getMenuActivity() {

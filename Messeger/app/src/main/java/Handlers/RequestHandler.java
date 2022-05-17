@@ -8,6 +8,8 @@ import com.example.messeger.Authorization;
 import com.example.messeger.MainActivity;
 import com.example.messeger.Registration;
 
+import java.util.ArrayList;
+
 import Handlers.IHandlers.IRequestHandler;
 import Net.IInternet;
 import ViewModels.IViewModels.IMessengerViewModel;
@@ -51,6 +53,12 @@ public class RequestHandler implements IRequestHandler {
                 if(messengerModel!=null) {
                     messengerModel.setChats((Chat[]) request.getData());
                     messengerModel.UpdateChats();
+                }
+                break;
+            case "UpdateSelectedChats":
+                if(messengerModel!=null) {
+                    messengerModel.setSelectedChats((ArrayList<Chat>) request.getData());
+                    messengerModel.UpdateSelectedChats();
                 }
                 break;
         }

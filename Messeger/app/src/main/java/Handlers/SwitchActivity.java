@@ -45,9 +45,9 @@ public class SwitchActivity implements ISwitchHandler {
                 else
                 {
                     editTextRepPassword = activity.findViewById(R.id.editTextPasswordRepeat);
-                if(editTextPassword.getText().toString().equals(editTextRepPassword.getText().toString()))
+                    if(editTextPassword.getText().toString().equals(editTextRepPassword.getText().toString()))
                     entrance(activityClass,flag,(User user)-> IInternet.UserRegistration(user),view);
-                else editTextRepPassword.setError("Пароли должны совпадать!!!");
+                    else editTextRepPassword.setError("Пароли должны совпадать!!!");
                 }
                 break;
             default:
@@ -58,13 +58,20 @@ public class SwitchActivity implements ISwitchHandler {
     {
         Intent intent = new Intent(activity, activityClass);
         if(flag) {
-            if(IInternet.isConnected()) {
-                editTextName = activity.findViewById(R.id.editTextName);
-                User user = new User(editTextName.getText().toString(), editTextPassword.getText().toString());
-                intent.putExtra("User", user);
-                IInternet.setIntent(intent);
-                new Thread(() -> run.run(user)).start();
-            }else Snackbar.make(view, "No connection to server", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            editTextName = activity.findViewById(R.id.editTextName);
+            if(!editTextName.getText().toString().isEmpty()&&!editTextPassword.getText().toString().isEmpty()) {
+                if (IInternet.isConnected()) {
+                    User user = new User(editTextName.getText().toString(), editTextPassword.getText().toString());
+                    intent.putExtra("User", user);
+                    IInternet.setIntent(intent);
+                    new Thread(() -> run.run(user)).start();
+                } else
+                    Snackbar.make(view, "No connection to server", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }else
+            {
+                if(editTextName.getText().toString().isEmpty())editTextName.setError("Строка не должна быть пустой!!!");
+                if(editTextPassword.getText().toString().isEmpty())editTextPassword.setError("Строка не должна быть пустой!!!");
+            }
         }
         else activity.startActivity(intent);
     }
