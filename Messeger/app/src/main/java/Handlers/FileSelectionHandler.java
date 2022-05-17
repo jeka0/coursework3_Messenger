@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.example.messeger.MainActivity;
 
+import Data.Files;
 import Handlers.IHandlers.IFileSelectionHandler;
 import ViewModels.IViewModels.IMainViewModel;
 
@@ -18,8 +19,10 @@ public class FileSelectionHandler implements IFileSelectionHandler {
     }
     @Override
     public void onClick(View view) {
-        Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        photoPickerIntent.setType("file/docx");
-        mainActivity.startActivityForResult(photoPickerIntent, 10);
+        if(Files.isStoragePermissionGranted(mainActivity)) {
+            Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+            photoPickerIntent.setType("file/docx");
+            mainActivity.startActivityForResult(photoPickerIntent, 10);
+        }
     }
 }

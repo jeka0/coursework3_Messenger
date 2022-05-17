@@ -16,8 +16,7 @@ public class MainViewModel extends MessengerViewModel implements IMainViewModel 
     public void setPosition(int position)
     {
         chat = getChats()[position];
-        /*if(chat.getMessages()!=null)messages = chat.getMessages().toArray(new Message[0]);
-        else*/ new Thread(()->super.getClientAccess().UpdatePosts(chat.getName())).start();
+        if(chat.getMessages().size()==0) new Thread(()->super.getClientAccess().UpdatePosts(chat.getName())).start();
     }
 
     public byte[] getImage() {

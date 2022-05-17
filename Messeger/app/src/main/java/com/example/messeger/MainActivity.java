@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 
 import java.io.File;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 if(resultCode == RESULT_OK){
                     try {
                         Uri uri = imageReturnedIntent.getData();
-                    WorkingWithFile working = new WorkingWithFile(getContentResolver().openInputStream(uri),uri);
+                    WorkingWithFile working = new WorkingWithFile(getContentResolver().openInputStream(uri),0);
                     mainViewModel.setImage(working.ReadImageBytes());
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -90,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
                 if(resultCode == RESULT_OK) {
                     try {
                         Uri uri = imageReturnedIntent.getData();
-                        File nowfile  = new File(uri.getPath());
-                        WorkingWithFile working = new WorkingWithFile(getContentResolver().openInputStream(uri),uri);
+                        File nowfile  = new File(Environment.getExternalStorageDirectory()+uri.getPath().replace("/external_files",""));
+                        WorkingWithFile working = new WorkingWithFile(getContentResolver().openInputStream(uri),nowfile.length());
                         String[] strs = nowfile.getName().split("\\.");
                         String ext = strs[1];
                         if(ext.equals("jpg"))mainViewModel.setImage(working.ReadImageBytes());

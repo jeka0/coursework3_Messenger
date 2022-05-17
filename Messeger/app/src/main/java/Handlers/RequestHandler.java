@@ -4,7 +4,9 @@ import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.messeger.Authorization;
 import com.example.messeger.MainActivity;
+import com.example.messeger.Registration;
 
 import Handlers.IHandlers.IRequestHandler;
 import Net.IInternet;
@@ -37,6 +39,11 @@ public class RequestHandler implements IRequestHandler {
                 if(appActivity!=null&&intent!=null) {
                     if ((boolean) request.getData()) {
                         appActivity.runOnUiThread(() -> appActivity.startActivity(intent));
+                    }else
+                    {
+                        appActivity.runOnUiThread(() ->{
+                            if(appActivity instanceof Authorization)((Authorization)appActivity).setError();else
+                        ((Registration)appActivity).setError();});
                     }
                 }
                 break;

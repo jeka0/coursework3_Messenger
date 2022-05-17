@@ -124,7 +124,9 @@ public class DB implements IDB{
                 File userFile = new File(chatPath);
                 if (!userFile.exists()) userFile.createNewFile();
                 JsonWork json = new JsonWork(chatPath);
-                chats.add(json.Read(Chat.class));
+                Chat chat = json.Read(Chat.class);
+                chat.getMessages().clear();
+                chats.add(chat);
             }catch (IOException e){System.out.println(e.getMessage());}
         }
         return chats.toArray(Chat[]::new);

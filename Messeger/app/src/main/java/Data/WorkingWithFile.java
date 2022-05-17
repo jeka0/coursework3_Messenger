@@ -12,11 +12,11 @@ import java.io.InputStream;
 
 public class WorkingWithFile {
     private InputStream stream;
-    private Uri uri;
-    public WorkingWithFile(InputStream imageStream, Uri uri)
+    private long size;
+    public WorkingWithFile(InputStream imageStream, long size)
     {
         this.stream=imageStream;
-        this.uri=uri;
+        this.size=size;
     }
     public byte[] ReadImageBytes()
     {
@@ -33,11 +33,9 @@ public class WorkingWithFile {
     {
         try {
 
-            byte[] buffer = new byte[1024*1024*2];
-            int size = stream.read(buffer);
-            byte[] bytes = new byte[size];
-            for(int i=0;i<size;i++)bytes[i]=buffer[i];
-            return bytes;
+            byte[] buffer = new byte[(int)size];
+            stream.read(buffer);
+            return buffer;
         }catch (IOException e){System.out.println(e.getMessage());}
         return null;
     }

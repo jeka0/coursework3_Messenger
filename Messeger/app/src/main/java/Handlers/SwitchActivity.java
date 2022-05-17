@@ -19,6 +19,7 @@ import business.User;
 public class SwitchActivity implements ISwitchHandler {
     private AppCompatActivity activity;
     private IInternet IInternet;
+    private EditText editTextName,editTextPassword,editTextRepPassword;
     private interface Run { void run(User user);}
     public SwitchActivity(AppCompatActivity activity, IInternet IInternet)
     {
@@ -33,12 +34,21 @@ public class SwitchActivity implements ISwitchHandler {
             case R.id.buttonLogin:
                 if(activity instanceof Authorization)activityClass = ChatMenuActivity.class;
                 else {activityClass = Authorization.class;flag = false;}
+                editTextPassword = activity.findViewById(R.id.editTextPassword);
                 entrance(activityClass,flag,(User user)-> IInternet.checkUser(user),view);
                 break;
             case R.id.buttonRegister:
                 if(activity instanceof Authorization){activityClass = Registration.class;flag = false;}
                 else activityClass = ChatMenuActivity.class;
-                entrance(activityClass,flag,(User user)-> IInternet.UserRegistration(user),view);
+                editTextPassword = activity.findViewById(R.id.editTextPassword);
+                if(activity instanceof Authorization) entrance(activityClass,flag,(User user)-> IInternet.UserRegistration(user),view);
+                else
+                {
+                    editTextRepPassword = activity.findViewById(R.id.editTextPasswordRepeat);
+                if(editTextPassword.getText().toString().equals(editTextRepPassword.getText().toString()))
+                    entrance(activityClass,flag,(User user)-> IInternet.UserRegistration(user),view);
+                else editTextRepPassword.setError("Пароли должны совпадать!!!");
+                }
                 break;
             default:
                 break;
@@ -49,7 +59,7 @@ public class SwitchActivity implements ISwitchHandler {
         Intent intent = new Intent(activity, activityClass);
         if(flag) {
             if(IInternet.isConnected()) {
-                EditText editTextName = activity.findViewById(R.id.editTextName), editTextPassword = activity.findViewById(R.id.editTextPassword);
+                editTextName = activity.findViewById(R.id.editTextName);
                 User user = new User(editTextName.getText().toString(), editTextPassword.getText().toString());
                 intent.putExtra("User", user);
                 IInternet.setIntent(intent);

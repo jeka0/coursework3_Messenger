@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.messeger.MainActivity;
@@ -25,7 +26,7 @@ public class Files {
     public File Create(byte[] data)
     {
         try {
-            if (isStoragePermissionGranted()) {
+            if (isStoragePermissionGranted(activity)) {
                 File dir= new File(Environment.getExternalStorageDirectory() + File.separator + str);;
                 if (!dir.exists()) dir.mkdirs();
                 File newFile = new File(dir.getPath() + File.separator + path);
@@ -38,7 +39,7 @@ public class Files {
         }catch (IOException e){System.out.println(e.getMessage());}
         return null;
     }
-    public  boolean isStoragePermissionGranted() {
+    public static boolean isStoragePermissionGranted(AppCompatActivity activity) {
         if (Build.VERSION.SDK_INT >= 23) {
             if (activity.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
