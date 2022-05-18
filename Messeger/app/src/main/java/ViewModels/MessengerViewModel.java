@@ -1,13 +1,10 @@
 package ViewModels;
 
-import android.view.View;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.messeger.uimenu.messenger.MessengerFragment;
 
-import java.util.ArrayList;
 
 import ViewModels.IViewModels.IMessengerViewModel;
 import business.Chat;
@@ -17,7 +14,6 @@ public class MessengerViewModel extends ChatMenuModel implements IMessengerViewM
     private static MessengerFragment messengerFragment;
     private final MutableLiveData<String> mText;
     private static Chat[] chats = new Chat[0];
-    private static ArrayList<Chat> selectedChats;
 
     public MessengerViewModel() {
         super();
@@ -44,19 +40,6 @@ public class MessengerViewModel extends ChatMenuModel implements IMessengerViewM
         }
     }
 
-    public void setSelectedChats(ArrayList<Chat> selectedChats) {
-        MessengerViewModel.selectedChats = selectedChats;
-    }
-    public void searchON() { messengerFragment.searchON();}
-    public void searchOFF() { messengerFragment.searchOFF();}
-    public void UpdateSelectedChats()
-    {
-        getMenuActivity().runOnUiThread(() -> messengerFragment.UpdateSelectedChats(selectedChats));
-    }
-    public void UpdateSelectedChats(ArrayList<Chat> selectedChats)
-    {
-        getMenuActivity().runOnUiThread(() -> messengerFragment.UpdateSelectedChats(selectedChats));
-    }
     public void UpdateChats()
     {
         getMenuActivity().runOnUiThread(() -> messengerFragment.loadChats());
@@ -64,10 +47,6 @@ public class MessengerViewModel extends ChatMenuModel implements IMessengerViewM
 
     public LiveData<String> getText() {
         return mText;
-    }
-
-    public ArrayList<Chat> getSelectedChats() {
-        return selectedChats;
     }
 
     public void setChats(Chat[] chats) {

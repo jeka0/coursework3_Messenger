@@ -50,6 +50,11 @@ public class RequestHandler implements IRequestHandler{
             case "GetSelectedChats":
                 answer(new Request("UpdateSelectedChats",db.getSelectedChats()));
                 break;
+            case "AddChatToUser":
+                Chat chat = (Chat) request.getData();
+                db.AddChatToUser(chat);
+                answer(new Request("UpdateChats", db.getChats(db.getChatsNames(chat.getUsers().get(0)))));
+                break;
         }
     }
     public void answer(Request request) throws IOException

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import Handlers.IHandlers.IRequestHandler;
 import Net.IInternet;
 import ViewModels.IViewModels.IMessengerViewModel;
+import ViewModels.SearchViewModel;
 import business.Chat;
 import business.Message;
 import business.Request;
@@ -57,8 +58,11 @@ public class RequestHandler implements IRequestHandler {
                 break;
             case "UpdateSelectedChats":
                 if(messengerModel!=null) {
-                    messengerModel.setSelectedChats((ArrayList<Chat>) request.getData());
-                    messengerModel.UpdateSelectedChats();
+                    SearchViewModel searchViewModel = messengerModel.getSearchViewModel();
+                    if (searchViewModel != null) {
+                        searchViewModel.setSelectedChats((ArrayList<Chat>) request.getData());
+                        searchViewModel.UpdateSelectedChats();
+                    }
                 }
                 break;
         }

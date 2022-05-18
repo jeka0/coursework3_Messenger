@@ -13,6 +13,7 @@ public interface IDB {
     void addMessage(Message message);
     void addChat(Chat chat);
     Chat[] getChats(String[] chatsStrs);
+    void AddChatToUser(Chat chat);
     String[] getChatsNames(String user);
     Message[] getMessages(String path);
     ArrayList<Chat> getSelectedChats();

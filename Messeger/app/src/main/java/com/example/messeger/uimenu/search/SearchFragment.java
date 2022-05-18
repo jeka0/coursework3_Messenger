@@ -1,4 +1,4 @@
-package com.example.messeger.uimenu.messenger;
+package com.example.messeger.uimenu.search;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,50 +11,43 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.messeger.databinding.FragmentMessengerBinding;
+import com.example.messeger.databinding.FragmentSearchBinding;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 
 import Adapter.ChatsAdapter;
-import Handlers.ChatClickHandler;
-import ViewModels.IViewModels.IMessengerViewModel;
-import ViewModels.MessengerViewModel;
+import Handlers.AddChatHandler;
+import ViewModels.IViewModels.ISearchViewModel;
+import ViewModels.SearchViewModel;
 import business.Chat;
 
-public class MessengerFragment extends Fragment {
+public class SearchFragment extends Fragment {
 
-    private FragmentMessengerBinding binding;
+    private FragmentSearchBinding binding;
     private RecyclerView recyclerChats;
+    private ISearchViewModel searchViewModel;
     private ChatsAdapter chatsAdapter;
     private View root;
-    private IMessengerViewModel messengerViewModel;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        messengerViewModel = new ViewModelProvider(this).get(MessengerViewModel.class);
-        messengerViewModel.setMessengerFragment(this);
-        binding = FragmentMessengerBinding.inflate(inflater, container, false);
+        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+        searchViewModel.setSearchFragment(this);
+        binding = FragmentSearchBinding.inflate(inflater, container, false);
         root = binding.getRoot();
         initRecyclerView();
-        loadChats();
+        new Thread(()->searchViewModel.getClientAccess().UpdateSelectedChats()).start();
+        searchViewModel.UpdateSelectedChats();
         return root;
     }
-    public void loadChats()
+    public void UpdateSelectedChats(ArrayList<Chat> chats)
     {
         chatsAdapter.clearItems();
-        Collection<Chat> chats = getChats();
         chatsAdapter.setItems(chats);
-    }
-    private Collection<Chat> getChats()
-    {
-        ArrayList arrayList = new ArrayList<>(Arrays.asList(messengerViewModel.getChats()));
-        if(arrayList==null)return new ArrayList<>();else return arrayList;
     }
     private void initRecyclerView()
     {
-        recyclerChats = binding.recyclerView;
+        recyclerChats = binding.recyclerViewSearch;
         recyclerChats.setLayoutManager(new LinearLayoutManager(root.getContext()));
-        chatsAdapter = new ChatsAdapter(new ChatClickHandler(messengerViewModel));
+        chatsAdapter = new ChatsAdapter(new AddChatHandler(searchViewModel));
         recyclerChats.setAdapter(chatsAdapter);
     }
     @Override

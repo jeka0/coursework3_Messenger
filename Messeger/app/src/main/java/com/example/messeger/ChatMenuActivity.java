@@ -4,10 +4,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.SearchView;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -16,11 +14,9 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.messeger.databinding.ActivityChatMenuBinding;
-import com.example.messeger.uimenu.messenger.MessengerFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import Handlers.CloseListener;
-import Handlers.SuggestionListener;
 import Handlers.TextChangeHandler;
 import ViewModels.ChatMenuModel;
 import ViewModels.IViewModels.IChatMenuModel;
@@ -64,8 +60,7 @@ public class ChatMenuActivity extends AppCompatActivity {
         MenuItem menuItem = menu.findItem(R.id.search);
         androidx.appcompat.widget.SearchView searchView = (androidx.appcompat.widget.SearchView) menuItem.getActionView();
         searchView.setQueryHint("Поиск...");
-        searchView.setOnQueryTextListener(new TextChangeHandler(chatMenuModel.getMessengerModel()));
-        searchView.setOnSuggestionListener(new SuggestionListener(chatMenuModel.getMessengerModel()));
+        searchView.setOnQueryTextListener(new TextChangeHandler(chatMenuModel));
         searchView.addOnAttachStateChangeListener(new CloseListener(chatMenuModel));
         return super.onCreateOptionsMenu(menu);
     }
@@ -75,5 +70,11 @@ public class ChatMenuActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_chat_menu);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding=null;
     }
 }

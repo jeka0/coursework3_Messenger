@@ -94,6 +94,28 @@ public class DB implements IDB{
         chat.addMessage(message);
         json.Write(chat);
     }
+    public void AddChatToUser(Chat chat)
+    {
+        try {
+            String user = chat.getUsers().get(0);
+            String userChats = "database\\userChats\\" + user  + ".json";
+            File userFile = new File(userChats);
+            if(!userFile.exists())userFile.createNewFile();
+            JsonWork userChatsJson = new JsonWork(userChats);
+            ArrayList<String> chats = new ArrayList<>(Arrays.asList(getChatsNames(user)));
+            if(!chats.contains(chat.getName())) {
+                chats.add(chat.getName());
+                userChatsJson.Write(chats);
+            }
+            JsonWork chatJson = new JsonWork("database\\Chats\\"+chat.getName()+".json");
+            Chat nowChat = getChat(chat.getName());
+            if(!nowChat.getUsers().contains(user)) {
+                nowChat.addUser(user);
+                chatJson.Write(nowChat);
+            }
+        }catch (IOException e){System.out.println(e.getMessage());}
+    }
+
     public void addChat(Chat chat)
     {
         try {
