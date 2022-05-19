@@ -5,6 +5,7 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.messeger.Authorization;
+import com.example.messeger.IShowError;
 import com.example.messeger.MainActivity;
 import com.example.messeger.Registration;
 
@@ -12,17 +13,20 @@ import java.util.ArrayList;
 
 import Handlers.IHandlers.IRequestHandler;
 import Net.IInternet;
+import ViewModels.IViewModels.IAddChatModel;
 import ViewModels.IViewModels.IMessengerViewModel;
 import ViewModels.SearchViewModel;
 import business.Chat;
 import business.Message;
 import business.Request;
+import business.User;
 
 public class RequestHandler implements IRequestHandler {
     private MainActivity activity;
     private IInternet IInternet;
     private IMessengerViewModel messengerModel;
     private AppCompatActivity appActivity;
+    private IAddChatModel addChatModel;
     private Intent intent;
     public RequestHandler(IInternet IInternet)
     {
@@ -44,9 +48,7 @@ public class RequestHandler implements IRequestHandler {
                         appActivity.runOnUiThread(() -> appActivity.startActivity(intent));
                     }else
                     {
-                        appActivity.runOnUiThread(() ->{
-                            if(appActivity instanceof Authorization)((Authorization)appActivity).setError();else
-                        ((Registration)appActivity).setError();});
+                        appActivity.runOnUiThread(() -> ((IShowError)appActivity).setError());
                     }
                 }
                 break;
@@ -63,6 +65,12 @@ public class RequestHandler implements IRequestHandler {
                         searchViewModel.setSelectedChats((ArrayList<Chat>) request.getData());
                         searchViewModel.UpdateSelectedChats();
                     }
+                }
+                break;
+            case "UpdateUsers":
+                if(addChatModel!=null)
+                {
+                    addChatModel.setUsers((User[])request.getData());
                 }
                 break;
         }
@@ -82,5 +90,9 @@ public class RequestHandler implements IRequestHandler {
 
     public void setMessengerModel(IMessengerViewModel messengerModel) {
         this.messengerModel = messengerModel;
+    }
+
+    public void setAddChatModel(IAddChatModel addChatModel) {
+        this.addChatModel = addChatModel;
     }
 }

@@ -11,7 +11,7 @@ import Handlers.IHandlers.ISwitchHandler;
 import ViewModels.AuthorizationAndRegistrationModel;
 import ViewModels.IViewModels.IAuthorizationAndRegistrationModel;
 
-public class Authorization extends AppCompatActivity {
+public class Authorization extends AppCompatActivity implements IShowError {
     private IAuthorizationAndRegistrationModel model;
     private EditText name,pass;
     @Override

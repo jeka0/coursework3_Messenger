@@ -11,7 +11,8 @@ public interface IDB {
     boolean UserRegistration(User user);
     void CreateUser(User newUser);
     void addMessage(Message message);
-    void addChat(Chat chat);
+    User[] GetUsersWithoutPasswords();
+    boolean addChat(Chat chat);
     Chat[] getChats(String[] chatsStrs);
     void AddChatToUser(Chat chat);
     String[] getChatsNames(String user);

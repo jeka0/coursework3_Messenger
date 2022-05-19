@@ -11,7 +11,7 @@ import business.Chat;
 import business.User;
 
 public interface IChatMenuModel extends IMyViewModel{
-    void setUser(User user);
+    //void setUser(User user);
     void setMenuActivity(ChatMenuActivity activity);
     ChatMenuActivity getMenuActivity();
     MessengerViewModel getMessengerModel();

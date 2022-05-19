@@ -25,7 +25,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatViewHold
         public ChatViewHolder(View view)
         {
             super(view);
-            this.chatName = view.findViewById(R.id.chat_name);
+            this.chatName = view.findViewById(R.id.user_name);
         }
         public void bind(Chat chat,int position)
         {

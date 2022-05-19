@@ -6,8 +6,10 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.messeger.AddChatActivity;
 import com.example.messeger.Authorization;
 import com.example.messeger.ChatMenuActivity;
+import com.example.messeger.IShowError;
 import com.example.messeger.R;
 import com.example.messeger.Registration;
 import com.google.android.material.snackbar.Snackbar;
@@ -50,6 +52,10 @@ public class SwitchActivity implements ISwitchHandler {
                     else editTextRepPassword.setError("Пароли должны совпадать!!!");
                 }
                 break;
+            case R.id.floatingActionButton2:
+                Intent intent = new Intent(activity, AddChatActivity.class);
+                activity.startActivity(intent);
+                break;
             default:
                 break;
         }
@@ -63,6 +69,7 @@ public class SwitchActivity implements ISwitchHandler {
                 if (IInternet.isConnected()) {
                     User user = new User(editTextName.getText().toString(), editTextPassword.getText().toString());
                     intent.putExtra("User", user);
+                    IInternet.setAppActivity(activity);
                     IInternet.setIntent(intent);
                     new Thread(() -> run.run(user)).start();
                 } else

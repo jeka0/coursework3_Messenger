@@ -13,4 +13,9 @@
     <string name="menu_account">Account</string>
     <string name="add_chat_button">Add chat</string>
     <string name="creating_chat">Сreating a chat</string>
+    <string name="login">Enter login</string>
+    <string name="password">Enter password</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="chat_name">Chat name</string>
+    <string name="select_users">Select Users:</string>
 </resources>

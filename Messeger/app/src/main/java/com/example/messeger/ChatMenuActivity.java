@@ -62,7 +62,7 @@ public class ChatMenuActivity extends AppCompatActivity {
         menuItem = menu.findItem(R.id.search);
         androidx.appcompat.widget.SearchView searchView = (androidx.appcompat.widget.SearchView) menuItem.getActionView();
         chatMenuModel.setSearchView(searchView);
-        searchView.setQueryHint("Поиск...");
+        searchView.setQueryHint("Search...");
         searchView.setOnQueryTextListener(new TextChangeHandler(chatMenuModel));
         searchView.addOnAttachStateChangeListener(new CloseListener(chatMenuModel));
         return super.onCreateOptionsMenu(menu);

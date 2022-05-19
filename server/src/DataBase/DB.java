@@ -16,7 +16,6 @@ public class DB implements IDB{
     private String usersPath ="database\\users.json";
     private File userChatsDir = new File("database\\userChats"), ChatsDir = new File("database\\Chats"), usersFile = new File(usersPath);
     private static DB db;
-
     private DB(){
         try {
         userChatsDir.mkdirs();
@@ -61,6 +60,12 @@ public class DB implements IDB{
         file.createNewFile();
         json.Write(users);
         }catch (IOException e){System.out.println(e.getMessage());}
+    }
+    public User[] GetUsersWithoutPasswords()
+    {
+        User[] users = getUsers();
+        for(int i=0;i<users.length;i++) users[i].setPassword("");
+        return users;
     }
     private User[] getUsers()
     {
@@ -116,13 +121,13 @@ public class DB implements IDB{
         }catch (IOException e){System.out.println(e.getMessage());}
     }
 
-    public void addChat(Chat chat)
+    public boolean addChat(Chat chat)
     {
         try {
             String chatPath = "database\\Chats\\" + chat.getName() + ".json";
             JsonWork json = new JsonWork(chatPath);
             File file = new File(chatPath);
-            file.createNewFile();
+            if(!file.createNewFile())return false;
             json.Write(chat);
             for (String user : chat.getUsers()) {
                 String userChats = "database\\userChats\\" + user  + ".json";
@@ -133,7 +138,9 @@ public class DB implements IDB{
                 chats.add(chat.getName());
                 userChatsJson.Write(chats);
             }
+            return true;
         }catch (IOException e){System.out.println(e.getMessage());}
+        return false;
     }
     public Chat[] getChats(String[] chatsStrs)
     {
@@ -198,4 +205,5 @@ public class DB implements IDB{
         }
         if(messages!=null)return messages;else return new Message[0];
     }
+
 }

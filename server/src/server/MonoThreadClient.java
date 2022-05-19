@@ -4,6 +4,7 @@ import DataBase.DB;
 import RequestHandler.RequestHandler;
 import RequestHandler.IRequestHandler;
 import business.Request;
+import business.User;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -15,13 +16,14 @@ public class MonoThreadClient implements IMonoThreadClient{
     private ReceivingAndSendingData recAndSendData;
     private IRequestHandler requestHandler;
     private String NameChat;
+    private User user;
     private boolean flag = false;
 
     public MonoThreadClient(Socket client, IServer server) {
         this.client = client;
         this.server = server;
         recAndSendData = new ReceivingAndSendingData(client);
-        requestHandler = new RequestHandler(recAndSendData, server);
+        requestHandler = new RequestHandler(recAndSendData, server,this);
     }
     public void run() {
         try {
@@ -35,7 +37,7 @@ public class MonoThreadClient implements IMonoThreadClient{
     public void Notify()
     {
         try {
-            SubmitReply();
+            UpdatePosts();
         }catch (IOException e){System.out.println(e.getMessage());}
     }
     private boolean GettingData() throws IOException, ClassNotFoundException
@@ -45,7 +47,7 @@ public class MonoThreadClient implements IMonoThreadClient{
         requestHandler.handle(request);
         return true;
     }
-    private void SubmitReply() throws IOException
+    private void UpdatePosts() throws IOException
     {
         requestHandler.answer(new Request("UpdatePosts",NameChat));
     }
@@ -64,5 +66,13 @@ public class MonoThreadClient implements IMonoThreadClient{
 
     public void setNameChat(String nameChat) {
         NameChat = nameChat;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
     }
 }

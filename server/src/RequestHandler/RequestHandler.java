@@ -6,6 +6,7 @@ import business.Chat;
 import business.Message;
 import business.Request;
 import business.User;
+import server.IMonoThreadClient;
 import server.IServer;
 import server.ReceivingAndSendingData;
 
@@ -15,14 +16,18 @@ public class RequestHandler implements IRequestHandler{
     private IDB db = DB.getInstance();
     private ReceivingAndSendingData recAndSendData;
     private IServer server;
+    private IMonoThreadClient monoThreadClient;
     public RequestHandler(){}
-    public RequestHandler(ReceivingAndSendingData recAndSendData, IServer server)
+    public RequestHandler(ReceivingAndSendingData recAndSendData, IServer server, IMonoThreadClient monoThreadClient)
     {
         this.recAndSendData=recAndSendData;
         this.server=server;
+        this.monoThreadClient=monoThreadClient;
+
     }
     public void handle(Request request)throws IOException
     {
+        User user;
         switch (request.getRequest())
         {
             case "Add":
@@ -31,18 +36,21 @@ public class RequestHandler implements IRequestHandler{
                 server.UpdateFlags(message.getChatName());
             break;
             case "CheckUser":
-                if(db.CheckUserPassword((User)request.getData()))answer(new Request("AnswerYes"));
+                user = (User)request.getData();
+                if(db.CheckUserPassword(user)){monoThreadClient.setUser(user);answer(new Request("AnswerYes"));}
                 else answer(new Request("AnswerNo"));
                 break;
             case "Registration":
-                if(db.UserRegistration((User)request.getData()))answer(new Request("AnswerYes"));
+                user = (User)request.getData();
+                if(db.UserRegistration(user)){monoThreadClient.setUser(user);answer(new Request("AnswerYes"));}
                 else answer(new Request("AnswerNo"));
                 break;
             case "UpdatePosts":
                 answer(request);
                 break;
             case "AddChat":
-                db.addChat((Chat)request.getData());
+                if(db.addChat((Chat)request.getData()))answer(new Request("AnswerYes"));
+                else answer(new Request("AnswerNo"));
                 break;
             case "GetChats":
                 answer(new Request("UpdateChats", db.getChats(db.getChatsNames((String)request.getData()))));
@@ -54,6 +62,9 @@ public class RequestHandler implements IRequestHandler{
                 Chat chat = (Chat) request.getData();
                 db.AddChatToUser(chat);
                 answer(new Request("UpdateChats", db.getChats(db.getChatsNames(chat.getUsers().get(0)))));
+                break;
+            case "GetUsers":
+                answer(new Request("UpdateUsers",db.GetUsersWithoutPasswords()));
                 break;
         }
     }
@@ -77,6 +88,9 @@ public class RequestHandler implements IRequestHandler{
             case "UpdateSelectedChats":
                 recAndSendData.pushObject(new Request("UpdateSelectedChats",request.getData()));
                 break;
+                case "UpdateUsers":
+                    recAndSendData.pushObject(request);
+                    break;
         }
     }
 
