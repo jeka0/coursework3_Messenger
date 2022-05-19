@@ -4,8 +4,10 @@ import androidx.appcompat.widget.SearchView;
 
 import com.example.messeger.ChatMenuActivity;
 
+import ViewModels.ChatMenuModel;
 import ViewModels.MessengerViewModel;
 import ViewModels.SearchViewModel;
+import business.Chat;
 import business.User;
 
 public interface IChatMenuModel extends IMyViewModel{
@@ -16,4 +18,6 @@ public interface IChatMenuModel extends IMyViewModel{
     void GoToSearch();
     void GoToMessenger();
     SearchViewModel getSearchViewModel();
+    void setSearchView(SearchView searchView);
+    void ClearSearchView();
 }

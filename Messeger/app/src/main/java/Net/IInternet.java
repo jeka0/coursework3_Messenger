@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.messeger.MainActivity;
 
 import ViewModels.IViewModels.IMessengerViewModel;
+import business.Chat;
 import business.Message;
 import business.User;
 
@@ -21,6 +22,7 @@ public interface IInternet {
     void setAppActivity(AppCompatActivity activity);
     void setMainActivity(MainActivity activity);
     void UpdatePosts(String chat);
+    void AddChatToUser(Chat chat);
     boolean isConnected();
     void UpdateChats(User user);
     void setMessengerModel(IMessengerViewModel messengerModel);

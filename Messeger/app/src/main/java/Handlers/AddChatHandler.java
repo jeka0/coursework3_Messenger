@@ -26,9 +26,7 @@ public class AddChatHandler implements IChatClickHandler {
             newChat.addUser(searchViewModel.getUser().getName());
             new Thread(() -> searchViewModel.getClientAccess().AddChatToUser(newChat)).start();
             searchViewModel.GoToMessenger();
-            /*Intent intent = new Intent(activity, MainActivity.class);
-            intent.putExtra("position",position);
-            activity.startActivity(intent);*/
+            searchViewModel.ClearSearchView();
         }
 
     }

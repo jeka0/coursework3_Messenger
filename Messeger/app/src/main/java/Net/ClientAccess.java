@@ -12,6 +12,7 @@ import Handlers.IHandlers.IRequestHandler;
 import Handlers.RequestHandler;
 import ViewModels.IViewModels.IMessengerViewModel;
 import ViewModels.IViewModels.IMyViewModel;
+import business.Chat;
 import business.Message;
 import business.Request;
 import business.User;
@@ -68,6 +69,15 @@ public class ClientAccess implements IInternet {
             if(client.isConnected())
             {
                 client.pushObject(new Request("UpdatePosts",chat));
+            }
+        }catch(IOException e){System.out.println(e.getMessage());}
+    }
+    public void AddChatToUser(Chat chat)
+    {
+        try {
+            if(client.isConnected())
+            {
+                client.pushObject(new Request("AddChatToUser",chat));
             }
         }catch(IOException e){System.out.println(e.getMessage());}
     }

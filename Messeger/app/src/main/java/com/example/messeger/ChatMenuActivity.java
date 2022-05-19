@@ -27,6 +27,7 @@ public class ChatMenuActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityChatMenuBinding binding;
     private IChatMenuModel chatMenuModel;
+    private MenuItem menuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +54,14 @@ public class ChatMenuActivity extends AppCompatActivity {
         TextView navUsername = (TextView) headerView.findViewById(R.id.login);
         navUsername.setText(chatMenuModel.getUser().getName());
     }
+    public void passBack(){menuItem.collapseActionView();}
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.menu,menu);
-        MenuItem menuItem = menu.findItem(R.id.search);
+        menuItem = menu.findItem(R.id.search);
         androidx.appcompat.widget.SearchView searchView = (androidx.appcompat.widget.SearchView) menuItem.getActionView();
+        chatMenuModel.setSearchView(searchView);
         searchView.setQueryHint("Поиск...");
         searchView.setOnQueryTextListener(new TextChangeHandler(chatMenuModel));
         searchView.addOnAttachStateChangeListener(new CloseListener(chatMenuModel));

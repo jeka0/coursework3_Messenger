@@ -56,10 +56,6 @@ public class MainActivity extends AppCompatActivity {
         if(arrayList==null)return new ArrayList<>();else return arrayList;
     }
 
-    public IMainViewModel getMainViewModel() {
-        return mainViewModel;
-    }
-
     public void loadMessages()
     {
         messagesAdapter.clearItems();

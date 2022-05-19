@@ -11,4 +11,6 @@
     <string name="search_title">Search\.\.\.</string>
     <string name="menu_messenger">Messenger</string>
     <string name="menu_account">Account</string>
+    <string name="add_chat_button">Add chat</string>
+    <string name="creating_chat">Сreating a chat</string>
 </resources>

@@ -1,8 +1,6 @@
 package ViewModels;
 
 
-import androidx.appcompat.widget.SearchView;
-
 import com.example.messeger.uimenu.search.SearchFragment;
 
 import java.util.ArrayList;

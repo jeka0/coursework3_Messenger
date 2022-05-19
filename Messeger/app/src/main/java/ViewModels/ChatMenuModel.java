@@ -9,6 +9,7 @@ import com.example.messeger.ChatMenuActivity;
 import com.example.messeger.R;
 
 import ViewModels.IViewModels.IChatMenuModel;
+import business.Chat;
 import business.User;
 
 public class ChatMenuModel extends MyViewModel implements IChatMenuModel {
@@ -56,6 +57,15 @@ public class ChatMenuModel extends MyViewModel implements IChatMenuModel {
         ChatMenuModel.messengerModel = messengerModel;
     }
 
+    public void setSearchView(SearchView searchView) {
+        ChatMenuModel.searchView = searchView;
+    }
+    public void ClearSearchView()
+    {
+        searchView.setQuery("", false);
+        searchView.clearFocus();
+        menuActivity.passBack();
+    }
     public MessengerViewModel getMessengerModel() {
         return messengerModel;
     }
