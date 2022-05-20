@@ -12,6 +12,7 @@ import business.Message;
 
 public class MessengerViewModel extends ChatMenuModel implements IMessengerViewModel {
     private static MessengerFragment messengerFragment;
+    private  MessengerViewModel messengerViewModel;
     private final MutableLiveData<String> mText;
     private static Chat[] chats = new Chat[0];
 
@@ -25,7 +26,8 @@ public class MessengerViewModel extends ChatMenuModel implements IMessengerViewM
 
     public void setMessengerFragment(MessengerFragment messengerFragment) {
         MessengerViewModel.messengerFragment = messengerFragment;
-        if(chats.length==0)new Thread(()->super.getClientAccess().UpdateChats(getUser())).start();
+        if(messengerViewModel==null)new Thread(()->super.getClientAccess().UpdateChats(getUser())).start();
+        messengerViewModel = this;
     }
     public void setMessages(Message[] messages)
     {

@@ -8,6 +8,7 @@ import com.example.messeger.MainActivity;
 
 import java.io.IOException;
 
+import ViewModels.IViewModels.IAccountViewModel;
 import ViewModels.IViewModels.IAddChatModel;
 import ViewModels.IViewModels.IMessengerViewModel;
 import business.Request;
@@ -19,4 +20,5 @@ public interface IRequestHandler {
     void setAppActivity(AppCompatActivity appActivity);
     void setMessengerModel(IMessengerViewModel messengerModel);
     void setAddChatModel(IAddChatModel addChatModel);
+    void setAccountViewModel(IAccountViewModel accountViewModel);
 }

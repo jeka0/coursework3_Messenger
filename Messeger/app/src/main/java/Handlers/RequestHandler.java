@@ -8,11 +8,13 @@ import com.example.messeger.Authorization;
 import com.example.messeger.IShowError;
 import com.example.messeger.MainActivity;
 import com.example.messeger.Registration;
+import com.example.messeger.uimenu.gallery.AccountFragment;
 
 import java.util.ArrayList;
 
 import Handlers.IHandlers.IRequestHandler;
 import Net.IInternet;
+import ViewModels.IViewModels.IAccountViewModel;
 import ViewModels.IViewModels.IAddChatModel;
 import ViewModels.IViewModels.IMessengerViewModel;
 import ViewModels.SearchViewModel;
@@ -28,6 +30,7 @@ public class RequestHandler implements IRequestHandler {
     private AppCompatActivity appActivity;
     private IAddChatModel addChatModel;
     private Intent intent;
+    private IAccountViewModel accountViewModel;
     public RequestHandler(IInternet IInternet)
     {
         this.IInternet = IInternet;
@@ -51,6 +54,10 @@ public class RequestHandler implements IRequestHandler {
                         appActivity.runOnUiThread(() -> ((IShowError)appActivity).setError());
                     }
                 }
+                break;
+            case "AnswerUser":
+                if(!(boolean) request.getData())accountViewModel.getMenuActivity().runOnUiThread(()->((IShowError)accountViewModel.getAccountFragment()).setError());
+                else accountViewModel.getMenuActivity().runOnUiThread(()->accountViewModel.getAccountFragment().Clear());
                 break;
             case "UpdateChats":
                 if(messengerModel!=null) {
@@ -94,5 +101,9 @@ public class RequestHandler implements IRequestHandler {
 
     public void setAddChatModel(IAddChatModel addChatModel) {
         this.addChatModel = addChatModel;
+    }
+
+    public void setAccountViewModel(IAccountViewModel accountViewModel) {
+        this.accountViewModel = accountViewModel;
     }
 }
