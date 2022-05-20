@@ -7,6 +7,7 @@ import business.Request;
 import business.User;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class MonoThreadClient implements IMonoThreadClient{
@@ -17,6 +18,7 @@ public class MonoThreadClient implements IMonoThreadClient{
     private IRequestHandler requestHandler;
     private String NameChat;
     private User user;
+    private InetAddress address;
     private boolean flag = false;
 
     public MonoThreadClient(Socket client, IServer server) {
@@ -24,6 +26,7 @@ public class MonoThreadClient implements IMonoThreadClient{
         this.server = server;
         recAndSendData = new ReceivingAndSendingData(client);
         requestHandler = new RequestHandler(recAndSendData, server,this);
+        new Thread(()->Listen()).start();
     }
     public void run() {
         try {
@@ -33,6 +36,19 @@ public class MonoThreadClient implements IMonoThreadClient{
                 }
             }catch(IOException e){closeClient();}
             catch (ClassNotFoundException e){System.out.println(e.getMessage());}
+    }
+    private void Listen()
+    {
+        try
+        {
+            address = client.getInetAddress();
+            while(!client.isClosed())
+            {
+                if(address.isReachable(2000))Thread.sleep(2000);
+                else closeClient();
+            }
+        }catch(IOException e){System.out.println(e.getMessage());}
+        catch(InterruptedException e){System.out.println(e.getMessage());}
     }
     public void Notify(String str)
     {
@@ -68,10 +84,12 @@ public class MonoThreadClient implements IMonoThreadClient{
     public void closeClient()
     {
         try {
-            server.removeThread(this);
-            recAndSendData.ClosingStreams();
-            client.close();
-            System.out.println("Client disabled");
+            if(!client.isClosed()) {
+                server.removeThread(this);
+                recAndSendData.ClosingStreams();
+                client.close();
+                System.out.println("Client disabled");
+            }
         }catch (IOException e){System.out.println(e.getMessage());}
     }
 
