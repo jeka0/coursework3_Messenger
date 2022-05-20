@@ -67,6 +67,10 @@ public class RequestHandler implements IRequestHandler{
             case "GetUsers":
                 answer(new Request("UpdateUsers",db.GetUsersWithoutPasswords()));
                 break;
+            case "UpdateUser":
+                if(db.UpdateUser((User)request.getData()))answer(new Request("AnswerUserYes"));
+                else answer(new Request("AnswerUserNo"));
+                break;
         }
     }
     public void answer(Request request) throws IOException
@@ -76,6 +80,12 @@ public class RequestHandler implements IRequestHandler{
             case "UpdatePosts":
                 Message[] messages = db.getMessages((String) request.getData());
                 recAndSendData.pushObject(new Request("UpdateMessages", messages));
+                break;
+            case "AnswerUserYes":
+                recAndSendData.pushObject(new Request("AnswerUser",true));
+                break;
+            case "AnswerUserNo":
+                recAndSendData.pushObject(new Request("AnswerUser",false));
                 break;
             case "AnswerYes":
                 recAndSendData.pushObject(new Request("Answer",true));

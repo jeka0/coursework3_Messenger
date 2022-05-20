@@ -99,6 +99,22 @@ public class DB implements IDB{
         chat.addMessage(message);
         json.Write(chat);
     }
+    public boolean UpdateUser(User newUser)
+    {
+        ArrayList<User> users = new ArrayList<>(Arrays.asList(getUsers()));
+        for(User user:users)
+        {
+            if(user.getName().equals(newUser.getName()))
+            {
+                if(!user.getPassword().equals(newUser.getPassword()))return false;
+                user.setPassword(newUser.getNewPassword());
+                break;
+            }
+        }
+        JsonWork json = new JsonWork(usersPath);
+        json.Write(users);
+        return true;
+    }
     public void AddChatToUser(Chat chat)
     {
         try {

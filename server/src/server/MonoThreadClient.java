@@ -65,9 +65,12 @@ public class MonoThreadClient implements IMonoThreadClient{
     }
     private boolean GettingData() throws IOException, ClassNotFoundException
     {
-        Request request = (Request) recAndSendData.receiveObject();
-        if(request==null)return false;
-        requestHandler.handle(request);
+        Object object = recAndSendData.receiveObject();
+        if(object instanceof Request) {
+            Request request = (Request) object;
+            if (request == null) return false;
+            requestHandler.handle(request);
+        }
         return true;
     }
     private void UpdateChats() throws IOException

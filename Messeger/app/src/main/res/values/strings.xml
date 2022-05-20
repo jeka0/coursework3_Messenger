@@ -15,7 +15,11 @@
     <string name="creating_chat">Сreating a chat</string>
     <string name="login">Enter login</string>
     <string name="password">Enter password</string>
+    <string name="new_password">Enter new password</string>
     <string name="repeat_password">Repeat password</string>
+    <string name="login_string">Login</string>
+    <string name="current_password_string">Current Password</string>
+    <string name="new_password_string">New Password</string>
     <string name="chat_name">Chat name</string>
     <string name="select_users">Select Users:</string>
 </resources>

@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import Handlers.IHandlers.IRequestHandler;
 import Handlers.RequestHandler;
+import ViewModels.IViewModels.IAccountViewModel;
 import ViewModels.IViewModels.IAddChatModel;
 import ViewModels.IViewModels.IMessengerViewModel;
 import ViewModels.IViewModels.IMyViewModel;
@@ -90,6 +91,15 @@ public class ClientAccess implements IInternet {
             }
         }catch(IOException e){System.out.println(e.getMessage());}
     }
+    public void UpdateUser(User user)
+    {
+        try {
+            if(client.isConnected())
+            {
+                client.pushObject(new Request("UpdateUser",user));
+            }
+        }catch(IOException e){System.out.println(e.getMessage());}
+    }
     public void AddChatToUser(Chat chat)
     {
         try {
@@ -143,6 +153,10 @@ public class ClientAccess implements IInternet {
     public boolean isConnected()
     {
         return client.isConnected();
+    }
+    public void setAccountViewModel(IAccountViewModel accountViewModel)
+    {
+        requestHandler.setAccountViewModel(accountViewModel);
     }
 
 }
