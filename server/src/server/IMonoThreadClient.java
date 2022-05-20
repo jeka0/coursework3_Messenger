@@ -7,7 +7,7 @@ public interface IMonoThreadClient extends Runnable {
     void setUpdateMessagesFlag(boolean flag);
     void setNameChat(String nameChat);
     void closeClient();
-    void Notify();
+    void Notify(String str);
     void setUser(User user);
     User getUser();
 }

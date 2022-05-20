@@ -34,10 +34,17 @@ public class MonoThreadClient implements IMonoThreadClient{
             }catch(IOException e){closeClient();}
             catch (ClassNotFoundException e){System.out.println(e.getMessage());}
     }
-    public void Notify()
+    public void Notify(String str)
     {
         try {
-            UpdatePosts();
+            switch(str) {
+                case "UpdatePosts":
+                UpdatePosts();
+                break;
+                case "UpdateChats":
+                    UpdateChats();
+                    break;
+            }
         }catch (IOException e){System.out.println(e.getMessage());}
     }
     private boolean GettingData() throws IOException, ClassNotFoundException
@@ -46,6 +53,10 @@ public class MonoThreadClient implements IMonoThreadClient{
         if(request==null)return false;
         requestHandler.handle(request);
         return true;
+    }
+    private void UpdateChats() throws IOException
+    {
+        requestHandler.answer(new Request("UpdateChats",db.getChats(db.getChatsNames(user.getName()))));
     }
     private void UpdatePosts() throws IOException
     {

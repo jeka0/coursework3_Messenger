@@ -1,5 +1,8 @@
 package server;
 
+import business.Chat;
+import business.User;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -28,13 +31,25 @@ public class Server implements IServer{
             executeIt.shutdown();
         }catch (IOException e){System.out.println(e.getMessage());}
     }
-    public void UpdateFlags(String chat)
+    public void UpdateChat(Chat chat)
     {
+        ArrayList<String> users = chat.getUsers();
         for(IMonoThreadClient client:clients) {
-            client.setNameChat(chat);
-            client.Notify();
+            if(users.contains(client.getUser().getName())) {
+                client.setNameChat(chat.getName());
+                client.Notify("UpdatePosts");
+            }
         }
     }
+    public void UpdateChatList(ArrayList<String> users)
+    {
+        for(IMonoThreadClient client:clients) {
+            if(users.contains(client.getUser().getName())) {
+                client.Notify("UpdateChats");
+            }
+        }
+    }
+
     public void removeThread(IMonoThreadClient threadClient)
     {
         clients.remove(threadClient);

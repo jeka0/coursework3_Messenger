@@ -176,7 +176,7 @@ public class DB implements IDB{
         String[] strs = json.Read(String[].class);
         if(strs!=null)return strs;else return new String[0];
     }
-    private Chat getChat(String chatName)
+    public Chat getChat(String chatName)
     {
         String path = "database\\Chats\\"+chatName+".json";
         JsonWork json = new JsonWork(path);

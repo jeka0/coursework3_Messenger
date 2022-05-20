@@ -17,5 +17,6 @@ public interface IDB {
     void AddChatToUser(Chat chat);
     String[] getChatsNames(String user);
     Message[] getMessages(String path);
+    Chat getChat(String chatName);
     ArrayList<Chat> getSelectedChats();
 }

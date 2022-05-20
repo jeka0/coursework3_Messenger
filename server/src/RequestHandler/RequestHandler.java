@@ -33,7 +33,7 @@ public class RequestHandler implements IRequestHandler{
             case "Add":
                 Message message = (Message)request.getData();
                 db.addMessage(message);
-                server.UpdateFlags(message.getChatName());
+                server.UpdateChat(db.getChat(message.getChatName()));
             break;
             case "CheckUser":
                 user = (User)request.getData();
@@ -49,7 +49,8 @@ public class RequestHandler implements IRequestHandler{
                 answer(request);
                 break;
             case "AddChat":
-                if(db.addChat((Chat)request.getData()))answer(new Request("AnswerYes"));
+                Chat thisChat = (Chat)request.getData();
+                if(db.addChat(thisChat)){answer(new Request("AnswerYes"));server.UpdateChatList(thisChat.getUsers());}
                 else answer(new Request("AnswerNo"));
                 break;
             case "GetChats":
