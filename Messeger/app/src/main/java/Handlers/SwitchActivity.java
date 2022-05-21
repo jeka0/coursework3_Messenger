@@ -52,8 +52,11 @@ public class SwitchActivity implements ISwitchHandler {
                 }
                 break;
             case R.id.floatingActionButton2:
-                Intent intent = new Intent(activity, AddChatActivity.class);
-                activity.startActivity(intent);
+                if (IInternet.isConnected()) {
+                    Intent intent = new Intent(activity, AddChatActivity.class);
+                    activity.startActivity(intent);
+                } else
+                    Snackbar.make(view, "No connection to server", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 break;
             default:
                 break;

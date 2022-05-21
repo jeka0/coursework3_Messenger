@@ -26,8 +26,10 @@ public class Client {
     }
     public void pushObject(Object obj) throws IOException
     {
-        out.writeObject(obj);
-        out.flush();
+        if(out!=null) {
+            out.writeObject(obj);
+            out.flush();
+        }
     }
     public Object receiveObject() throws IOException, ClassNotFoundException
     {

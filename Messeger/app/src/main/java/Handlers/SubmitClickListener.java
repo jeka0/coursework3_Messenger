@@ -5,6 +5,7 @@ import android.widget.EditText;
 
 import com.example.messeger.MainActivity;
 import com.example.messeger.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import Handlers.IHandlers.ISubmitClickListener;
 import Net.IInternet;
@@ -27,15 +28,18 @@ public class SubmitClickListener implements ISubmitClickListener {
     }
     @Override
     public void onClick(View view) {
-        EditText editText = activity.findViewById(R.id.messageField);
-        String text = editText.getText().toString();
-        byte[] image = model.getImage();
-        MyFIle file = model.getFile();
-        if (text.equals("") && image ==null && file==null) return;
-        Message message = new Message(model.getUser().getName(),chatName,text);
-        if(image!=null){message.setImage(image);model.setImage(null);}
-        if(file!=null){message.setFile(file);model.setFile(null);}
-        new Thread(()-> IInternet.pushMessage(message)).start();
-        editText.setText("");
+        if (IInternet.isConnected()) {
+            EditText editText = activity.findViewById(R.id.messageField);
+            String text = editText.getText().toString();
+            byte[] image = model.getImage();
+            MyFIle file = model.getFile();
+            if (text.equals("") && image ==null && file==null) return;
+            Message message = new Message(model.getUser().getName(),chatName,text);
+            if(image!=null){message.setImage(image);model.setImage(null);}
+            if(file!=null){message.setFile(file);model.setFile(null);}
+            new Thread(()-> IInternet.pushMessage(message)).start();
+            editText.setText("");
+        } else
+            Snackbar.make(view, "No connection to server", Snackbar.LENGTH_LONG).setAction("Action", null).show();
     }
 }

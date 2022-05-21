@@ -25,6 +25,7 @@ import com.example.messeger.IShowError;
 import com.example.messeger.MyDialogFragment;
 import com.example.messeger.R;
 import com.example.messeger.databinding.FragmentAccountBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 import ViewModels.AccountViewModel;
 import ViewModels.IViewModels.IAccountViewModel;
@@ -58,17 +59,20 @@ public class AccountFragment extends Fragment implements IShowError {
     {
         Button SaveButton = binding.EditInformationButton, ExitButton = binding.ExitButton, DelButton = binding.DeleteButton;
         SaveButton.setOnClickListener((View view)->{
-            if(!userName.getText().toString().isEmpty()&&!userPassword.getText().toString().isEmpty()&&!userNewPassword.getText().toString().isEmpty())
-            {
-                User user = new User(userName.getText().toString(),userPassword.getText().toString());
-                user.setNewPassword(userNewPassword.getText().toString());
-                accountViewModel.getClientAccess().setAccountViewModel(accountViewModel);
-                new Thread(()->accountViewModel.getClientAccess().UpdateUser(user)).start();
-            }else
-            {
-                if(userPassword.getText().toString().isEmpty())userPassword.setError("The previous password must be entered!!!!");
-                if(userNewPassword.getText().toString().isEmpty())userNewPassword.setError("Enter a new password for your account!!!");
-            }
+            if (accountViewModel.getClientAccess().isConnected()) {
+                if(!userName.getText().toString().isEmpty()&&!userPassword.getText().toString().isEmpty()&&!userNewPassword.getText().toString().isEmpty())
+                {
+                    User user = new User(userName.getText().toString(),userPassword.getText().toString());
+                    user.setNewPassword(userNewPassword.getText().toString());
+                    accountViewModel.getClientAccess().setAccountViewModel(accountViewModel);
+                    new Thread(()->accountViewModel.getClientAccess().UpdateUser(user)).start();
+                }else
+                {
+                    if(userPassword.getText().toString().isEmpty())userPassword.setError("The previous password must be entered!!!!");
+                    if(userNewPassword.getText().toString().isEmpty())userNewPassword.setError("Enter a new password for your account!!!");
+                }
+            } else
+                Snackbar.make(view, "No connection to server", Snackbar.LENGTH_LONG).setAction("Action", null).show();
         });
         ExitButton.setOnClickListener((View view)-> {
             Intent intent = new Intent(accountViewModel.getMenuActivity(), Authorization.class);
@@ -79,13 +83,16 @@ public class AccountFragment extends Fragment implements IShowError {
             accountViewModel.getMenuActivity().finish();
         });
         DelButton.setOnClickListener((View view)->{
-            FragmentManager manager = accountViewModel.getMenuActivity().getSupportFragmentManager();
-            MyDialogFragment myDialogFragment = new MyDialogFragment("Delete user?","All user data will be deleted and cannot be recovered!!!",
-                    "YES","NO",(DialogInterface dialog, int id)->{
-                new Thread(()->accountViewModel.getClientAccess().DeleteUser()).start();
-                ExitButton.callOnClick();
-            });
-            myDialogFragment.show(manager, "myDialog");
+            if (accountViewModel.getClientAccess().isConnected()) {
+                FragmentManager manager = accountViewModel.getMenuActivity().getSupportFragmentManager();
+                MyDialogFragment myDialogFragment = new MyDialogFragment("Delete user?","All user data will be deleted and cannot be recovered!!!",
+                        "YES","NO",(DialogInterface dialog, int id)->{
+                    new Thread(()->accountViewModel.getClientAccess().DeleteUser()).start();
+                    ExitButton.callOnClick();
+                });
+                myDialogFragment.show(manager, "myDialog");
+            } else
+                Snackbar.make(view, "No connection to server", Snackbar.LENGTH_LONG).setAction("Action", null).show();
         });
     }
     public void Clear()

@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.example.messeger.MyDialogFragment;
 import com.example.messeger.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,10 +45,18 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatViewHold
             else {
                 deleteButton.setVisibility(View.VISIBLE);
                 deleteButton.setOnClickListener((View view)->{
-                    new Thread(()->messengerViewModel.getClientAccess().DeleteChatToUser(chat)).start();
+                    if (messengerViewModel.getClientAccess().isConnected()) {
+                        new Thread(()->messengerViewModel.getClientAccess().DeleteChatToUser(chat)).start();
+                    } else
+                        Snackbar.make(view, "No connection to server", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 });
             }
-            if(clickHandler!=null)itemView.setOnClickListener((View view)-> clickHandler.onClick(view,position));
+            if(clickHandler!=null)itemView.setOnClickListener((View view)-> {
+                if (messengerViewModel.getClientAccess().isConnected()) {
+                    clickHandler.onClick(view,position);
+                } else
+                    Snackbar.make(view, "No connection to server", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            });
 
         }
 

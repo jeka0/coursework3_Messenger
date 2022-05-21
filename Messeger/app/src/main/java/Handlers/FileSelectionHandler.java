@@ -21,7 +21,7 @@ public class FileSelectionHandler implements IFileSelectionHandler {
     public void onClick(View view) {
         if(Files.isStoragePermissionGranted(mainActivity)) {
             Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
-            photoPickerIntent.setType("file/docx");
+            photoPickerIntent.setType("file/*");
             mainActivity.startActivityForResult(photoPickerIntent, 10);
         }
     }
