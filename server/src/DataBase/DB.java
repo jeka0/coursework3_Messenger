@@ -136,7 +136,40 @@ public class DB implements IDB{
             }
         }catch (IOException e){System.out.println(e.getMessage());}
     }
-
+    public void DeleteUser(User user)
+    {
+        JsonWork json = new JsonWork(usersPath);
+        ArrayList<User> users = new ArrayList<>(Arrays.asList(getUsers()));
+        for(int i=0;i<users.size();i++)if(users.get(i).getName().equals(user.getName())){users.remove(users.get(i));break;}
+        json.Write(users);
+        String[] chats = getChatsNames(user.getName());
+        for(String chat: chats)
+        {
+            JsonWork chatJson = new JsonWork("database\\Chats\\"+chat+".json");
+            Chat nowChat = getChat(chat);
+            if(nowChat.getUsers().contains(user.getName())) {
+                nowChat.getUsers().remove(user.getName());
+                chatJson.Write(nowChat);
+            }
+        }
+        String userChats = "database\\userChats\\" + user.getName()  + ".json";
+        File file = new File(userChats);
+        file.delete();
+    }
+    public void DeleteChatToUser(Chat chat, User user)
+    {
+        JsonWork chatJson = new JsonWork("database\\Chats\\"+chat.getName()+".json");
+        Chat nowChat = getChat(chat.getName());
+        if(nowChat.getUsers().contains(user.getName())) {
+            nowChat.getUsers().remove(user.getName());
+            chatJson.Write(nowChat);
+        }
+        String userChats = "database\\userChats\\" + user.getName()  + ".json";
+        JsonWork userChatsJson = new JsonWork(userChats);
+        ArrayList<String> chats = new ArrayList<>(Arrays.asList(getChatsNames(user.getName())));
+        chats.remove(chat.getName());
+        userChatsJson.Write(chats);
+    }
     public boolean addChat(Chat chat)
     {
         try {

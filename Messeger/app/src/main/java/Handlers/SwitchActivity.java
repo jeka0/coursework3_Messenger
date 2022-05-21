@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.messeger.AddChatActivity;
 import com.example.messeger.Authorization;
 import com.example.messeger.ChatMenuActivity;
-import com.example.messeger.IShowError;
 import com.example.messeger.R;
 import com.example.messeger.Registration;
 import com.google.android.material.snackbar.Snackbar;
@@ -80,7 +79,7 @@ public class SwitchActivity implements ISwitchHandler {
                 if(editTextPassword.getText().toString().isEmpty())editTextPassword.setError("Строка не должна быть пустой!!!");
             }
         }
-        else activity.startActivity(intent);
+        else {activity.startActivity(intent);activity.finish();}
     }
 
     public AppCompatActivity getActivity() {

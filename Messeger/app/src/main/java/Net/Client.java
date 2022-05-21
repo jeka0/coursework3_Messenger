@@ -42,4 +42,12 @@ public class Client {
     {
         return connected;
     }
+    public void Close() {
+        try {
+            if(socket!=null)
+            {socket.close();
+            socket=null;}
+            setConnection(false);
+        }catch(IOException e){System.out.println(e.getMessage());}
+    }
 }

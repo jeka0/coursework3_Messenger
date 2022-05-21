@@ -24,18 +24,12 @@ public class ClientAccess implements IInternet {
     private IMyViewModel model;
     private IRequestHandler requestHandler = new RequestHandler(this);
     private Client client;
+    private Thread Listener;
     public ClientAccess(String ip, IMyViewModel model)
     {
         super();
         this.model = model;
-        client = new Client(ip);
-        new Thread(()->
-        {
-            while(!client.isConnected()) {
-                client.Connect();
-                if (client.isConnected()) Listen();
-            }
-        }).start();
+        initClient(ip);
     }
 
     public void pushMessage(Message message) {
@@ -55,12 +49,39 @@ public class ClientAccess implements IInternet {
             }
         }catch(IOException e){System.out.println(e.getMessage());}
     }
+    public void DeleteUser()
+    {
+        try {
+            if(client.isConnected())
+            {
+                client.pushObject(new Request("DeleteUser",model.getUser()));
+            }
+        }catch(IOException e){System.out.println(e.getMessage());}
+    }
+    public void DeleteChatToUser(Chat chat)
+    {
+        try {
+            if(client.isConnected())
+            {
+                client.pushObject(new Request("DeleteChatToUser",chat));
+            }
+        }catch(IOException e){System.out.println(e.getMessage());}
+    }
     public void checkUser(User user)
     {
         try {
             if(client.isConnected())
             {
                 client.pushObject(new Request("CheckUser",user));
+            }
+        }catch(IOException e){System.out.println(e.getMessage());}
+    }
+    private void checkAndSetUser()
+    {
+        try {
+            if(client.isConnected())
+            {
+                client.pushObject(new Request("SetUser",model.getUser()));
             }
         }catch(IOException e){System.out.println(e.getMessage());}
     }
@@ -157,6 +178,24 @@ public class ClientAccess implements IInternet {
     public void setAccountViewModel(IAccountViewModel accountViewModel)
     {
         requestHandler.setAccountViewModel(accountViewModel);
+    }
+    private void initClient(String ip)
+    {
+        client = new Client(ip);
+        Listener =new Thread(()->
+        {
+            while(!client.isConnected()) {
+                client.Connect();
+                if(model.getUser()!=null)checkAndSetUser();
+                if (client.isConnected()) Listen();
+            }
+        });
+        Listener.start();
+    }
+    public void setNewIP(String ip)
+    {
+        client.Close();
+        client = new Client(ip);
     }
 
 }

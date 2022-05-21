@@ -1,5 +1,13 @@
 package ViewModels;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.example.messeger.R;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import Net.ClientAccess;
 import Net.IInternet;
 import ViewModels.IViewModels.IMyViewModel;
@@ -11,6 +19,16 @@ public class MyViewModel extends androidx.lifecycle.ViewModel implements IMyView
     public MyViewModel()
     {
        if(IInternet ==null) IInternet = new ClientAccess("192.168.1.101",this);
+    }
+    public boolean setNewIP(String ip)
+    {
+        try {
+
+            InetAddress address = InetAddress.getByName(ip);
+            IInternet.setNewIP(address.getHostAddress());
+            return true;
+        }catch (UnknownHostException e){System.out.println(e.getMessage());}
+        return false;
     }
 
     public IInternet getClientAccess() {

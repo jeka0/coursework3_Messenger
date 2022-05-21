@@ -35,6 +35,10 @@ public class RequestHandler implements IRequestHandler{
                 db.addMessage(message);
                 server.UpdateChat(db.getChat(message.getChatName()));
             break;
+            case "SetUser":
+                user = (User)request.getData();
+                if(db.CheckUserPassword(user))monoThreadClient.setUser(user);
+                break;
             case "CheckUser":
                 user = (User)request.getData();
                 if(db.CheckUserPassword(user)){monoThreadClient.setUser(user);answer(new Request("AnswerYes"));}
@@ -70,6 +74,13 @@ public class RequestHandler implements IRequestHandler{
             case "UpdateUser":
                 if(db.UpdateUser((User)request.getData()))answer(new Request("AnswerUserYes"));
                 else answer(new Request("AnswerUserNo"));
+                break;
+            case "DeleteUser":
+                db.DeleteUser((User)request.getData());
+                break;
+            case "DeleteChatToUser":
+                db.DeleteChatToUser((Chat)request.getData(), monoThreadClient.getUser());
+                answer(new Request("UpdateChats", db.getChats(db.getChatsNames(monoThreadClient.getUser().getName()))));
                 break;
         }
     }

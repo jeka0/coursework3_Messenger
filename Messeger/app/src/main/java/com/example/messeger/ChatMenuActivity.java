@@ -1,11 +1,16 @@
 package com.example.messeger;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -28,12 +33,20 @@ public class ChatMenuActivity extends AppCompatActivity {
     private ActivityChatMenuBinding binding;
     private IChatMenuModel chatMenuModel;
     private MenuItem menuItem;
+    private SharedPreferences settings;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         chatMenuModel = new ViewModelProvider(this).get(ChatMenuModel.class);
-        chatMenuModel.setUser((User)getIntent().getSerializableExtra("User"));
+        User user = (User)getIntent().getSerializableExtra("User");
+        chatMenuModel.setUser(user);
+        settings = getSharedPreferences(getString(R.string.pfName), Context.MODE_PRIVATE);
+        editor = settings.edit();
+        editor.putString(getString(R.string.pfCodeForID), user.getName());
+        editor.putString(getString(R.string.pfCodeForPassword), user.getPassword());
+        editor.commit();
         chatMenuModel.setMenuActivity(this);
         binding = ActivityChatMenuBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

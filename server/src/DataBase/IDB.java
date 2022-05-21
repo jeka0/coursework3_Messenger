@@ -13,6 +13,8 @@ public interface IDB {
     void addMessage(Message message);
     User[] GetUsersWithoutPasswords();
     boolean addChat(Chat chat);
+    void DeleteUser(User user);
+    void DeleteChatToUser(Chat chat, User user);
     Chat[] getChats(String[] chatsStrs);
     void AddChatToUser(Chat chat);
     boolean UpdateUser(User newUser);

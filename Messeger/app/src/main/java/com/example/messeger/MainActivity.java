@@ -92,16 +92,17 @@ public class MainActivity extends AppCompatActivity {
                         File nowfile  = new File(Environment.getExternalStorageDirectory()+uri.getPath().replace("/external_files",""));
                         WorkingWithFile working = new WorkingWithFile(getContentResolver().openInputStream(uri),nowfile.length());
                         String[] strs = nowfile.getName().split("\\.");
-                        String ext = strs[1];
-                        if(ext.equals("jpg"))mainViewModel.setImage(working.ReadImageBytes());
-                        else
-                        {
-                            MyFIle file = new MyFIle();
-                            file.setName(strs[0]);
-                            file.setData(working.ReadBytes());
-                            file.setExtension(ext);
-                            mainViewModel.setFile(file);
-                        }
+                        if(strs.length==2) {
+                            String ext = strs[1];
+                            if (ext.equals("jpg")) mainViewModel.setImage(working.ReadImageBytes());
+                            else {
+                                MyFIle file = new MyFIle();
+                                file.setName(strs[0]);
+                                file.setData(working.ReadBytes());
+                                file.setExtension(ext);
+                                mainViewModel.setFile(file);
+                            }
+                        }mainViewModel.setImage(working.ReadImageBytes());
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }

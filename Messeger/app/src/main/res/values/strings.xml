@@ -22,4 +22,11 @@
     <string name="new_password_string">New Password</string>
     <string name="chat_name">Chat name</string>
     <string name="select_users">Select Users:</string>
+    <string name="change_ip_address">Change IP address</string>
+    <string name="pfName">com.super.stuff.preffile.name</string>
+    <string name="pfCodeForID">com.super.stuff.pf.id</string>
+    <string name="pfCodeForPassword">com.super.stuff.pf.passwd</string>
+    <string name="pfCodeForMode">com.super.stuff.pf.mode</string>
+    <string name="pfNoStringPresent">NO-STRING-PRESENT-HERE</string>
+    <string name="change_application_theme">Change Application Theme</string>
 </resources>

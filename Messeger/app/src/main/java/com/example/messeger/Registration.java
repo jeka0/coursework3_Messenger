@@ -3,7 +3,9 @@ package com.example.messeger;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 
 import Handlers.SwitchActivity;
@@ -26,6 +28,10 @@ public class Registration extends AppCompatActivity implements IShowError {
         repPass = findViewById(R.id.editTextPasswordRepeat);
         findViewById(R.id.buttonLogin).setOnClickListener(ISwitchHandler);
         findViewById(R.id.buttonRegister).setOnClickListener(ISwitchHandler);
+        findViewById(R.id.settingButton).setOnClickListener((View view)->{
+            Intent intent = new Intent(this,SettingsActivity.class);
+            startActivity(intent);
+        });
     }
     public void setError()
     {

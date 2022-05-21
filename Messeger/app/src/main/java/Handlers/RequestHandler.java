@@ -48,7 +48,8 @@ public class RequestHandler implements IRequestHandler {
             case "Answer":
                 if(appActivity!=null&&intent!=null) {
                     if ((boolean) request.getData()) {
-                        appActivity.runOnUiThread(() -> appActivity.startActivity(intent));
+                        appActivity.runOnUiThread(() -> {appActivity.startActivity(intent); appActivity.finish();
+                        });
                     }else
                     {
                         appActivity.runOnUiThread(() -> ((IShowError)appActivity).setError());

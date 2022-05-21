@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.messeger.MainActivity;
 
+import Handlers.IHandlers.IRequestHandler;
 import ViewModels.IViewModels.IAccountViewModel;
 import ViewModels.IViewModels.IAddChatModel;
 import ViewModels.IViewModels.IMessengerViewModel;
@@ -17,10 +18,12 @@ public interface IInternet {
 
     void pushMessage(Message message);
     void checkUser(User user);
+    void DeleteUser();
     void getUsers();
     void UserRegistration(User user);
     void Listen();
     void UpdateSelectedChats();
+    void DeleteChatToUser(Chat chat);
     void setIntent(Intent intent);
     void setAppActivity(AppCompatActivity activity);
     void setMainActivity(MainActivity activity);
@@ -33,4 +36,5 @@ public interface IInternet {
     void UpdateChats(User user);
     void setMessengerModel(IMessengerViewModel messengerModel);
     void setAddChatModel(IAddChatModel addChatModel);
+    void setNewIP(String ip);
 }

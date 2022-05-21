@@ -35,7 +35,7 @@ public class Server implements IServer{
     {
         ArrayList<String> users = chat.getUsers();
         for(IMonoThreadClient client:clients) {
-            if(users.contains(client.getUser().getName())) {
+            if(client.getUser()!=null && users.contains(client.getUser().getName())) {
                 client.setNameChat(chat.getName());
                 client.Notify("UpdatePosts");
             }
@@ -44,7 +44,7 @@ public class Server implements IServer{
     public void UpdateChatList(ArrayList<String> users)
     {
         for(IMonoThreadClient client:clients) {
-            if(users.contains(client.getUser().getName())) {
+            if(client.getUser()!=null && users.contains(client.getUser().getName())) {
                 client.Notify("UpdateChats");
             }
         }

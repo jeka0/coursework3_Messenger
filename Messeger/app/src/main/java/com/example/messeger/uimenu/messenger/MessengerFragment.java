@@ -59,7 +59,7 @@ public class MessengerFragment extends Fragment {
     {
         recyclerChats = binding.recyclerView;
         recyclerChats.setLayoutManager(new LinearLayoutManager(root.getContext()));
-        chatsAdapter = new ChatsAdapter(new ChatClickHandler(messengerViewModel));
+        chatsAdapter = new ChatsAdapter(new ChatClickHandler(messengerViewModel),messengerViewModel);
         recyclerChats.setAdapter(chatsAdapter);
     }
     @Override

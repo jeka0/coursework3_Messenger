@@ -2,6 +2,7 @@ package com.example.messeger;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.widget.EditText;
 import android.widget.SearchView;
 import androidx.lifecycle.ViewModelProvider;
