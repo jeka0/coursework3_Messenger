@@ -37,9 +37,10 @@
         android:layout_height="22dp"
         android:layout_marginTop="11dp"
         android:layout_marginEnd="10dp"
+        android:backgroundTint="#00FFFFFF"
         android:contentDescription="@string/action_searching"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_delete"
+        app:srcCompat="@drawable/ic_close"
         tools:ignore="TouchTargetSizeCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>

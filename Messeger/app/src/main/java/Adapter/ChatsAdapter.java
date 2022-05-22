@@ -20,7 +20,9 @@ import java.util.Collection;
 import java.util.List;
 
 import Handlers.IHandlers.IChatClickHandler;
+import Net.IInternet;
 import ViewModels.IViewModels.IMessengerViewModel;
+import ViewModels.IViewModels.ISearchViewModel;
 import ViewModels.MessengerViewModel;
 import business.Chat;
 
@@ -28,6 +30,8 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatViewHold
     private List<Chat> chatList = new ArrayList<>();
     private IChatClickHandler clickHandler;
     private IMessengerViewModel messengerViewModel;
+    private ISearchViewModel searchViewModel;
+    private IInternet internet;
     class ChatViewHolder extends RecyclerView.ViewHolder
     {
         private TextView chatName;
@@ -45,14 +49,14 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatViewHold
             else {
                 deleteButton.setVisibility(View.VISIBLE);
                 deleteButton.setOnClickListener((View view)->{
-                    if (messengerViewModel.getClientAccess().isConnected()) {
-                        new Thread(()->messengerViewModel.getClientAccess().DeleteChatToUser(chat)).start();
+                    if (internet.isConnected()) {
+                        new Thread(()->internet.DeleteChatToUser(chat)).start();
                     } else
                         Snackbar.make(view, "No connection to server", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 });
             }
             if(clickHandler!=null)itemView.setOnClickListener((View view)-> {
-                if (messengerViewModel.getClientAccess().isConnected()) {
+                if (internet.isConnected()) {
                     clickHandler.onClick(view,position);
                 } else
                     Snackbar.make(view, "No connection to server", Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -61,11 +65,17 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatViewHold
         }
 
     }
-    public ChatsAdapter(IChatClickHandler clickHandler){this.clickHandler = clickHandler;}
+    public ChatsAdapter(IChatClickHandler clickHandler, ISearchViewModel searchViewModel)
+    {
+        this.clickHandler = clickHandler;
+        this.searchViewModel=searchViewModel;
+        this.internet = searchViewModel.getClientAccess();
+    }
     public ChatsAdapter(IChatClickHandler clickHandler, IMessengerViewModel messengerViewModel)
     {
         this.clickHandler = clickHandler;
         this.messengerViewModel=messengerViewModel;
+        this.internet = messengerViewModel.getClientAccess();
     }
     public void setItems(Collection<Chat> chats)
     {

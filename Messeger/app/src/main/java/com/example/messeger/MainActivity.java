@@ -1,6 +1,7 @@
 package com.example.messeger;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.ViewCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerMessages;
     private MessagesAdapter messagesAdapter;
     private IMainViewModel mainViewModel;
+    private ConstraintLayout filesLayout, imageLayout, fileLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +49,17 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.sendBut).setOnClickListener(new SubmitClickListener(this,mainViewModel));
         findViewById(R.id.imageAdd).setOnClickListener(new ImageSelectionHandler(this,mainViewModel));
         findViewById(R.id.fileAdd).setOnClickListener(new FileSelectionHandler(this,mainViewModel));
+        filesLayout = findViewById(R.id.constraintLayout3);
+        imageLayout= findViewById(R.id.constraintLayoutIm);
+        fileLayout = findViewById(R.id.constraintLayoutFile);
+        findViewById(R.id.imageButton2).setOnClickListener((View view)-> {
+            mainViewModel.setImage(null);
+            UpdateFilesVisibility();
+        });
+        findViewById(R.id.imageButton3).setOnClickListener((View view)-> {
+            mainViewModel.setFile(null);
+            UpdateFilesVisibility();
+        });
         loadMessages();
     }
 
@@ -102,13 +115,21 @@ public class MainActivity extends AppCompatActivity {
                                 file.setExtension(ext);
                                 mainViewModel.setFile(file);
                             }
-                        }mainViewModel.setImage(working.ReadImageBytes());
+                        }else mainViewModel.setImage(working.ReadImageBytes());
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
                 }
                 break;
-        }}
+        }
+        UpdateFilesVisibility();
+    }
+    public void UpdateFilesVisibility()
+    {
+        if(mainViewModel.getFile()!=null||mainViewModel.getImage()!=null) filesLayout.setVisibility(View.VISIBLE);else filesLayout.setVisibility(View.GONE);
+        if(mainViewModel.getImage()!=null)imageLayout.setVisibility(View.VISIBLE);else imageLayout.setVisibility(View.GONE);
+        if(mainViewModel.getFile()!=null)fileLayout.setVisibility(View.VISIBLE);else fileLayout.setVisibility(View.GONE);
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

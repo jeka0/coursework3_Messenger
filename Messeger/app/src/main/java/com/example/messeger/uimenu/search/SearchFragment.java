@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.messeger.databinding.FragmentSearchBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -47,7 +48,7 @@ public class SearchFragment extends Fragment {
     {
         recyclerChats = binding.recyclerViewSearch;
         recyclerChats.setLayoutManager(new LinearLayoutManager(root.getContext()));
-        chatsAdapter = new ChatsAdapter(new AddChatHandler(searchViewModel));
+        chatsAdapter = new ChatsAdapter(new AddChatHandler(searchViewModel),searchViewModel);
         recyclerChats.setAdapter(chatsAdapter);
     }
     @Override

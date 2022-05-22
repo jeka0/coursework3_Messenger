@@ -39,6 +39,7 @@ public class SubmitClickListener implements ISubmitClickListener {
             if(file!=null){message.setFile(file);model.setFile(null);}
             new Thread(()-> IInternet.pushMessage(message)).start();
             editText.setText("");
+            activity.UpdateFilesVisibility();
         } else
             Snackbar.make(view, "No connection to server", Snackbar.LENGTH_LONG).setAction("Action", null).show();
     }
