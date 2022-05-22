@@ -1,5 +1,6 @@
 package Adapter;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.messeger.MainActivity;
 import com.example.messeger.R;
@@ -84,11 +86,14 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
                 fileButt.setOnClickListener((View view) -> {
                     File nowFile = files.Create(myFile.getData());
                     if(nowFile!=null) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setDataAndType(FileProvider.getUriForFile(activity, activity.getApplicationContext().getPackageName() + ".provider", nowFile),
-                                MimeTypeMap.getSingleton().getMimeTypeFromExtension(myFile.getExtension()));
-                        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        activity.startActivity(intent);
+                        try {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setDataAndType(FileProvider.getUriForFile(activity, activity.getApplicationContext().getPackageName() + ".provider", nowFile),
+                                    MimeTypeMap.getSingleton().getMimeTypeFromExtension(myFile.getExtension()));
+                            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            activity.startActivity(intent);
+                        }catch(ActivityNotFoundException e){
+                            Toast.makeText(activity,"Activity Not Found!!!!",Toast.LENGTH_SHORT).show();}
                     }
                 });
             }else file.setVisibility(View.GONE);

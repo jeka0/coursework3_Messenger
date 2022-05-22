@@ -1,7 +1,9 @@
 package Handlers;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.messeger.MainActivity;
 
@@ -19,11 +21,17 @@ public class ImageSelectionHandler implements IImageSelectionHandler {
     }
     @Override
     public void onClick(View view) {
-        if(Files.isStoragePermissionGranted(mainActivity)) {
-            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-            photoPickerIntent.setType("image/*");
-            mainActivity.startActivityForResult(photoPickerIntent, 1);
+        try
+        {
+            if(Files.isStoragePermissionGranted(mainActivity)) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                mainActivity.startActivityForResult(photoPickerIntent, 1);
+            }
+        }catch(ActivityNotFoundException e){
+            Toast.makeText(mainActivity,"Activity Not Found!!!!",Toast.LENGTH_SHORT).show();
         }
     }
-
 }
+
+
