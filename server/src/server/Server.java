@@ -49,7 +49,14 @@ public class Server implements IServer{
             }
         }
     }
-
+    public int UserCount(User user)
+    {
+        int count =0;
+        for(IMonoThreadClient client:clients) {
+            if(client.getUser()!=null && client.getUser().getName().equals(user.getName()))count ++;
+        }
+        return count;
+    }
     public void removeThread(IMonoThreadClient threadClient)
     {
         clients.remove(threadClient);

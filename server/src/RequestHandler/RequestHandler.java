@@ -76,7 +76,8 @@ public class RequestHandler implements IRequestHandler{
                 else answer(new Request("AnswerUserNo"));
                 break;
             case "DeleteUser":
-                db.DeleteUser((User)request.getData());
+                User nowUser = (User)request.getData();
+                if(server.UserCount(nowUser)==1)db.DeleteUser(nowUser);
                 break;
             case "DeleteChatToUser":
                 db.DeleteChatToUser((Chat)request.getData(), monoThreadClient.getUser());
