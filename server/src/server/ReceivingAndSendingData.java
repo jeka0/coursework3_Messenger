@@ -15,10 +15,12 @@ public class ReceivingAndSendingData {
             in = new ObjectInputStream(client.getInputStream());
         }catch (IOException e){System.out.println(e.getMessage());}
     }
-    public void pushObject(Object obj) throws IOException
+    public synchronized void pushObject(Object obj) throws IOException
     {
-        out.writeObject(obj);
-        out.flush();
+        if(out!=null) {
+            out.writeObject(obj);
+            out.flush();
+        }
     }
     public Object receiveObject() throws IOException, ClassNotFoundException
     {
@@ -26,7 +28,9 @@ public class ReceivingAndSendingData {
     }
     public void ClosingStreams() throws IOException
     {
-        out.close();
-        in.close();
+        if(out!=null) {
+            out.close();
+            in.close();
+        }
     }
 }

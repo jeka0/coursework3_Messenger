@@ -26,7 +26,7 @@ public class MessengerViewModel extends ChatMenuModel implements IMessengerViewM
 
     public void setMessengerFragment(MessengerFragment messengerFragment) {
         MessengerViewModel.messengerFragment = messengerFragment;
-        if(messengerViewModel==null)new Thread(()->super.getClientAccess().UpdateChats(getUser())).start();
+        if(messengerViewModel==null|| Refresh()){new Thread(()->super.getClientAccess().UpdateChats(getUser())).start();setRefresh(false);}
         messengerViewModel = this;
     }
     public void setMessages(Message[] messages)

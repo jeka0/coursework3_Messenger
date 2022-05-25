@@ -12,8 +12,10 @@ import Handlers.IHandlers.IRequestHandler;
 import Handlers.RequestHandler;
 import ViewModels.IViewModels.IAccountViewModel;
 import ViewModels.IViewModels.IAddChatModel;
+import ViewModels.IViewModels.IMainViewModel;
 import ViewModels.IViewModels.IMessengerViewModel;
 import ViewModels.IViewModels.IMyViewModel;
+import ViewModels.MainViewModel;
 import business.Chat;
 import business.Message;
 import business.Request;
@@ -22,6 +24,7 @@ import business.User;
 public class ClientAccess implements IInternet {
     private MainActivity activity ;
     private IMyViewModel model;
+    private IMainViewModel mainViewModel;
     private IRequestHandler requestHandler = new RequestHandler(this);
     private Client client;
     private Thread Listener;
@@ -168,6 +171,11 @@ public class ClientAccess implements IInternet {
     public void setMessengerModel(IMessengerViewModel messengerModel) {
         requestHandler.setMessengerModel(messengerModel);
     }
+
+    public void setMainViewModel(IMainViewModel mainViewModel) {
+        this.mainViewModel = mainViewModel;
+    }
+
     public void setAddChatModel(IAddChatModel addChatModel) {
         requestHandler.setAddChatModel(addChatModel);
     }
@@ -186,8 +194,13 @@ public class ClientAccess implements IInternet {
         {
             while(!client.isConnected()) {
                 client.Connect();
+                model.setRefresh(true);
                 if(model.getUser()!=null)checkAndSetUser();
-                if (client.isConnected()) Listen();
+                if (client.isConnected()){
+                    if(model.getUser()!=null&&model!=null)UpdateChats(model.getUser());
+                    if(mainViewModel!=null)mainViewModel.Update();
+                    Listen();
+                }
             }
         });
         Listener.start();

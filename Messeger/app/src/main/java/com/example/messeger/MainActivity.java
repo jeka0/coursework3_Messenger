@@ -2,7 +2,6 @@ package com.example.messeger;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.ViewCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +15,6 @@ import android.view.View;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -45,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         initRecyclerView();
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         mainViewModel.getClientAccess().setMainActivity(this);
+        mainViewModel.getClientAccess().setMainViewModel(mainViewModel);
         mainViewModel.setPosition(getIntent().getIntExtra("position",0));
         findViewById(R.id.sendBut).setOnClickListener(new SubmitClickListener(this,mainViewModel));
         findViewById(R.id.imageAdd).setOnClickListener(new ImageSelectionHandler(this,mainViewModel));
@@ -102,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 if(resultCode == RESULT_OK) {
                     try {
                         Uri uri = imageReturnedIntent.getData();
-                        File nowfile  = new File(Environment.getExternalStorageDirectory()+uri.getPath().replace("/external_files",""));
+                        File nowfile  = new File(Environment.getExternalStorageDirectory()+uri.getPath().replace("/external_files","").replace("document/primary:",""));
                         WorkingWithFile working = new WorkingWithFile(getContentResolver().openInputStream(uri),nowfile.length());
                         String[] strs = nowfile.getName().split("\\.");
                         if(strs.length==2) {
@@ -115,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                                 file.setExtension(ext);
                                 mainViewModel.setFile(file);
                             }
-                        }else mainViewModel.setImage(working.ReadImageBytes());
+                        }
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }

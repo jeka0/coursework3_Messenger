@@ -8,4 +8,6 @@ public interface IMyViewModel {
     IInternet getClientAccess();
     void setUser(User user);
     User getUser();
+    boolean Refresh();
+    void setRefresh(boolean refresh);
 }

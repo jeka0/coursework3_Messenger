@@ -25,7 +25,7 @@ public class FileSelectionHandler implements IFileSelectionHandler {
         {
             if(Files.isStoragePermissionGranted(mainActivity)) {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                photoPickerIntent.setType("file/*");
+                photoPickerIntent.setType("application/*");
                 mainActivity.startActivityForResult(photoPickerIntent, 10);
             }
         }catch(ActivityNotFoundException e){

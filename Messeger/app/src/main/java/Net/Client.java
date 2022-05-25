@@ -3,6 +3,7 @@ package Net;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class Client {
@@ -18,10 +19,10 @@ public class Client {
     public void Connect()
     {
         try {
-            socket = new Socket(ip, 8090);
+            if(InetAddress.getByName(ip).isReachable(1000)){socket = new Socket(ip, 8090);
             out = new  ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
-            connected = true;
+            connected = true;}else System.out.println("Host unreachable");
         }catch(IOException e){System.out.println(e.getMessage());}
     }
     public void pushObject(Object obj) throws IOException

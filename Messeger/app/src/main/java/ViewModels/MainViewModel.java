@@ -9,16 +9,21 @@ public class MainViewModel extends MessengerViewModel implements IMainViewModel 
     private Chat chat;
     private byte[] image;
     private MyFIle file;
+    private int position;
     public MainViewModel()
     {
         super();
     }
     public void setPosition(int position)
     {
+        this.position=position;
         chat = getChats()[position];
-        if(chat.getMessages().size()==0) new Thread(()->super.getClientAccess().UpdatePosts(chat.getName())).start();
+        Update();
     }
-
+    public void Update()
+    {
+        if(chat.getMessages().size()==0 || Refresh()){ new Thread(()->super.getClientAccess().UpdatePosts(chat.getName())).start();setRefresh(false);}
+    }
     public byte[] getImage() {
         return image;
     }
@@ -37,6 +42,6 @@ public class MainViewModel extends MessengerViewModel implements IMainViewModel 
 
     public String getChatName(){return chat.getName();}
     public Message[] getMessages() {
-        return chat.getMessages().toArray(new Message[0]);
+        return getChats()[position].getMessages().toArray(new Message[0]);
     }
 }

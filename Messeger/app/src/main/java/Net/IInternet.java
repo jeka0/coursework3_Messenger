@@ -9,7 +9,9 @@ import com.example.messeger.MainActivity;
 import Handlers.IHandlers.IRequestHandler;
 import ViewModels.IViewModels.IAccountViewModel;
 import ViewModels.IViewModels.IAddChatModel;
+import ViewModels.IViewModels.IMainViewModel;
 import ViewModels.IViewModels.IMessengerViewModel;
+import ViewModels.MainViewModel;
 import business.Chat;
 import business.Message;
 import business.User;
@@ -35,6 +37,7 @@ public interface IInternet {
     void setAccountViewModel(IAccountViewModel accountViewModel);
     void UpdateChats(User user);
     void setMessengerModel(IMessengerViewModel messengerModel);
+    void setMainViewModel(IMainViewModel mainViewModel);
     void setAddChatModel(IAddChatModel addChatModel);
     void setNewIP(String ip);
 }
