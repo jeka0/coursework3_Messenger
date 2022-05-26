@@ -19,7 +19,7 @@ public class MyViewModel extends androidx.lifecycle.ViewModel implements IMyView
     private static boolean refresh=false;
     public MyViewModel()
     {
-       if(IInternet ==null) IInternet = new ClientAccess("192.168.1.101",this);
+       if(IInternet ==null) IInternet = new ClientAccess("192.168.43.254",this);
     }
     public boolean setNewIP(String ip)
     {

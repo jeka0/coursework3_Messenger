@@ -67,9 +67,9 @@ public class SwitchActivity implements ISwitchHandler {
         Intent intent = new Intent(activity, activityClass);
         if(flag) {
             editTextName = activity.findViewById(R.id.editTextName);
-            if(!editTextName.getText().toString().isEmpty()&&!editTextPassword.getText().toString().isEmpty()) {
+            if(!editTextName.getText().toString().trim().isEmpty()&&!editTextPassword.getText().toString().trim().isEmpty()) {
                 if (IInternet.isConnected()) {
-                    User user = new User(editTextName.getText().toString(), editTextPassword.getText().toString());
+                    User user = new User(editTextName.getText().toString().trim(), editTextPassword.getText().toString());
                     intent.putExtra("User", user);
                     IInternet.setAppActivity(activity);
                     IInternet.setIntent(intent);
@@ -78,8 +78,8 @@ public class SwitchActivity implements ISwitchHandler {
                     Snackbar.make(view, "No connection to server", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }else
             {
-                if(editTextName.getText().toString().isEmpty())editTextName.setError("Строка не должна быть пустой!!!");
-                if(editTextPassword.getText().toString().isEmpty())editTextPassword.setError("Строка не должна быть пустой!!!");
+                if(editTextName.getText().toString().trim().isEmpty())editTextName.setError("Строка не должна быть пустой!!!");
+                if(editTextPassword.getText().toString().trim().isEmpty())editTextPassword.setError("Строка не должна быть пустой!!!");
             }
         }
         else {activity.startActivity(intent);activity.finish();}

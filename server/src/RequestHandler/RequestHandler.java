@@ -37,11 +37,20 @@ public class RequestHandler implements IRequestHandler{
             break;
             case "SetUser":
                 user = (User)request.getData();
-                if(db.CheckUserPassword(user))monoThreadClient.setUser(user);
+                if(db.CheckUserPassword(user)) {
+                    if(monoThreadClient.getUser()!=null)server.RemoveUser(monoThreadClient.getUser(), db.getChatsNames(monoThreadClient.getUser().getName()));
+                    monoThreadClient.setUser(user);
+                    server.AddUser(user,db.getChatsNames(user.getName()),monoThreadClient);
+                }
                 break;
             case "CheckUser":
                 user = (User)request.getData();
-                if(db.CheckUserPassword(user)){monoThreadClient.setUser(user);answer(new Request("AnswerYes"));}
+                if(db.CheckUserPassword(user)&&!server.isConnect(user)){
+                    if(monoThreadClient.getUser()!=null)server.RemoveUser(monoThreadClient.getUser(), db.getChatsNames(monoThreadClient.getUser().getName()));
+                    monoThreadClient.setUser(user);
+                    server.AddUser(user,db.getChatsNames(user.getName()),monoThreadClient);
+                    answer(new Request("AnswerYes"));
+                }
                 else answer(new Request("AnswerNo"));
                 break;
             case "Registration":
@@ -54,7 +63,11 @@ public class RequestHandler implements IRequestHandler{
                 break;
             case "AddChat":
                 Chat thisChat = (Chat)request.getData();
-                if(db.addChat(thisChat)){answer(new Request("AnswerYes"));server.UpdateChatList(thisChat.getUsers());}
+                if(db.addChat(thisChat)){
+                    answer(new Request("AnswerYes"));
+                    server.AddChat(thisChat);
+                    server.UpdateChatList(thisChat.getUsers());
+                }
                 else answer(new Request("AnswerNo"));
                 break;
             case "GetChats":
@@ -66,6 +79,7 @@ public class RequestHandler implements IRequestHandler{
             case "AddChatToUser":
                 Chat chat = (Chat) request.getData();
                 db.AddChatToUser(chat);
+                server.AddToChat(monoThreadClient.getUser(), chat.getName());
                 answer(new Request("UpdateChats", db.getChats(db.getChatsNames(chat.getUsers().get(0)))));
                 break;
             case "GetUsers":
@@ -77,10 +91,16 @@ public class RequestHandler implements IRequestHandler{
                 break;
             case "DeleteUser":
                 User nowUser = (User)request.getData();
-                if(server.UserCount(nowUser)==1)db.DeleteUser(nowUser);
+                //if(server.UserCount(nowUser)==1){
+                    db.DeleteUser(nowUser);
+                    server.RemoveUser(nowUser, db.getChatsNames(nowUser.getName()));
+                    monoThreadClient.setUser(null);
+                //}
                 break;
             case "DeleteChatToUser":
-                db.DeleteChatToUser((Chat)request.getData(), monoThreadClient.getUser());
+                Chat delChat =(Chat)request.getData();
+                db.DeleteChatToUser(delChat, monoThreadClient.getUser());
+                server.RemoveFromChat(monoThreadClient.getUser(), delChat.getName());
                 answer(new Request("UpdateChats", db.getChats(db.getChatsNames(monoThreadClient.getUser().getName()))));
                 break;
         }

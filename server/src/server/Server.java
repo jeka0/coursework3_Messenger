@@ -9,11 +9,15 @@ import java.net.Socket;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 public class Server implements IServer{
     private ExecutorService executeIt;
-    private ArrayList<IMonoThreadClient> clients = new ArrayList<>();
+    //private ArrayList<IMonoThreadClient> clients = new ArrayList<>();
+    private ConcurrentHashMap<String,IMonoThreadClient> UsersMap = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String,ArrayList<String>> ChatsMap = new ConcurrentHashMap<>();
     private int port;
     public Server(int port,int countThreads){
         this.port=port;
@@ -25,7 +29,7 @@ public class Server implements IServer{
             while(!server.isClosed()) {
                 Socket client = server.accept();
                 IMonoThreadClient threadClient = new MonoThreadClient(client,this);
-                clients.add(threadClient);
+                //clients.add(threadClient);
                 executeIt.execute(threadClient);
             }
             executeIt.shutdown();
@@ -33,32 +37,75 @@ public class Server implements IServer{
     }
     public void UpdateChat(Chat chat)
     {
-        ArrayList<String> users = chat.getUsers();
-        for(IMonoThreadClient client:clients) {
-            if(client.getUser()!=null && users.contains(client.getUser().getName())) {
-                client.setNameChat(chat.getName());
-                client.Notify("UpdatePosts");
+        ArrayList<String> users = ChatsMap.get(chat.getName());
+        if(users!=null) {
+            for (String user : users) {
+                IMonoThreadClient client = UsersMap.get(user);
+                if (client != null) {
+                    client.setNameChat(chat.getName());
+                    client.Notify("UpdatePosts");
+                }
             }
         }
     }
     public void UpdateChatList(ArrayList<String> users)
     {
-        for(IMonoThreadClient client:clients) {
-            if(client.getUser()!=null && users.contains(client.getUser().getName())) {
-                client.Notify("UpdateChats");
+        for(String user:users)
+        {
+            if(UsersMap.containsKey(user)) {
+                IMonoThreadClient client = UsersMap.get(user);
+                if (client != null) client.Notify("UpdateChats");
             }
         }
     }
-    public int UserCount(User user)
+    public boolean isConnect(User user)
+    {
+        return UsersMap.containsKey(user.getName());
+    }
+    /*public int UserCount(User user)
     {
         int count =0;
         for(IMonoThreadClient client:clients) {
             if(client.getUser()!=null && client.getUser().getName().equals(user.getName()))count ++;
         }
         return count;
-    }
-    public void removeThread(IMonoThreadClient threadClient)
+    }*/
+    /*public void removeThread(IMonoThreadClient threadClient)
     {
         clients.remove(threadClient);
+    }*/
+    public void AddUser(User user,  String[] chats, IMonoThreadClient client)
+    {
+        if(!UsersMap.containsKey(user.getName()))
+        {
+            UsersMap.put(user.getName(),client);
+            for(String chat:chats) AddToChat(user,chat);
+        }
+    }
+    public void AddChat(Chat chat)
+    {
+        if(!ChatsMap.containsKey(chat.getName()))
+        {
+            ArrayList<String> users = new ArrayList();
+            for(String str :chat.getUsers())if(UsersMap.containsKey(str))users.add(str);
+            if(!users.isEmpty())ChatsMap.put(chat.getName(),users);
+        }
+    }
+
+    public void AddToChat(User user, String chat)
+    {
+        ArrayList<String> users = ChatsMap.computeIfAbsent(chat, k -> new ArrayList<>());
+        users.add(user.getName());
+    }
+    public void RemoveFromChat(User user, String chat)
+    {
+        ArrayList<String> users = ChatsMap.computeIfAbsent(chat, k -> new ArrayList<>());
+        users.remove(user.getName());
+        if(users.isEmpty()) ChatsMap.remove(chat);
+    }
+    public void RemoveUser(User user,  String[] chats)
+    {
+        UsersMap.remove(user.getName());
+        for(String chat:chats) RemoveFromChat(user,chat);
     }
 }

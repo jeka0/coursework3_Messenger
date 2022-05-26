@@ -88,7 +88,8 @@ public class MonoThreadClient implements IMonoThreadClient{
     {
         try {
             if(!client.isClosed()) {
-                server.removeThread(this);
+                //server.removeThread(this);
+                if(getUser()!=null)server.RemoveUser(getUser(), db.getChatsNames(getUser().getName()));
                 recAndSendData.ClosingStreams();
                 client.close();
                 System.out.println("Client disabled");
