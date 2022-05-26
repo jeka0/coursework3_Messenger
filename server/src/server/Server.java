@@ -6,16 +6,12 @@ import business.User;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.io.*;
-import java.net.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 public class Server implements IServer{
     private ExecutorService executeIt;
-    //private ArrayList<IMonoThreadClient> clients = new ArrayList<>();
     private ConcurrentHashMap<String,IMonoThreadClient> UsersMap = new ConcurrentHashMap<>();
     private ConcurrentHashMap<String,ArrayList<String>> ChatsMap = new ConcurrentHashMap<>();
     private int port;
@@ -29,7 +25,6 @@ public class Server implements IServer{
             while(!server.isClosed()) {
                 Socket client = server.accept();
                 IMonoThreadClient threadClient = new MonoThreadClient(client,this);
-                //clients.add(threadClient);
                 executeIt.execute(threadClient);
             }
             executeIt.shutdown();
@@ -62,18 +57,6 @@ public class Server implements IServer{
     {
         return UsersMap.containsKey(user.getName());
     }
-    /*public int UserCount(User user)
-    {
-        int count =0;
-        for(IMonoThreadClient client:clients) {
-            if(client.getUser()!=null && client.getUser().getName().equals(user.getName()))count ++;
-        }
-        return count;
-    }*/
-    /*public void removeThread(IMonoThreadClient threadClient)
-    {
-        clients.remove(threadClient);
-    }*/
     public void AddUser(User user,  String[] chats, IMonoThreadClient client)
     {
         if(!UsersMap.containsKey(user.getName()))

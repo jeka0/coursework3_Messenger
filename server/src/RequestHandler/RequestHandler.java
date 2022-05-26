@@ -45,7 +45,9 @@ public class RequestHandler implements IRequestHandler{
                 break;
             case "CheckUser":
                 user = (User)request.getData();
-                if(db.CheckUserPassword(user)&&!server.isConnect(user)){
+                User lastUser = monoThreadClient.getUser();
+                if(lastUser==null)lastUser = new User("","");
+                if(db.CheckUserPassword(user)&&(!server.isConnect(user)||user.getName().equals(lastUser.getName()))){
                     if(monoThreadClient.getUser()!=null)server.RemoveUser(monoThreadClient.getUser(), db.getChatsNames(monoThreadClient.getUser().getName()));
                     monoThreadClient.setUser(user);
                     server.AddUser(user,db.getChatsNames(user.getName()),monoThreadClient);

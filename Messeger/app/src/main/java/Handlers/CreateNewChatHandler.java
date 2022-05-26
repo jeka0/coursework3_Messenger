@@ -30,7 +30,7 @@ public class CreateNewChatHandler implements ICreateNewChatHandler {
         {
             if (addChatModel.getClientAccess().isConnected()) {
                 EditText chatName = activity.findViewById(R.id.editTextTextChatName);
-                String name= chatName.getText().toString();
+                String name= chatName.getText().toString().trim();
                 if(!name.isEmpty())
                 {
                     Chat newChat = new Chat(name);
