@@ -10,7 +10,9 @@ public interface IMainViewModel extends IMessengerViewModel{
     void Update();
     String getChatName();
     byte[] getImage();
+    void DeleteChat();
     void setImage(byte[] image);
     void setFile(MyFIle file);
     MyFIle getFile();
+    boolean isThisChat(String chatName);
 }

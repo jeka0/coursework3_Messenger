@@ -78,6 +78,7 @@ public class DB implements IDB{
         String path = "database\\Chats\\"+message.getChatName()+".json";
         JsonWork json = new JsonWork(path);
         Chat chat = getChat(message.getChatName());
+        if(chat==null)chat=new Chat();
         byte[] image = message.getImage();
         MyFIle myFIle = message.getFile();
         if(myFIle!=null&&myFIle.getData()!=null)
@@ -130,6 +131,7 @@ public class DB implements IDB{
             }
             JsonWork chatJson = new JsonWork("database\\Chats\\"+chat.getName()+".json");
             Chat nowChat = getChat(chat.getName());
+            if(nowChat==null)nowChat=new Chat();
             if(!nowChat.getUsers().contains(user)) {
                 nowChat.addUser(user);
                 chatJson.Write(nowChat);
@@ -147,6 +149,7 @@ public class DB implements IDB{
         {
             JsonWork chatJson = new JsonWork("database\\Chats\\"+chat+".json");
             Chat nowChat = getChat(chat);
+            if(nowChat==null)nowChat=new Chat();
             if(nowChat.getUsers().contains(user.getName())) {
                 nowChat.getUsers().remove(user.getName());
                 chatJson.Write(nowChat);
@@ -156,10 +159,27 @@ public class DB implements IDB{
         File file = new File(userChats);
         file.delete();
     }
+    public void DeleteChat(String chatName)
+    {
+        Chat nowChat = getChat(chatName);
+        if(nowChat==null)nowChat=new Chat();
+        nowChat.setMessages(new Message[0]);
+        for(String user: nowChat.getUsers())
+        {
+            String userChats = "database\\userChats\\" + user  + ".json";
+            JsonWork userChatsJson = new JsonWork(userChats);
+            ArrayList<String> chats = new ArrayList<>(Arrays.asList(getChatsNames(user)));
+            chats.remove(chatName);
+            userChatsJson.Write(chats);
+        }
+        File file = new File("database\\Chats\\"+chatName+".json");
+        file.delete();
+    }
     public void DeleteChatToUser(Chat chat, User user)
     {
         JsonWork chatJson = new JsonWork("database\\Chats\\"+chat.getName()+".json");
         Chat nowChat = getChat(chat.getName());
+        if(nowChat==null)nowChat=new Chat();
         if(nowChat.getUsers().contains(user.getName())) {
             nowChat.getUsers().remove(user.getName());
             chatJson.Write(nowChat);
@@ -230,11 +250,13 @@ public class DB implements IDB{
         String path = "database\\Chats\\"+chatName+".json";
         JsonWork json = new JsonWork(path);
        Chat chat = json.Read(Chat.class);
-       if(chat!=null)return chat;else return new Chat();
+       return chat;
     }
     public Message[] getMessages(String chat)
     {
-        Message[] messages = getChat(chat).getMessages().toArray(new Message[0]);
+        Chat nowChat = getChat(chat);
+        if(nowChat==null)return null;
+        Message[] messages = nowChat.getMessages().toArray(new Message[0]);
         for(Message message:messages)
         {
             String path = message.getImagePath();

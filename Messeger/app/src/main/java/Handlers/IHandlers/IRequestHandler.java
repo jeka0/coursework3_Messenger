@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import ViewModels.IViewModels.IAccountViewModel;
 import ViewModels.IViewModels.IAddChatModel;
+import ViewModels.IViewModels.IMainViewModel;
 import ViewModels.IViewModels.IMessengerViewModel;
 import business.Request;
 
@@ -21,4 +22,5 @@ public interface IRequestHandler {
     void setMessengerModel(IMessengerViewModel messengerModel);
     void setAddChatModel(IAddChatModel addChatModel);
     void setAccountViewModel(IAccountViewModel accountViewModel);
+    void setMainViewModel(IMainViewModel mainViewModel);
 }

@@ -15,6 +15,7 @@ public interface IDB {
     boolean addChat(Chat chat);
     void DeleteUser(User user);
     void DeleteChatToUser(Chat chat, User user);
+    void DeleteChat(String chatName);
     Chat[] getChats(String[] chatsStrs);
     void AddChatToUser(Chat chat);
     boolean UpdateUser(User newUser);

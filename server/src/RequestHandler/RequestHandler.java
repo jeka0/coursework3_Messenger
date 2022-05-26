@@ -11,6 +11,7 @@ import server.IServer;
 import server.ReceivingAndSendingData;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class RequestHandler implements IRequestHandler{
     private IDB db = DB.getInstance();
@@ -33,7 +34,9 @@ public class RequestHandler implements IRequestHandler{
             case "Add":
                 Message message = (Message)request.getData();
                 db.addMessage(message);
-                server.UpdateChat(db.getChat(message.getChatName()));
+                Chat nowChat = db.getChat(message.getChatName());
+                if(nowChat==null)nowChat=new Chat();
+                server.UpdateChat(nowChat);
             break;
             case "SetUser":
                 user = (User)request.getData();
@@ -57,7 +60,12 @@ public class RequestHandler implements IRequestHandler{
                 break;
             case "Registration":
                 user = (User)request.getData();
-                if(db.UserRegistration(user)){monoThreadClient.setUser(user);answer(new Request("AnswerYes"));}
+                if(db.UserRegistration(user)){
+                    if(monoThreadClient.getUser()!=null)server.RemoveUser(monoThreadClient.getUser(), db.getChatsNames(monoThreadClient.getUser().getName()));
+                    monoThreadClient.setUser(user);
+                    server.AddUser(user,db.getChatsNames(user.getName()),monoThreadClient);
+                    answer(new Request("AnswerYes"));
+                }
                 else answer(new Request("AnswerNo"));
                 break;
             case "UpdatePosts":
@@ -93,17 +101,20 @@ public class RequestHandler implements IRequestHandler{
                 break;
             case "DeleteUser":
                 User nowUser = (User)request.getData();
-                //if(server.UserCount(nowUser)==1){
-                    db.DeleteUser(nowUser);
-                    server.RemoveUser(nowUser, db.getChatsNames(nowUser.getName()));
-                    monoThreadClient.setUser(null);
-                //}
+                server.RemoveUser(nowUser, db.getChatsNames(nowUser.getName()));
+                db.DeleteUser(nowUser);
+                monoThreadClient.setUser(null);
                 break;
             case "DeleteChatToUser":
                 Chat delChat =(Chat)request.getData();
                 db.DeleteChatToUser(delChat, monoThreadClient.getUser());
                 server.RemoveFromChat(monoThreadClient.getUser(), delChat.getName());
                 answer(new Request("UpdateChats", db.getChats(db.getChatsNames(monoThreadClient.getUser().getName()))));
+                break;
+            case "DeleteChat":
+                String chatName = (String) request.getData();
+                db.DeleteChat(chatName);
+                server.RemoveChat(chatName);
                 break;
         }
     }
@@ -112,8 +123,10 @@ public class RequestHandler implements IRequestHandler{
         switch (request.getRequest())
         {
             case "UpdatePosts":
-                Message[] messages = db.getMessages((String) request.getData());
-                recAndSendData.pushObject(new Request("UpdateMessages", messages));
+                String nameChat = (String) request.getData();
+                Message[] messages = db.getMessages(nameChat);
+                if(messages!=null)recAndSendData.pushObject(new Request("UpdateMessages", messages));
+                else recAndSendData.pushObject(new Request("DeleteChat",nameChat));
                 break;
             case "AnswerUserYes":
                 recAndSendData.pushObject(new Request("AnswerUser",true));
@@ -136,6 +149,9 @@ public class RequestHandler implements IRequestHandler{
                 case "UpdateUsers":
                     recAndSendData.pushObject(request);
                     break;
+            case "DeleteChat":
+                recAndSendData.pushObject(request);
+                break;
         }
     }
 

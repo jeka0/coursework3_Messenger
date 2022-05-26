@@ -24,6 +24,10 @@ public class MainViewModel extends MessengerViewModel implements IMainViewModel 
     {
         if(chat.getMessages().size()==0 || Refresh()){ new Thread(()->super.getClientAccess().UpdatePosts(chat.getName())).start();setRefresh(false);}
     }
+    public void DeleteChat()
+    {
+        getClientAccess().DeleteChat(chat.getName());
+    }
     public byte[] getImage() {
         return image;
     }
@@ -38,6 +42,10 @@ public class MainViewModel extends MessengerViewModel implements IMainViewModel 
 
     public MyFIle getFile() {
         return file;
+    }
+    public boolean isThisChat(String chatName)
+    {
+        return chatName.equals(chat.getName());
     }
 
     public String getChatName(){return chat.getName();}

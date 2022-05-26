@@ -16,7 +16,9 @@ import Handlers.IHandlers.IRequestHandler;
 import Net.IInternet;
 import ViewModels.IViewModels.IAccountViewModel;
 import ViewModels.IViewModels.IAddChatModel;
+import ViewModels.IViewModels.IMainViewModel;
 import ViewModels.IViewModels.IMessengerViewModel;
+import ViewModels.MainViewModel;
 import ViewModels.SearchViewModel;
 import business.Chat;
 import business.Message;
@@ -25,6 +27,7 @@ import business.User;
 
 public class RequestHandler implements IRequestHandler {
     private MainActivity activity;
+    private IMainViewModel mainViewModel;
     private IInternet IInternet;
     private IMessengerViewModel messengerModel;
     private AppCompatActivity appActivity;
@@ -81,6 +84,14 @@ public class RequestHandler implements IRequestHandler {
                     addChatModel.setUsers((User[])request.getData());
                 }
                 break;
+            case "DeleteChat":
+                if(mainViewModel!=null&&activity!=null) {
+                    String nameChat = (String) request.getData();
+                    mainViewModel.DeleteChat(nameChat);
+                    IInternet.UpdateChats(mainViewModel.getUser());
+                    if(mainViewModel.isThisChat(nameChat))activity.runOnUiThread(() -> activity.Close());
+                }
+                break;
         }
     }
 
@@ -106,5 +117,9 @@ public class RequestHandler implements IRequestHandler {
 
     public void setAccountViewModel(IAccountViewModel accountViewModel) {
         this.accountViewModel = accountViewModel;
+    }
+
+    public void setMainViewModel(IMainViewModel mainViewModel) {
+        this.mainViewModel = mainViewModel;
     }
 }

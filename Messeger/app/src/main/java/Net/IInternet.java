@@ -24,6 +24,7 @@ public interface IInternet {
     void getUsers();
     void UserRegistration(User user);
     void Listen();
+    void DeleteChat(String chatName);
     void UpdateSelectedChats();
     void DeleteChatToUser(Chat chat);
     void setIntent(Intent intent);

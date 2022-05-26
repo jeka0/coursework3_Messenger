@@ -73,6 +73,12 @@ public class MonoThreadClient implements IMonoThreadClient{
         }
         return true;
     }
+    public void DeleteChat(String nameChat)
+    {
+        try {
+            requestHandler.answer(new Request("DeleteChat",nameChat));
+        }catch (IOException e){System.out.println(e.getMessage());}
+    }
     private void UpdateChats() throws IOException
     {
         requestHandler.answer(new Request("UpdateChats",db.getChats(db.getChatsNames(user.getName()))));

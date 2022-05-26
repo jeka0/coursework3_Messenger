@@ -6,12 +6,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,9 +24,11 @@ import java.util.Collection;
 
 import Adapter.MessagesAdapter;
 import Data.WorkingWithFile;
+import Handlers.CloseListener;
 import Handlers.FileSelectionHandler;
 import Handlers.ImageSelectionHandler;
 import Handlers.SubmitClickListener;
+import Handlers.TextChangeHandler;
 import ViewModels.IViewModels.IMainViewModel;
 import ViewModels.MainViewModel;
 import business.Message;
@@ -35,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private MessagesAdapter messagesAdapter;
     private IMainViewModel mainViewModel;
     private ConstraintLayout filesLayout, imageLayout, fileLayout;
+    private ImageButton delBut;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +89,21 @@ public class MainActivity extends AppCompatActivity {
         recyclerMessages.setAdapter(messagesAdapter);
     }
     @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.del_item,menu);
+        menu.findItem(R.id.delete).setOnMenuItemClickListener((MenuItem menuItem)-> {
+            MyDialogFragment myDialogFragment = new MyDialogFragment("Delete chat?","All messages and chat files will be permanently deleted!!!",
+                    "YES","NO",(DialogInterface dialog, int id)->{
+                    new Thread(()->mainViewModel.DeleteChat()).start();
+            });
+            myDialogFragment.show(getSupportFragmentManager(), "myDialog");
+                return false;
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
         switch(requestCode) {
@@ -128,6 +149,10 @@ public class MainActivity extends AppCompatActivity {
         if(mainViewModel.getFile()!=null||mainViewModel.getImage()!=null) filesLayout.setVisibility(View.VISIBLE);else filesLayout.setVisibility(View.GONE);
         if(mainViewModel.getImage()!=null)imageLayout.setVisibility(View.VISIBLE);else imageLayout.setVisibility(View.GONE);
         if(mainViewModel.getFile()!=null)fileLayout.setVisibility(View.VISIBLE);else fileLayout.setVisibility(View.GONE);
+    }
+    public void Close()
+    {
+        finish();
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

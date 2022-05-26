@@ -151,6 +151,15 @@ public class ClientAccess implements IInternet {
             }
         }catch(IOException e){System.out.println(e.getMessage());}
     }
+    public void DeleteChat(String chatName)
+    {
+        try {
+            if(client.isConnected())
+            {
+                client.pushObject(new Request("DeleteChat",chatName));
+            }
+        }catch(IOException e){System.out.println(e.getMessage());}
+    }
     public void Listen()
     {
         try {
@@ -174,6 +183,7 @@ public class ClientAccess implements IInternet {
 
     public void setMainViewModel(IMainViewModel mainViewModel) {
         this.mainViewModel = mainViewModel;
+        requestHandler.setMainViewModel(mainViewModel);
     }
 
     public void setAddChatModel(IAddChatModel addChatModel) {

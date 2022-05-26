@@ -6,6 +6,9 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.messeger.uimenu.messenger.MessengerFragment;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import ViewModels.IViewModels.IMessengerViewModel;
 import business.Chat;
 import business.Message;
@@ -45,6 +48,21 @@ public class MessengerViewModel extends ChatMenuModel implements IMessengerViewM
     public void UpdateChats()
     {
         getMenuActivity().runOnUiThread(() -> messengerFragment.loadChats());
+    }
+    public void DeleteChat(String chatName)
+    {
+        Chat chat=null;
+        for (Chat nowChat : chats)
+            if (nowChat.getName().equals(chatName)) {
+                chat = nowChat;
+                break;
+            }
+        if(chat!=null)
+        {
+            ArrayList<Chat> listChats = new ArrayList<>(Arrays.asList(chat));
+            listChats.remove(chat);
+            chats = listChats.toArray(new Chat[0]);
+        }
     }
 
     public LiveData<String> getText() {

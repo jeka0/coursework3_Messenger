@@ -17,4 +17,5 @@ public interface IServer {
     void AddToChat(User user, String chat);
     void RemoveFromChat(User user, String chat);
     void RemoveUser(User user,  String[] chats);
+    void RemoveChat(String chatName);
 }

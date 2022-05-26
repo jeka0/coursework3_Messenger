@@ -15,5 +15,6 @@ public interface IMessengerViewModel extends IChatMenuModel{
     LiveData<String> getText();
     void setChats(Chat[] chats);
     void UpdateChats();
+    void DeleteChat(String chatName);
     Chat[] getChats();
 }

@@ -86,6 +86,13 @@ public class Server implements IServer{
         users.remove(user.getName());
         if(users.isEmpty()) ChatsMap.remove(chat);
     }
+    public void RemoveChat(String chatName)
+    {
+        ArrayList<String> users = ChatsMap.computeIfAbsent(chatName, k -> new ArrayList<>());
+        for(String user: users)UsersMap.get(user).DeleteChat(chatName);
+        ChatsMap.remove(chatName);
+    }
+
     public void RemoveUser(User user,  String[] chats)
     {
         UsersMap.remove(user.getName());
