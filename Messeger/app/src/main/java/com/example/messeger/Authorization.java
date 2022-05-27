@@ -55,7 +55,7 @@ public class Authorization extends AppCompatActivity implements IShowError {
     }
     public void setError()
     {
-        name.setError("Неверный логин или пароль!!!");
-        pass.setError("Неверный логин или пароль!!!");
+        name.setError("Неверный логин или пароль. Или данный аккаунт уже авторизован!!!");
+        pass.setError("Неверный логин или пароль. Или данный аккаунт уже авторизован!!!");
     }
 }

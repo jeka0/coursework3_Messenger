@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class DB implements IDB{
     private String usersPath ="database\\users.json";
@@ -43,7 +44,7 @@ public class DB implements IDB{
         if(usersFile.exists()) {
             User[] users = getUsers();
             for (User nowUser : users)
-                if (nowUser.getName().equals(user.getName()))
+                if (nowUser.getName().equalsIgnoreCase(user.getName()))
                     return false;
         }
         CreateUser(user);
@@ -163,7 +164,6 @@ public class DB implements IDB{
     {
         Chat nowChat = getChat(chatName);
         if(nowChat==null)nowChat=new Chat();
-        nowChat.setMessages(new Message[0]);
         for(String user: nowChat.getUsers())
         {
             String userChats = "database\\userChats\\" + user  + ".json";
@@ -171,6 +171,20 @@ public class DB implements IDB{
             ArrayList<String> chats = new ArrayList<>(Arrays.asList(getChatsNames(user)));
             chats.remove(chatName);
             userChatsJson.Write(chats);
+        }
+        for(Message message: nowChat.getMessages())
+        {
+            MyFIle myfile =message.getFile();
+            if(myfile!=null)
+            {
+                File file = new File("database\\Files\\"+myfile.getPath());
+                file.delete();
+            }
+            if(message.getImagePath()!=null)
+            {
+                File file = new File("database\\Files\\"+message.getImagePath());
+                file.delete();
+            }
         }
         File file = new File("database\\Chats\\"+chatName+".json");
         file.delete();
