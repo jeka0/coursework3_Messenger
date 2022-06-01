@@ -76,10 +76,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void loadMessages()
     {
-        messagesAdapter.clearItems();
         Collection<Message> messages = getMessages();
-        messagesAdapter.setItems(messages);
-        recyclerMessages.scrollToPosition(messages.size()-1);
+        if(messages.size()>0) {
+            messagesAdapter.clearItems();
+            messagesAdapter.setItems(messages);
+            recyclerMessages.scrollToPosition(messages.size() - 1);
+        }
     }
     private void initRecyclerView()
     {

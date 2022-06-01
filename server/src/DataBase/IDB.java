@@ -17,7 +17,7 @@ public interface IDB {
     void DeleteChatToUser(Chat chat, User user);
     void DeleteChat(String chatName);
     Chat[] getChats(String[] chatsStrs);
-    void AddChatToUser(Chat chat);
+    boolean AddChatToUser(Chat chat);
     boolean UpdateUser(User newUser);
     String[] getChatsNames(String user);
     Message[] getMessages(String path);

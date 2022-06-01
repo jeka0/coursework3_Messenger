@@ -88,9 +88,10 @@ public class RequestHandler implements IRequestHandler{
                 break;
             case "AddChatToUser":
                 Chat chat = (Chat) request.getData();
-                db.AddChatToUser(chat);
-                server.AddToChat(monoThreadClient.getUser(), chat.getName());
-                answer(new Request("UpdateChats", db.getChats(db.getChatsNames(chat.getUsers().get(0)))));
+                if(db.AddChatToUser(chat)) {
+                    server.AddToChat(monoThreadClient.getUser(), chat.getName());
+                    answer(new Request("UpdateChats", db.getChats(db.getChatsNames(chat.getUsers().get(0)))));
+                }
                 break;
             case "GetUsers":
                 answer(new Request("UpdateUsers",db.GetUsersWithoutPasswords()));
