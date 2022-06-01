@@ -89,7 +89,10 @@ public class Server implements IServer{
     public void RemoveChat(String chatName)
     {
         ArrayList<String> users = ChatsMap.computeIfAbsent(chatName, k -> new ArrayList<>());
-        for(String user: users)UsersMap.get(user).DeleteChat(chatName);
+        for(String user: users) {
+          IMonoThreadClient client =  UsersMap.get(user);
+          if(client!=null)client.DeleteChat(chatName);
+        }
         ChatsMap.remove(chatName);
     }
 

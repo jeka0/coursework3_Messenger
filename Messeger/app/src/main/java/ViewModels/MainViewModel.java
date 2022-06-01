@@ -50,6 +50,9 @@ public class MainViewModel extends MessengerViewModel implements IMainViewModel 
 
     public String getChatName(){return chat.getName();}
     public Message[] getMessages() {
-        return getChats()[position].getMessages().toArray(new Message[0]);
+        Message[] messages;
+        if(position< getChats().length) messages = getChats()[position].getMessages().toArray(new Message[0]);
+        else messages = new Message[0];
+        return messages;
     }
 }
